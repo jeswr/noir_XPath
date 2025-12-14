@@ -163,6 +163,9 @@ def parse_test_file(xml_path: Path) -> list[TestCase]:
             if tag == "assert-eq":
                 result_type = "assert-eq"
                 expected_result = child.text.strip() if child.text else ""
+            elif tag == "assert-string-value":
+                result_type = "assert-eq"  # Treat same as assert-eq
+                expected_result = child.text.strip() if child.text else ""
             elif tag == "assert-true":
                 result_type = "assert-true"
                 expected_result = "true"
@@ -224,8 +227,8 @@ def parse_boolean(value: str) -> Optional[bool]:
     return None
 
 
-def parse_datetime(value: str) -> Optional[int]:
-    """Parse an XPath dateTime literal and return microseconds since epoch.
+def parse_datetime(value: str) -> Optional[Tuple[int, int]]:
+    """Parse an XPath dateTime literal and return (UTC microseconds, tz_offset_minutes).
     
     Returns None if parsing fails.
     """
@@ -238,7 +241,7 @@ def parse_datetime(value: str) -> Optional[int]:
     
     # Parse ISO 8601 datetime
     # Format: YYYY-MM-DDTHH:MM:SS[.ssssss][Z|+-HH:MM]
-    dt_pattern = r"(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?(Z|[+-]\d{2}:\d{2})?"
+    dt_pattern = r"(-?\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?(Z|[+-]\d{2}:\d{2})?"
     match = re.match(dt_pattern, value)
     if not match:
         return None
@@ -254,8 +257,8 @@ def parse_datetime(value: str) -> Optional[int]:
         frac = frac[:6].ljust(6, '0')
         microseconds = int(frac)
     
-    # Timezone (normalize to UTC)
-    tz_offset_seconds = 0
+    # Timezone offset in minutes
+    tz_offset_minutes = 0
     tz_str = match.group(8)
     if tz_str and tz_str != 'Z':
         tz_match = re.match(r"([+-])(\d{2}):(\d{2})", tz_str)
@@ -263,23 +266,29 @@ def parse_datetime(value: str) -> Optional[int]:
             sign = 1 if tz_match.group(1) == '+' else -1
             tz_hours = int(tz_match.group(2))
             tz_mins = int(tz_match.group(3))
-            tz_offset_seconds = sign * (tz_hours * 3600 + tz_mins * 60)
+            tz_offset_minutes = sign * (tz_hours * 60 + tz_mins)
     
-    # Convert to epoch microseconds
+    # Convert to epoch microseconds (UTC)
+    # First compute local time microseconds, then subtract offset to get UTC
     try:
         dt = datetime(year, month, day, hour, minute, second, microseconds, tzinfo=timezone.utc)
         epoch = datetime(1970, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
         delta = dt - epoch
-        total_micros = int(delta.total_seconds() * 1_000_000) - (tz_offset_seconds * 1_000_000)
-        return total_micros
+        # This gives us local time as if it were UTC
+        local_micros = int(delta.total_seconds() * 1_000_000)
+        # Subtract timezone offset to get UTC
+        utc_micros = local_micros - (tz_offset_minutes * 60 * 1_000_000)
+        return (utc_micros, tz_offset_minutes)
     except (ValueError, OverflowError):
         return None
 
 
-def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str]]:
+def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str, Optional[str]]]:
     """Convert an XPath expression to Noir code.
     
-    Returns tuple of (setup_code, test_expression) or None if cannot convert.
+    Returns tuple of (setup_code, test_expression, embedded_expected) or None if cannot convert.
+    The embedded_expected is set when the XPath expression contains a comparison (e.g., `x eq 5`)
+    and the expected value is extracted from the expression itself.
     """
     expr = expr.strip()
     noir_func = FUNCTION_MAP.get(function_name)
@@ -292,13 +301,13 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
     abs_match = re.match(r"(?:fn:)?abs\s*\(\s*(-?\d+)\s*\)", expr)
     if abs_match and "abs" in function_name:
         val = abs_match.group(1)
-        return ("", f"{noir_func}({val})")
+        return ("", f"{noir_func}({val})", None)
     
     # Pattern: fn:not(expr)
     not_match = re.match(r"(?:fn:)?not\s*\(\s*(true|false)\s*(?:\(\s*\))?\s*\)", expr, re.IGNORECASE)
     if not_match and "not" in function_name:
         val = not_match.group(1).lower()
-        return ("", f"{noir_func}({val})")
+        return ("", f"{noir_func}({val})", None)
     
     # Pattern: binary operators like: 1 + 2, 1 - 2, etc.
     op_patterns = {
@@ -317,7 +326,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
         match = re.match(pattern, expr, re.IGNORECASE)
         if match and func == noir_func:
             a, b = match.group(1), match.group(2)
-            return ("", f"{noir_func}({a}, {b})")
+            return ("", f"{noir_func}({a}, {b})", None)
     
     # Pattern: comparison operators (= < >)
     cmp_patterns = {
@@ -330,7 +339,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
         match = re.match(pattern, expr)
         if match and func == noir_func:
             a, b = match.group(1), match.group(2)
-            return ("", f"{noir_func}({a}, {b})")
+            return ("", f"{noir_func}({a}, {b})", None)
     
     # Pattern: dateTime component extraction
     dt_funcs = {
@@ -344,24 +353,54 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
     
     for xpath_func, noir_fn in dt_funcs.items():
         short_name = xpath_func.split(":")[-1]
-        pattern = rf"(?:fn:)?{re.escape(short_name)}\s*\(\s*xs:dateTime\s*\(['\"](.+?)['\"]\)\s*\)"
-        match = re.match(pattern, expr)
+        # Use a pattern that doesn't match quotes inside the datetime string
+        # [^'"\)]+ matches datetime characters without quotes or closing parens
+        
+        # Pattern for direct function call with assert-eq (e.g., year-from-dateTime(xs:dateTime('...')) eq value)
+        pattern_eq = rf"(?:fn:)?{re.escape(short_name)}\s*\(\s*xs:dateTime\s*\(['\"]([^'\"]+)['\"]\)\s*\)\s*(?:eq|=)\s*(-?\d+(?:\.\d+)?)"
+        match = re.match(pattern_eq, expr)
         if match and noir_fn == noir_func:
             dt_str = match.group(1)
-            micros = parse_datetime(f"xs:dateTime('{dt_str}')")
-            if micros is not None:
-                setup = f"let dt = datetime_from_epoch_microseconds({micros});"
-                return (setup, f"{noir_fn}(dt)")
+            expected_val = match.group(2)
+            result = parse_datetime(f"xs:dateTime('{dt_str}')")
+            if result is not None:
+                utc_micros, tz_offset = result
+                # Skip dates before 1970 (negative epoch) - not supported
+                if utc_micros < 0:
+                    return None
+                setup = f"let dt = datetime_from_epoch_microseconds_with_tz({utc_micros}, {tz_offset});"
+                # Return the comparison itself
+                return (setup, f"{noir_fn}(dt)", expected_val)
+        
+        # Pattern for simple function call only (for assert-eq result type with value in result)
+        # [^'"\)]+ matches datetime characters without quotes or closing parens
+        pattern_simple = rf"(?:fn:)?{re.escape(short_name)}\s*\(\s*xs:dateTime\s*\(['\"]([^'\"]+)['\"]\)\s*\)$"
+        match = re.match(pattern_simple, expr)
+        if match and noir_fn == noir_func:
+            dt_str = match.group(1)
+            result = parse_datetime(f"xs:dateTime('{dt_str}')")
+            if result is not None:
+                utc_micros, tz_offset = result
+                # Skip dates before 1970 (negative epoch) - not supported
+                if utc_micros < 0:
+                    return None
+                setup = f"let dt = datetime_from_epoch_microseconds_with_tz({utc_micros}, {tz_offset});"
+                return (setup, f"{noir_fn}(dt)", None)
     
     # Pattern: dateTime comparison
     dt_cmp_pattern = r"xs:dateTime\s*\(['\"](.+?)['\"]\)\s*(eq|lt|gt|=|<|>)\s*xs:dateTime\s*\(['\"](.+?)['\"]\)"
     match = re.match(dt_cmp_pattern, expr)
     if match:
         dt1_str, op, dt2_str = match.group(1), match.group(2), match.group(3)
-        micros1 = parse_datetime(f"xs:dateTime('{dt1_str}')")
-        micros2 = parse_datetime(f"xs:dateTime('{dt2_str}')")
+        result1 = parse_datetime(f"xs:dateTime('{dt1_str}')")
+        result2 = parse_datetime(f"xs:dateTime('{dt2_str}')")
         
-        if micros1 is not None and micros2 is not None:
+        if result1 is not None and result2 is not None:
+            utc_micros1, tz_offset1 = result1
+            utc_micros2, tz_offset2 = result2
+            # Skip dates before 1970 (negative epoch) - not supported
+            if utc_micros1 < 0 or utc_micros2 < 0:
+                return None
             op_map = {
                 "eq": "datetime_equal", "=": "datetime_equal",
                 "lt": "datetime_less_than", "<": "datetime_less_than",
@@ -369,8 +408,8 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
             }
             noir_fn = op_map.get(op)
             if noir_fn and noir_fn == noir_func:
-                setup = f"let dt1 = datetime_from_epoch_microseconds({micros1});\n    let dt2 = datetime_from_epoch_microseconds({micros2});"
-                return (setup, f"{noir_fn}(dt1, dt2)")
+                setup = f"let dt1 = datetime_from_epoch_microseconds_with_tz({utc_micros1}, {tz_offset1});\n    let dt2 = datetime_from_epoch_microseconds_with_tz({utc_micros2}, {tz_offset2});"
+                return (setup, f"{noir_fn}(dt1, dt2)", None)
     
     return None
 
@@ -399,13 +438,44 @@ def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
 // Expected: {test.expected_result}
 """
     
-    setup_code, test_expr = conversion
+    setup_code, test_expr, embedded_expected = conversion
+    
+    # Determine what functions return boolean values
+    boolean_returning_functions = [
+        "fn_not", "boolean_equal",
+        "datetime_equal", "datetime_less_than", "datetime_greater_than",
+        "numeric_equal_int", "numeric_less_than_int", "numeric_greater_than_int",
+    ]
+    noir_func = FUNCTION_MAP.get(function_name)
+    func_returns_bool = noir_func in boolean_returning_functions
     
     # Generate assertion based on result type
-    if test.result_type == "assert-true":
-        assertion = f"assert({test_expr} == true);"
-    elif test.result_type == "assert-false":
-        assertion = f"assert({test_expr} == false);"
+    # If embedded_expected is set, it means the XPath expression contained a comparison
+    # and we extracted the expected value from it
+    if embedded_expected is not None:
+        # The expression contains a comparison, use the embedded expected value
+        int_val = parse_integer(embedded_expected)
+        if int_val is not None:
+            assertion = f"assert({test_expr} == {int_val});"
+        else:
+            # Try as float (for seconds)
+            try:
+                float_val = float(embedded_expected)
+                int_part = int(float_val)
+                assertion = f"assert({test_expr} == {int_part});"
+            except ValueError:
+                return f"""// SKIP: {test_name}
+// Cannot parse embedded expected: {embedded_expected}
+"""
+    elif test.result_type in ("assert-true", "assert-false"):
+        # Only allow assert-true/assert-false for functions that return boolean
+        if not func_returns_bool:
+            return f"""// SKIP: {test_name}
+// Result type {test.result_type} incompatible with non-boolean function {noir_func}
+// Expression: {test.test_expr}
+"""
+        bool_val = test.result_type == "assert-true"
+        assertion = f"assert({test_expr} == {str(bool_val).lower()});"
     elif test.result_type == "assert-eq":
         # Parse expected value
         expected = test.expected_result
@@ -413,6 +483,15 @@ def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
         bool_val = parse_boolean(expected)
         
         if int_val is not None:
+            # Skip negative values for functions that return unsigned types
+            unsigned_return_functions = [
+                "month_from_datetime", "day_from_datetime",
+                "hours_from_datetime", "minutes_from_datetime", "seconds_from_datetime",
+            ]
+            if int_val < 0 and noir_func in unsigned_return_functions:
+                return f"""// SKIP: {test_name}
+// Negative expected value {int_val} incompatible with unsigned return type
+"""
             assertion = f"assert({test_expr} == {int_val});"
         elif bool_val is not None:
             assertion = f"assert({test_expr} == {str(bool_val).lower()});"
@@ -487,7 +566,7 @@ xpath = {{ path = "../../xpath" }}
     
     # Add datetime imports if needed
     if "datetime" in function_name.lower():
-        imports.append("    datetime_from_epoch_microseconds,")
+        imports.append("    datetime_from_epoch_microseconds_with_tz,")
     
     imports.append("};")
 

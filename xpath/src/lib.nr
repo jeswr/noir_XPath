@@ -48,8 +48,11 @@ pub use numeric::{
 // Re-export datetime functions
 pub use datetime::{
     datetime_from_epoch_microseconds,
+    datetime_from_epoch_microseconds_with_tz,
     datetime_from_components,
+    datetime_from_components_with_tz,
     datetime_to_epoch_microseconds,
+    datetime_timezone_offset,
     year_from_datetime,
     month_from_datetime,
     day_from_datetime,

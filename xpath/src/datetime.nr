@@ -1,7 +1,9 @@
 //! DateTime functions for XPath/SPARQL
 //!
 //! Implements component extraction from xsd:dateTime values and comparison.
-//! All DateTime values are stored as UTC microseconds since epoch in a single Field.
+//! DateTime values are stored as UTC microseconds since epoch plus timezone offset.
+//! Component extraction returns local time values (adjusted by timezone).
+//! Comparisons use UTC time for correct ordering.
 //!
 //! XPath functions implemented:
 //! - fn:year-from-dateTime, fn:month-from-dateTime, fn:day-from-dateTime
@@ -30,9 +32,16 @@ global MICROSECONDS_PER_DAY: u64 = 86_400_000_000;
 // Construction Functions
 // ============================================================================
 
-/// Create a DateTime from epoch microseconds
+/// Create a DateTime from epoch microseconds (assumes UTC, no timezone offset)
 pub fn datetime_from_epoch_microseconds(micros: Field) -> XsdDateTime {
     XsdDateTime::new(micros)
+}
+
+/// Create a DateTime from epoch microseconds with timezone offset
+/// micros: UTC epoch microseconds
+/// tz_offset_minutes: timezone offset in minutes (e.g., -300 for -05:00, +330 for +05:30)
+pub fn datetime_from_epoch_microseconds_with_tz(micros: Field, tz_offset_minutes: i16) -> XsdDateTime {
+    XsdDateTime::new_with_tz(micros, tz_offset_minutes)
 }
 
 /// Create a DateTime from individual components (UTC)
@@ -52,74 +61,110 @@ pub fn datetime_from_components(
     second: u8,
     microsecond: u32
 ) -> XsdDateTime {
+    datetime_from_components_with_tz(year, month, day, hour, minute, second, microsecond, 0)
+}
+
+/// Create a DateTime from individual components with timezone offset
+/// The components represent LOCAL time at the given timezone.
+/// year: The year (e.g., 2024)
+/// month: The month (1-12)
+/// day: The day of month (1-31)
+/// hour: The hour (0-23)
+/// minute: The minute (0-59)
+/// second: The second (0-59)
+/// microsecond: Microseconds within the second (0-999999)
+/// tz_offset_minutes: timezone offset in minutes (e.g., -300 for -05:00)
+pub fn datetime_from_components_with_tz(
+    year: i32,
+    month: u8,
+    day: u8,
+    hour: u8,
+    minute: u8,
+    second: u8,
+    microsecond: u32,
+    tz_offset_minutes: i16
+) -> XsdDateTime {
     let days = civil_to_days(year, month, day);
     
-    // Convert time components to microseconds
+    // Convert time components to microseconds (local time)
     let time_micros: u64 = (hour as u64) * MICROSECONDS_PER_HOUR
         + (minute as u64) * MICROSECONDS_PER_MINUTE
         + (second as u64) * MICROSECONDS_PER_SECOND
         + microsecond as u64;
     
-    // Total microseconds since epoch
-    let total_micros: u64 = (days as u64) * MICROSECONDS_PER_DAY + time_micros;
+    // Total microseconds since epoch (in local time)
+    let local_micros: u64 = (days as u64) * MICROSECONDS_PER_DAY + time_micros;
     
-    XsdDateTime::new(total_micros as Field)
+    // Convert to UTC by subtracting the timezone offset
+    let offset_micros: i64 = (tz_offset_minutes as i64) * 60_000_000;
+    let utc_micros: i64 = (local_micros as i64) - offset_micros;
+    let utc_u64: u64 = utc_micros as u64;
+    
+    XsdDateTime::new_with_tz(utc_u64 as Field, tz_offset_minutes)
 }
 
-/// Extract epoch microseconds from a DateTime
+/// Extract epoch microseconds from a DateTime (UTC)
 pub fn datetime_to_epoch_microseconds(dt: XsdDateTime) -> Field {
     dt.epoch_microseconds
 }
 
+/// Extract timezone offset in minutes
+pub fn datetime_timezone_offset(dt: XsdDateTime) -> i16 {
+    dt.tz_offset_minutes
+}
+
 // ============================================================================
-// Component Extraction Functions
+// Component Extraction Functions (return LOCAL time components)
 // ============================================================================
 
 /// fn:year-from-dateTime
-/// Extracts the year component from a dateTime value.
+/// Extracts the year component from a dateTime value (in local time).
 /// Uses Howard Hinnant's civil date algorithms.
 pub fn year_from_datetime(dt: XsdDateTime) -> i32 {
-    let (year, _, _) = epoch_to_civil(dt.epoch_microseconds);
+    let local_micros = dt.local_microseconds();
+    let (year, _, _) = epoch_to_civil(local_micros);
     year
 }
 
 /// fn:month-from-dateTime
-/// Extracts the month component (1-12) from a dateTime value.
+/// Extracts the month component (1-12) from a dateTime value (in local time).
 pub fn month_from_datetime(dt: XsdDateTime) -> u8 {
-    let (_, month, _) = epoch_to_civil(dt.epoch_microseconds);
+    let local_micros = dt.local_microseconds();
+    let (_, month, _) = epoch_to_civil(local_micros);
     month
 }
 
 /// fn:day-from-dateTime
-/// Extracts the day component (1-31) from a dateTime value.
+/// Extracts the day component (1-31) from a dateTime value (in local time).
 pub fn day_from_datetime(dt: XsdDateTime) -> u8 {
-    let (_, _, day) = epoch_to_civil(dt.epoch_microseconds);
+    let local_micros = dt.local_microseconds();
+    let (_, _, day) = epoch_to_civil(local_micros);
     day
 }
 
 /// fn:hours-from-dateTime
-/// Extracts the hours component (0-23) from a dateTime value.
+/// Extracts the hours component (0-23) from a dateTime value (in local time).
 pub fn hours_from_datetime(dt: XsdDateTime) -> u8 {
-    let micros: u64 = dt.epoch_microseconds as u64;
+    let micros: u64 = dt.local_microseconds() as u64;
     let day_micros = micros % MICROSECONDS_PER_DAY;
     (day_micros / MICROSECONDS_PER_HOUR) as u8
 }
 
 /// fn:minutes-from-dateTime
-/// Extracts the minutes component (0-59) from a dateTime value.
+/// Extracts the minutes component (0-59) from a dateTime value (in local time).
 pub fn minutes_from_datetime(dt: XsdDateTime) -> u8 {
-    let micros: u64 = dt.epoch_microseconds as u64;
+    let micros: u64 = dt.local_microseconds() as u64;
     let day_micros = micros % MICROSECONDS_PER_DAY;
     let hour_micros = day_micros % MICROSECONDS_PER_HOUR;
     (hour_micros / MICROSECONDS_PER_MINUTE) as u8
 }
 
 /// fn:seconds-from-dateTime (integer part only)
-/// Extracts the seconds component (0-59) from a dateTime value.
+/// Extracts the seconds component (0-59) from a dateTime value (in local time).
 /// Note: XPath returns a decimal including fractional seconds;
 /// use microseconds_from_datetime for the fractional part.
 pub fn seconds_from_datetime(dt: XsdDateTime) -> u8 {
-    let micros: u64 = dt.epoch_microseconds as u64;
+    let micros: u64 = dt.local_microseconds() as u64;
     let day_micros = micros % MICROSECONDS_PER_DAY;
     let hour_micros = day_micros % MICROSECONDS_PER_HOUR;
     let minute_micros = hour_micros % MICROSECONDS_PER_MINUTE;
@@ -128,7 +173,7 @@ pub fn seconds_from_datetime(dt: XsdDateTime) -> u8 {
 
 /// Extract microseconds within the current second (0-999999)
 pub fn microseconds_from_datetime(dt: XsdDateTime) -> u32 {
-    let micros: u64 = dt.epoch_microseconds as u64;
+    let micros: u64 = dt.local_microseconds() as u64;
     (micros % MICROSECONDS_PER_SECOND) as u32
 }
 

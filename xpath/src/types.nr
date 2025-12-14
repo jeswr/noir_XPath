@@ -2,21 +2,42 @@
 //!
 //! Provides Noir representations of XML Schema datatypes used in SPARQL.
 
-/// DateTime representation using a single Field for circuit efficiency.
-/// Stores microseconds since Unix epoch (1970-01-01T00:00:00Z) as UTC.
+/// DateTime representation with timezone support.
+/// Stores microseconds since Unix epoch (1970-01-01T00:00:00Z) as UTC,
+/// plus the original timezone offset for component extraction.
 ///
-/// Using a single Field minimizes constraints while allowing all
-/// component extraction operations (year, month, day, etc.) to be
-/// computed on-demand.
+/// Using two Fields: one for UTC instant, one for timezone offset.
+/// This allows comparison using UTC while extracting local components.
 pub struct XsdDateTime {
     /// Microseconds since Unix epoch (UTC)
     pub epoch_microseconds: Field,
+    /// Timezone offset in minutes from UTC (e.g., -300 for EST, 0 for UTC)
+    /// Stored as signed value: positive = east of UTC, negative = west of UTC
+    /// Range: -840 to +840 minutes (-14:00 to +14:00)
+    pub tz_offset_minutes: i16,
 }
 
 impl XsdDateTime {
-    /// Create a new DateTime from epoch microseconds
+    /// Create a new DateTime from epoch microseconds (assumes UTC)
     pub fn new(epoch_microseconds: Field) -> Self {
-        XsdDateTime { epoch_microseconds }
+        XsdDateTime { epoch_microseconds, tz_offset_minutes: 0 }
+    }
+
+    /// Create a new DateTime with timezone offset
+    /// epoch_microseconds: UTC instant
+    /// tz_offset_minutes: timezone offset in minutes (e.g., -300 for -05:00)
+    pub fn new_with_tz(epoch_microseconds: Field, tz_offset_minutes: i16) -> Self {
+        XsdDateTime { epoch_microseconds, tz_offset_minutes }
+    }
+
+    /// Get the local microseconds (adjusted by timezone offset)
+    pub fn local_microseconds(self) -> Field {
+        let offset_micros: i64 = (self.tz_offset_minutes as i64) * 60_000_000;
+        let utc_micros: i64 = self.epoch_microseconds as i64;
+        let local: i64 = utc_micros + offset_micros;
+        // Safe cast: we ensure the result is non-negative in valid use cases
+        let local_u64: u64 = local as u64;
+        local_u64 as Field
     }
 }
 
