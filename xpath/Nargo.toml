@@ -1,0 +1,6 @@
+[package]
+name = "xpath"
+type = "lib"
+authors = ["jeswr"]
+
+[dependencies]
