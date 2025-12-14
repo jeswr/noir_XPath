@@ -48,6 +48,7 @@ The script currently supports generating tests for:
 **DateTime Functions:**
 - `fn:year-from-dateTime`, `fn:month-from-dateTime`, `fn:day-from-dateTime`
 - `fn:hours-from-dateTime`, `fn:minutes-from-dateTime`, `fn:seconds-from-dateTime`
+- `fn:timezone-from-dateTime`
 - `op:dateTime-equal`, `op:dateTime-less-than`, `op:dateTime-greater-than`
 
 **Boolean Functions:**

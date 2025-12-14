@@ -57,6 +57,7 @@ FUNCTION_TEST_FILES = {
     "fn:hours-from-dateTime": "fn/hours-from-dateTime.xml",
     "fn:minutes-from-dateTime": "fn/minutes-from-dateTime.xml",
     "fn:seconds-from-dateTime": "fn/seconds-from-dateTime.xml",
+    "fn:timezone-from-dateTime": "fn/timezone-from-dateTime.xml",
     # DateTime operators
     "op:dateTime-equal": "op/dateTime-equal.xml",
     "op:dateTime-less-than": "op/dateTime-less-than.xml",
@@ -89,6 +90,7 @@ FUNCTION_MAP = {
     "fn:hours-from-dateTime": "hours_from_datetime",
     "fn:minutes-from-dateTime": "minutes_from_datetime",
     "fn:seconds-from-dateTime": "seconds_from_datetime",
+    "fn:timezone-from-dateTime": "timezone_from_datetime",
     "op:dateTime-equal": "datetime_equal",
     "op:dateTime-less-than": "datetime_less_than",
     "op:dateTime-greater-than": "datetime_greater_than",

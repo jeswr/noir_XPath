@@ -40,7 +40,7 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0" }
   - Comparisons: equal, less-than, greater-than
 - **DateTime Operations**: 
   - Construction: from epoch microseconds, from components
-  - Component extraction: year, month, day, hours, minutes, seconds, microseconds
+  - Component extraction: year, month, day, hours, minutes, seconds, microseconds, timezone
   - Comparisons: equal, less-than, greater-than
   - Efficient single-Field representation (epoch microseconds)
 - **Duration Operations**:
@@ -63,6 +63,40 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0" }
 - Regex functions (REGEX, REPLACE)
 - Hash functions (MD5, SHA256, etc.)
 - Decimal type support
+
+## SPARQL 1.1 Coverage
+
+This library implements XPath 2.0 functions and operators required by SPARQL 1.1. Coverage status:
+
+### ✅ Fully Implemented
+- **Boolean operations**: All boolean functions and operators (fn:not, logical-and, logical-or, comparisons)
+- **Integer numeric operations**: All arithmetic and comparison operators for integers
+- **DateTime operations**: Component extraction (year, month, day, hours, minutes, seconds, timezone), comparisons, and arithmetic
+- **Duration operations**: All dayTimeDuration operations including arithmetic and comparisons
+- **Aggregate functions**: COUNT, SUM, AVG, MIN, MAX for integer sequences
+
+### ⚠️ Partial Support
+- **Numeric operations**: Integer-only (float/double requires noir_IEEE754 dependency)
+- **Timezone**: TIMEZONE() function implemented; TZ() requires string formatting (deferred)
+
+### ❌ Not Implemented (Deferred)
+The following SPARQL 1.1 functions are deferred due to complexity in zero-knowledge circuits:
+
+- **String functions**: All string operations (STRLEN, SUBSTR, CONCAT, UCASE, LCASE, STRSTARTS, STRENDS, CONTAINS, STRBEFORE, STRAFTER, ENCODE_FOR_URI, REGEX, REPLACE, etc.)
+  - Reason: Variable-length data and UTF-8 encoding are complex in ZK circuits
+- **Hash functions**: MD5, SHA1, SHA256, SHA384, SHA512
+  - Reason: Require string output formatting
+- **RDF term functions**: isIRI, isBlank, isLiteral, str, lang, datatype, IRI, BNODE, etc.
+  - Reason: Out of scope for XPath function library
+- **Non-deterministic functions**: RAND(), NOW()
+  - Reason: Not meaningful in deterministic zero-knowledge proof context
+  - Alternative: These values should be provided as inputs to the circuit
+- **Advanced aggregates**: GROUP_CONCAT, SAMPLE
+  - Reason: Require string support or more complex logic
+
+See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for detailed planning of future features.
+
+For a complete mapping of all SPARQL 1.1 functions to their implementation status, see [SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md).
 
 ## Usage
 
@@ -106,18 +140,27 @@ fn example() {
 use dep::xpath::{
     XsdDateTime,
     datetime_from_components,
+    datetime_from_components_with_tz,
     year_from_datetime,
     month_from_datetime,
     datetime_less_than,
+    timezone_from_datetime,
 };
 
 fn example() {
-    // Create a DateTime: 2024-06-15T14:30:45.123456Z
+    // Create a DateTime: 2024-06-15T14:30:45.123456Z (UTC)
     let dt = datetime_from_components(2024, 6, 15, 14, 30, 45, 123456);
+    
+    // Create a DateTime with timezone: 2024-06-15T14:30:45.123456-05:00
+    let dt_tz = datetime_from_components_with_tz(2024, 6, 15, 14, 30, 45, 123456, -300);
     
     // Extract components
     assert(year_from_datetime(dt) == 2024);
     assert(month_from_datetime(dt) == 6);
+    
+    // Extract timezone as duration (SPARQL TIMEZONE function)
+    let tz = timezone_from_datetime(dt_tz);
+    // tz represents -PT5H (negative 5 hours)
     
     // Compare dates
     let dt_earlier = datetime_from_components(2024, 1, 1, 0, 0, 0, 0);
