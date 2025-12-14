@@ -3,6 +3,9 @@
 A Noir library implementing XPath 2.0 functions and operators required by SPARQL 1.1.
 
 > [!CAUTION]
+> **Under Development**: This library is still under active development. APIs may change without notice and some features may be incomplete or missing.
+
+> [!CAUTION]
 > **Security Warning**: This library has not been security reviewed and should not be used in production systems without a thorough audit.
 
 > [!WARNING]
