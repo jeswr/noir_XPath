@@ -74,7 +74,15 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0" }
 
 ## SPARQL 1.1 Coverage
 
-This library implements XPath 2.0 functions and operators required by SPARQL 1.1. Coverage status:
+This library implements XPath 2.0 functions and operators required by SPARQL 1.1. 
+
+**Quick Summary:**
+- ✅ **52+ functions fully implemented** (boolean, integer numeric, datetime, duration, aggregates)
+- ⚠️ **Float support partial** (requires noir_IEEE754 integration)
+- 🔮 **String/regex/hash deferred** (complex in ZK circuits)
+- ❌ **RAND/NOW not feasible** (non-deterministic in ZK)
+
+For complete function mapping, see **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)**
 
 ### ✅ Fully Implemented
 - **Boolean operations**: All boolean functions and operators (fn:not, logical-and, logical-or, comparisons)
