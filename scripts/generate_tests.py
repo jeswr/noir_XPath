@@ -10,18 +10,25 @@ Usage:
 
 Requirements:
     - Python 3.8+
+    - elementpath (for XPath 2.0 parsing and evaluation)
     - qt3tests repository (will be cloned if not present)
 """
 
 import argparse
 import os
 import re
+import shutil
 import subprocess
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+from decimal import Decimal
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Any
+
+# Import elementpath for XPath 2.0 parsing
+from elementpath import XPath2Parser
+from elementpath.datatypes import DateTime10
 
 # XML namespace for qt3tests
 QT3_NS = "{http://www.w3.org/2010/09/qt-fots-catalog}"
@@ -228,63 +235,85 @@ def parse_boolean(value: str) -> Optional[bool]:
 
 
 def parse_datetime(value: str) -> Optional[Tuple[int, int]]:
-    """Parse an XPath dateTime literal and return (UTC microseconds, tz_offset_minutes).
+    """Parse an XPath dateTime literal using elementpath.
     
-    Returns None if parsing fails.
+    Returns (UTC microseconds, tz_offset_minutes) or None if parsing fails.
     """
     value = value.strip()
     
-    # Extract from xs:dateTime('...')
-    match = re.match(r"xs:dateTime\s*\(['\"](.+?)['\"]\)", value)
-    if match:
-        value = match.group(1)
+    # Ensure it's wrapped in xs:dateTime() if not already
+    if not value.startswith("xs:dateTime"):
+        value = f"xs:dateTime('{value}')"
     
-    # Parse ISO 8601 datetime
-    # Format: YYYY-MM-DDTHH:MM:SS[.ssssss][Z|+-HH:MM]
-    dt_pattern = r"(-?\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?(Z|[+-]\d{2}:\d{2})?"
-    match = re.match(dt_pattern, value)
-    if not match:
-        return None
-    
-    year, month, day = int(match.group(1)), int(match.group(2)), int(match.group(3))
-    hour, minute, second = int(match.group(4)), int(match.group(5)), int(match.group(6))
-    
-    # Microseconds
-    frac = match.group(7)
-    microseconds = 0
-    if frac:
-        # Pad or truncate to 6 digits
-        frac = frac[:6].ljust(6, '0')
-        microseconds = int(frac)
-    
-    # Timezone offset in minutes
-    tz_offset_minutes = 0
-    tz_str = match.group(8)
-    if tz_str and tz_str != 'Z':
-        tz_match = re.match(r"([+-])(\d{2}):(\d{2})", tz_str)
-        if tz_match:
-            sign = 1 if tz_match.group(1) == '+' else -1
-            tz_hours = int(tz_match.group(2))
-            tz_mins = int(tz_match.group(3))
-            tz_offset_minutes = sign * (tz_hours * 60 + tz_mins)
-    
-    # Convert to epoch microseconds (UTC)
-    # First compute local time microseconds, then subtract offset to get UTC
     try:
-        dt = datetime(year, month, day, hour, minute, second, microseconds, tzinfo=timezone.utc)
-        epoch = datetime(1970, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
-        delta = dt - epoch
-        # This gives us local time as if it were UTC
-        local_micros = int(delta.total_seconds() * 1_000_000)
-        # Subtract timezone offset to get UTC
-        utc_micros = local_micros - (tz_offset_minutes * 60 * 1_000_000)
+        parser = XPath2Parser()
+        token = parser.parse(value)
+        dt = token.evaluate()
+        
+        if not isinstance(dt, DateTime10):
+            return None
+        
+        # Get timezone offset in minutes
+        tz_offset_minutes = 0
+        if dt.tzinfo is not None:
+            offset = dt.tzinfo.offset
+            tz_offset_minutes = int(offset.total_seconds() / 60)
+        
+        # Build a Python datetime from the components and convert to epoch
+        # dt contains local time components with timezone info
+        py_tz = timezone(timedelta(minutes=tz_offset_minutes))
+        py_dt = datetime(
+            dt.year, dt.month, dt.day,
+            dt.hour, dt.minute, int(dt.second),
+            dt.microsecond,
+            tzinfo=py_tz
+        )
+        
+        # Convert to UTC epoch microseconds
+        epoch = datetime(1970, 1, 1, tzinfo=timezone.utc)
+        utc_dt = py_dt.astimezone(timezone.utc)
+        delta = utc_dt - epoch
+        utc_micros = int(delta.total_seconds() * 1_000_000)
+        
         return (utc_micros, tz_offset_minutes)
-    except (ValueError, OverflowError):
+    except Exception:
         return None
+
+
+# i64 bounds
+I64_MIN = -9223372036854775808
+I64_MAX = 9223372036854775807
+
+
+def _fits_in_i64(val: int) -> bool:
+    """Check if an integer fits in Noir's i64 range."""
+    return I64_MIN <= val <= I64_MAX
+
+
+def _get_function_name(token) -> Optional[str]:
+    """Extract the function name from an elementpath token, handling namespace prefixes."""
+    symbol = token.symbol
+    
+    # If there's a namespace prefix (symbol is ':'), get the actual function name
+    if symbol == ':' and len(token) >= 2:
+        # The function name is in the second child
+        return token[1].symbol
+    
+    # Otherwise the symbol is the function name
+    return symbol
+
+
+def _get_function_args(token) -> list:
+    """Get the function arguments from a token, handling namespace prefixes."""
+    # If there's a namespace prefix (symbol is ':'), get args from the function token
+    if token.symbol == ':' and len(token) >= 2:
+        return list(token[1])
+    # Otherwise args are direct children
+    return list(token)
 
 
 def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str, Optional[str]]]:
-    """Convert an XPath expression to Noir code.
+    """Convert an XPath expression to Noir code using elementpath for parsing.
     
     Returns tuple of (setup_code, test_expression, embedded_expected) or None if cannot convert.
     The embedded_expected is set when the XPath expression contains a comparison (e.g., `x eq 5`)
@@ -295,123 +324,183 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
     if not noir_func:
         return None
     
-    # Handle different patterns
+    parser = XPath2Parser()
     
-    # Pattern: fn:abs(-5) or abs(-5)
-    abs_match = re.match(r"(?:fn:)?abs\s*\(\s*(-?\d+)\s*\)", expr)
-    if abs_match and "abs" in function_name:
-        val = abs_match.group(1)
-        return ("", f"{noir_func}({val})", None)
+    # Try to parse and evaluate the expression with elementpath
+    try:
+        token = parser.parse(expr)
+    except Exception:
+        return None
     
-    # Pattern: fn:not(expr)
-    not_match = re.match(r"(?:fn:)?not\s*\(\s*(true|false)\s*(?:\(\s*\))?\s*\)", expr, re.IGNORECASE)
-    if not_match and "not" in function_name:
-        val = not_match.group(1).lower()
-        return ("", f"{noir_func}({val})", None)
+    # Get the effective function/operator name (handling namespace prefixes)
+    symbol = _get_function_name(token)
+    if symbol is None:
+        return None
     
-    # Pattern: binary operators like: 1 + 2, 1 - 2, etc.
-    op_patterns = {
-        r"(-?\d+)\s*\+\s*(-?\d+)": ("numeric_add_int", "+"),
-        r"(-?\d+)\s*-\s*(-?\d+)": ("numeric_subtract_int", "-"),
-        r"(-?\d+)\s*\*\s*(-?\d+)": ("numeric_multiply_int", "*"),
-        r"(-?\d+)\s*idiv\s+(-?\d+)": ("numeric_divide_int", "idiv"),
-        r"(-?\d+)\s*div\s+(-?\d+)": ("numeric_divide_int", "div"),
-        r"(-?\d+)\s*mod\s+(-?\d+)": ("numeric_mod_int", "mod"),
-        r"(-?\d+)\s*eq\s+(-?\d+)": ("numeric_equal_int", "eq"),
-        r"(-?\d+)\s*lt\s+(-?\d+)": ("numeric_less_than_int", "lt"),
-        r"(-?\d+)\s*gt\s+(-?\d+)": ("numeric_greater_than_int", "gt"),
+    # Map XPath function names to Noir functions
+    xpath_to_noir_dt_funcs = {
+        "year-from-dateTime": "year_from_datetime",
+        "month-from-dateTime": "month_from_datetime",
+        "day-from-dateTime": "day_from_datetime",
+        "hours-from-dateTime": "hours_from_datetime",
+        "minutes-from-dateTime": "minutes_from_datetime",
+        "seconds-from-dateTime": "seconds_from_datetime",
     }
     
-    for pattern, (func, _) in op_patterns.items():
-        match = re.match(pattern, expr, re.IGNORECASE)
-        if match and func == noir_func:
-            a, b = match.group(1), match.group(2)
-            return ("", f"{noir_func}({a}, {b})", None)
+    # Handle datetime component extraction functions
+    if symbol in xpath_to_noir_dt_funcs:
+        expected_noir_fn = xpath_to_noir_dt_funcs[symbol]
+        if expected_noir_fn != noir_func:
+            return None
+        
+        # Get function arguments (handling namespace prefix)
+        args = _get_function_args(token)
+        
+        # The argument should be a dateTime - try to extract it
+        if len(args) >= 1:
+            arg = args[0]
+            # Try to evaluate the datetime argument
+            try:
+                dt_val = arg.evaluate()
+                if isinstance(dt_val, DateTime10):
+                    result = _datetime_to_epoch(dt_val)
+                    if result is None:
+                        return None
+                    utc_micros, tz_offset = result
+                    # Skip dates before 1970 (negative epoch) - not supported
+                    if utc_micros < 0:
+                        return None
+                    setup = f"let dt = datetime_from_epoch_microseconds_with_tz({utc_micros}, {tz_offset});"
+                    return (setup, f"{noir_func}(dt)", None)
+            except Exception:
+                pass
+        return None
     
-    # Pattern: comparison operators (= < >)
-    cmp_patterns = {
-        r"(-?\d+)\s*=\s*(-?\d+)": "numeric_equal_int",
-        r"(-?\d+)\s*<\s*(-?\d+)": "numeric_less_than_int",
-        r"(-?\d+)\s*>\s*(-?\d+)": "numeric_greater_than_int",
+    # Handle datetime comparison operators (eq, lt, gt)
+    if symbol in ("eq", "lt", "gt", "=", "<", ">"):
+        op_map = {
+            "eq": "datetime_equal", "=": "datetime_equal",
+            "lt": "datetime_less_than", "<": "datetime_less_than",
+            "gt": "datetime_greater_than", ">": "datetime_greater_than",
+        }
+        expected_noir_fn = op_map.get(symbol)
+        
+        if expected_noir_fn == noir_func and len(token) >= 2:
+            # Both operands should be dateTimes
+            try:
+                dt1 = token[0].evaluate()
+                dt2 = token[1].evaluate()
+                
+                if isinstance(dt1, DateTime10) and isinstance(dt2, DateTime10):
+                    result1 = _datetime_to_epoch(dt1)
+                    result2 = _datetime_to_epoch(dt2)
+                    
+                    if result1 is not None and result2 is not None:
+                        utc_micros1, tz_offset1 = result1
+                        utc_micros2, tz_offset2 = result2
+                        # Skip dates before 1970
+                        if utc_micros1 < 0 or utc_micros2 < 0:
+                            return None
+                        setup = f"let dt1 = datetime_from_epoch_microseconds_with_tz({utc_micros1}, {tz_offset1});\n    let dt2 = datetime_from_epoch_microseconds_with_tz({utc_micros2}, {tz_offset2});"
+                        return (setup, f"{noir_func}(dt1, dt2)", None)
+            except Exception:
+                pass
+    
+    # Handle fn:not
+    if symbol == "not" and noir_func == "fn_not":
+        args = _get_function_args(token)
+        if len(args) >= 1:
+            try:
+                arg_val = args[0].evaluate()
+                if isinstance(arg_val, bool):
+                    return ("", f"fn_not({str(arg_val).lower()})", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle numeric mod operator
+    if symbol == "mod" and noir_func == "numeric_mod_int":
+        if len(token) >= 2:
+            try:
+                a = token[0].evaluate()
+                b = token[1].evaluate()
+                if isinstance(a, (int, float, Decimal)) and isinstance(b, (int, float, Decimal)):
+                    a_int, b_int = int(a), int(b)
+                    if not _fits_in_i64(a_int) or not _fits_in_i64(b_int):
+                        return None
+                    return ("", f"numeric_mod_int({a_int}, {b_int})", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle other numeric operators
+    numeric_ops = {
+        "+": "numeric_add_int",
+        "-": "numeric_subtract_int",
+        "*": "numeric_multiply_int",
+        "div": "numeric_divide_int",
+        "idiv": "numeric_divide_int",
     }
     
-    for pattern, func in cmp_patterns.items():
-        match = re.match(pattern, expr)
-        if match and func == noir_func:
-            a, b = match.group(1), match.group(2)
-            return ("", f"{noir_func}({a}, {b})", None)
+    if symbol in numeric_ops and numeric_ops[symbol] == noir_func:
+        if len(token) >= 2:
+            try:
+                a = token[0].evaluate()
+                b = token[1].evaluate()
+                if isinstance(a, (int, float, Decimal)) and isinstance(b, (int, float, Decimal)):
+                    a_int, b_int = int(a), int(b)
+                    # Skip values outside i64 range
+                    if not _fits_in_i64(a_int) or not _fits_in_i64(b_int):
+                        return None
+                    return ("", f"{noir_func}({a_int}, {b_int})", None)
+            except Exception:
+                pass
+        return None
     
-    # Pattern: dateTime component extraction
-    dt_funcs = {
-        "fn:year-from-dateTime": "year_from_datetime",
-        "fn:month-from-dateTime": "month_from_datetime",
-        "fn:day-from-dateTime": "day_from_datetime",
-        "fn:hours-from-dateTime": "hours_from_datetime",
-        "fn:minutes-from-dateTime": "minutes_from_datetime",
-        "fn:seconds-from-dateTime": "seconds_from_datetime",
-    }
-    
-    for xpath_func, noir_fn in dt_funcs.items():
-        short_name = xpath_func.split(":")[-1]
-        # Use a pattern that doesn't match quotes inside the datetime string
-        # [^'"\)]+ matches datetime characters without quotes or closing parens
-        
-        # Pattern for direct function call with assert-eq (e.g., year-from-dateTime(xs:dateTime('...')) eq value)
-        pattern_eq = rf"(?:fn:)?{re.escape(short_name)}\s*\(\s*xs:dateTime\s*\(['\"]([^'\"]+)['\"]\)\s*\)\s*(?:eq|=)\s*(-?\d+(?:\.\d+)?)"
-        match = re.match(pattern_eq, expr)
-        if match and noir_fn == noir_func:
-            dt_str = match.group(1)
-            expected_val = match.group(2)
-            result = parse_datetime(f"xs:dateTime('{dt_str}')")
-            if result is not None:
-                utc_micros, tz_offset = result
-                # Skip dates before 1970 (negative epoch) - not supported
-                if utc_micros < 0:
-                    return None
-                setup = f"let dt = datetime_from_epoch_microseconds_with_tz({utc_micros}, {tz_offset});"
-                # Return the comparison itself
-                return (setup, f"{noir_fn}(dt)", expected_val)
-        
-        # Pattern for simple function call only (for assert-eq result type with value in result)
-        # [^'"\)]+ matches datetime characters without quotes or closing parens
-        pattern_simple = rf"(?:fn:)?{re.escape(short_name)}\s*\(\s*xs:dateTime\s*\(['\"]([^'\"]+)['\"]\)\s*\)$"
-        match = re.match(pattern_simple, expr)
-        if match and noir_fn == noir_func:
-            dt_str = match.group(1)
-            result = parse_datetime(f"xs:dateTime('{dt_str}')")
-            if result is not None:
-                utc_micros, tz_offset = result
-                # Skip dates before 1970 (negative epoch) - not supported
-                if utc_micros < 0:
-                    return None
-                setup = f"let dt = datetime_from_epoch_microseconds_with_tz({utc_micros}, {tz_offset});"
-                return (setup, f"{noir_fn}(dt)", None)
-    
-    # Pattern: dateTime comparison
-    dt_cmp_pattern = r"xs:dateTime\s*\(['\"](.+?)['\"]\)\s*(eq|lt|gt|=|<|>)\s*xs:dateTime\s*\(['\"](.+?)['\"]\)"
-    match = re.match(dt_cmp_pattern, expr)
-    if match:
-        dt1_str, op, dt2_str = match.group(1), match.group(2), match.group(3)
-        result1 = parse_datetime(f"xs:dateTime('{dt1_str}')")
-        result2 = parse_datetime(f"xs:dateTime('{dt2_str}')")
-        
-        if result1 is not None and result2 is not None:
-            utc_micros1, tz_offset1 = result1
-            utc_micros2, tz_offset2 = result2
-            # Skip dates before 1970 (negative epoch) - not supported
-            if utc_micros1 < 0 or utc_micros2 < 0:
-                return None
-            op_map = {
-                "eq": "datetime_equal", "=": "datetime_equal",
-                "lt": "datetime_less_than", "<": "datetime_less_than",
-                "gt": "datetime_greater_than", ">": "datetime_greater_than",
-            }
-            noir_fn = op_map.get(op)
-            if noir_fn and noir_fn == noir_func:
-                setup = f"let dt1 = datetime_from_epoch_microseconds_with_tz({utc_micros1}, {tz_offset1});\n    let dt2 = datetime_from_epoch_microseconds_with_tz({utc_micros2}, {tz_offset2});"
-                return (setup, f"{noir_fn}(dt1, dt2)", None)
+    # Handle fn:abs
+    if symbol == "abs" and noir_func == "abs_int":
+        args = _get_function_args(token)
+        if len(args) >= 1:
+            try:
+                arg_val = args[0].evaluate()
+                if isinstance(arg_val, (int, float, Decimal)):
+                    val_int = int(arg_val)
+                    if not _fits_in_i64(val_int):
+                        return None
+                    return ("", f"abs_int({val_int})", None)
+            except Exception:
+                pass
+        return None
     
     return None
+
+
+def _datetime_to_epoch(dt: DateTime10) -> Optional[Tuple[int, int]]:
+    """Convert elementpath DateTime10 to (UTC microseconds, tz_offset_minutes)."""
+    try:
+        # Get timezone offset in minutes
+        tz_offset_minutes = 0
+        if dt.tzinfo is not None:
+            offset = dt.tzinfo.offset
+            tz_offset_minutes = int(offset.total_seconds() / 60)
+        
+        # Build a Python datetime and convert to epoch
+        py_tz = timezone(timedelta(minutes=tz_offset_minutes))
+        py_dt = datetime(
+            dt.year, dt.month, dt.day,
+            dt.hour, dt.minute, int(dt.second),
+            dt.microsecond,
+            tzinfo=py_tz
+        )
+        
+        epoch = datetime(1970, 1, 1, tzinfo=timezone.utc)
+        utc_dt = py_dt.astimezone(timezone.utc)
+        delta = utc_dt - epoch
+        utc_micros = int(delta.total_seconds() * 1_000_000)
+        
+        return (utc_micros, tz_offset_minutes)
+    except Exception:
+        return None
 
 
 def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
@@ -524,8 +613,27 @@ def generate_test_package(
     chunk_size: int = 50,
 ) -> int:
     """Generate a Noir test package for a function. Returns count of generated tests."""
-    # Create package directory
     pkg_name = f"xpath_test_{sanitize_test_name(function_name)}"
+    
+    # Convert tests first to see if we have any
+    converted_tests = []
+    skipped = 0
+    for test in tests:
+        noir_test = generate_noir_test(test, function_name)
+        if noir_test and not noir_test.startswith("// SKIP"):
+            converted_tests.append(noir_test)
+        else:
+            skipped += 1
+
+    if not converted_tests:
+        print(f"  No tests converted for {function_name} (skipped {skipped})")
+        # Clean up any existing empty package directory
+        pkg_dir = output_dir / pkg_name
+        if pkg_dir.exists():
+            shutil.rmtree(pkg_dir)
+        return 0
+
+    # Create package directory only if we have tests
     pkg_dir = output_dir / pkg_name
     src_dir = pkg_dir / "src"
     src_dir.mkdir(parents=True, exist_ok=True)
@@ -540,20 +648,6 @@ authors = ["auto-generated"]
 xpath = {{ path = "../../xpath" }}
 """
     (pkg_dir / "Nargo.toml").write_text(nargo_toml)
-
-    # Convert tests
-    converted_tests = []
-    skipped = 0
-    for test in tests:
-        noir_test = generate_noir_test(test, function_name)
-        if noir_test and not noir_test.startswith("// SKIP"):
-            converted_tests.append(noir_test)
-        else:
-            skipped += 1
-
-    if not converted_tests:
-        print(f"  No tests converted for {function_name} (skipped {skipped})")
-        return 0
 
     # Split tests into chunks
     chunks = [converted_tests[i:i + chunk_size] for i in range(0, len(converted_tests), chunk_size)]
@@ -619,19 +713,19 @@ def update_workspace_toml(workspace_dir: Path) -> None:
     if not packages:
         return
 
-    # Read existing Nargo.toml
-    content = nargo_path.read_text()
-
-    # Check if packages are already listed
-    new_members = []
-    for pkg in packages:
-        if f'"{pkg}"' not in content:
-            new_members.append(pkg)
-
-    if new_members:
-        print(f"\nAdd these packages to workspace Nargo.toml members:")
-        for pkg in new_members:
-            print(f'    "{pkg}",')
+    # Build the complete members list
+    all_members = ["xpath", "xpath_unit_tests"] + packages
+    
+    # Generate new Nargo.toml content
+    members_list = ",\n    ".join(f'"{m}"' for m in all_members)
+    new_content = f"""[workspace]
+members = [
+    {members_list},
+]
+"""
+    
+    nargo_path.write_text(new_content)
+    print(f"\nUpdated workspace Nargo.toml with {len(packages)} test packages")
 
 
 def main():

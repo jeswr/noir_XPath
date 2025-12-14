@@ -2,6 +2,7 @@
 members = [
     "xpath",
     "xpath_unit_tests",
+    "test_packages/xpath_test_fnabs",
     "test_packages/xpath_test_fnday_from_datetime",
     "test_packages/xpath_test_fnhours_from_datetime",
     "test_packages/xpath_test_fnminutes_from_datetime",
@@ -12,5 +13,10 @@ members = [
     "test_packages/xpath_test_opdatetime_equal",
     "test_packages/xpath_test_opdatetime_greater_than",
     "test_packages/xpath_test_opdatetime_less_than",
+    "test_packages/xpath_test_opnumeric_add",
+    "test_packages/xpath_test_opnumeric_divide",
+    "test_packages/xpath_test_opnumeric_integer_divide",
     "test_packages/xpath_test_opnumeric_mod",
+    "test_packages/xpath_test_opnumeric_multiply",
+    "test_packages/xpath_test_opnumeric_subtract",
 ]
