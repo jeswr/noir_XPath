@@ -2,6 +2,18 @@
 
 A Noir library implementing XPath 2.0 functions and operators required by SPARQL 1.1.
 
+> [!CAUTION]
+> **Security Warning**: This library has not been security reviewed and should not be used in production systems without a thorough audit.
+
+> [!WARNING]
+> **AI-Generated Code**: This library is largely AI-generated. While it has been tested, there may be edge cases or subtle bugs that have not been discovered.
+
+> [!NOTE]
+> **Test Coverage Limitations**: The following limitations apply:
+> - Tests are derived from W3C qt3tests but only cover a subset of XPath functions
+> - Float operations are not yet implemented (planned via noir_IEEE754)
+> - String and regex operations are not yet implemented
+
 ## Overview
 
 This library provides Noir implementations of XPath/XQuery functions as defined in [XQuery 1.0 and XPath 2.0 Functions and Operators](https://www.w3.org/TR/xpath-functions/) that are required by [SPARQL 1.1 Query Language](https://www.w3.org/TR/sparql11-query/).
