@@ -2,6 +2,14 @@
 
 A Noir library implementing XPath 2.0 functions and operators required by SPARQL 1.1.
 
+## 📚 Documentation
+
+- **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)** - Complete mapping of SPARQL 1.1 functions to implementation status
+- **[TESTING.md](./TESTING.md)** - Testing strategy, how to run tests, and coverage details
+- **[IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)** - Phased implementation roadmap
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Technical architecture and design decisions
+- **[scripts/README.md](./scripts/README.md)** - Test generation from qt3tests
+
 > [!CAUTION]
 > **Under Development**: This library is still under active development. APIs may change without notice and some features may be incomplete or missing.
 
@@ -257,6 +265,8 @@ nargo test --package xpath
 nargo test --package xpath_unit_tests
 ```
 
+For detailed testing information, see [TESTING.md](./TESTING.md).
+
 ## Test Generation
 
 Generate Noir tests from the W3C qt3tests suite:
@@ -280,6 +290,23 @@ None currently. Float operations via [noir_IEEE754](https://github.com/jeswr/noi
 - [SPARQL 1.1 Query Language](https://www.w3.org/TR/sparql11-query/)
 - [XQuery 1.0 and XPath 2.0 Functions and Operators](https://www.w3.org/TR/xpath-functions/)
 - [W3C QT3 Test Suite](https://github.com/w3c/qt3tests)
+
+## Extending for Additional Functions
+
+To add support for additional XPath/SPARQL functions:
+
+1. **Implement the function** in the appropriate module (numeric.nr, datetime.nr, etc.)
+2. **Export from lib.nr** to make it part of the public API
+3. **Add tests:**
+   - Inline tests in the module
+   - Comprehensive tests in xpath_unit_tests/
+   - Map to qt3tests in scripts/generate_tests.py (if applicable)
+4. **Update documentation:**
+   - Add to SPARQL_COVERAGE.md
+   - Add example to README.md
+   - Update TESTING.md
+
+See [TESTING.md](./TESTING.md) for detailed testing guidelines.
 
 ## License
 
