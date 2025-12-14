@@ -7,6 +7,7 @@
 mod types;
 mod boolean;
 mod numeric;
+mod numeric_types;
 mod datetime;
 mod duration;
 mod sequence;
@@ -43,6 +44,48 @@ pub use numeric::{
     floor_int,
     min_int,
     max_int,
+};
+
+// Re-export float/double types and operations (IEEE 754 compliant)
+pub use numeric_types::{
+    NumericType,
+    XsdFloat,
+    XsdDouble,
+    get_common_type,
+    // Float comparisons
+    numeric_equal_float,
+    numeric_less_than_float,
+    numeric_greater_than_float,
+    numeric_le_float,
+    numeric_ge_float,
+    // Double comparisons
+    numeric_equal_double,
+    numeric_less_than_double,
+    numeric_greater_than_double,
+    numeric_le_double,
+    numeric_ge_double,
+    // Float arithmetic
+    numeric_add_float,
+    numeric_subtract_float,
+    numeric_multiply_float,
+    numeric_divide_float,
+    abs_float,
+    // Double arithmetic
+    numeric_add_double,
+    numeric_subtract_double,
+    numeric_multiply_double,
+    numeric_divide_double,
+    abs_double,
+    // Mixed type comparisons
+    compare_int_double_eq,
+    compare_int_double_lt,
+    compare_int_double_gt,
+    compare_double_int_eq,
+    compare_double_int_lt,
+    compare_double_int_gt,
+    compare_float_double_eq,
+    compare_float_double_lt,
+    compare_float_double_gt,
 };
 
 // Re-export datetime functions
