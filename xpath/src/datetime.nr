@@ -113,6 +113,16 @@ pub fn datetime_timezone_offset(dt: XsdDateTime) -> i16 {
     dt.tz_offset_minutes
 }
 
+/// SPARQL TIMEZONE function - returns timezone as an xsd:dayTimeDuration
+/// Maps to fn:timezone-from-dateTime in XPath
+/// Returns the timezone offset as a duration (e.g., -PT5H for -05:00)
+pub fn timezone_from_datetime(dt: XsdDateTime) -> crate::types::XsdDayTimeDuration {
+    use crate::duration::duration_from_microseconds;
+    let offset_minutes = dt.tz_offset_minutes as i64;
+    let offset_micros = offset_minutes * 60_000_000; // Convert minutes to microseconds
+    duration_from_microseconds(offset_micros)
+}
+
 // ============================================================================
 // Component Extraction Functions (return LOCAL time components)
 // ============================================================================
