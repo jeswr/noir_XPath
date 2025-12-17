@@ -40,7 +40,7 @@ FUNCTION_TEST_FILES = {
     "fn:ceiling": "fn/ceiling.xml",
     "fn:floor": "fn/floor.xml",
     "fn:round": "fn/round.xml",
-    # Numeric operators
+    # Numeric operators (integer)
     "op:numeric-add": "op/numeric-add.xml",
     "op:numeric-subtract": "op/numeric-subtract.xml",
     "op:numeric-multiply": "op/numeric-multiply.xml",
@@ -50,6 +50,28 @@ FUNCTION_TEST_FILES = {
     "op:numeric-equal": "op/numeric-equal.xml",
     "op:numeric-less-than": "op/numeric-less-than.xml",
     "op:numeric-greater-than": "op/numeric-greater-than.xml",
+    # Numeric operators (float)
+    "op:numeric-add-float": "op/numeric-add.xml",
+    "op:numeric-subtract-float": "op/numeric-subtract.xml",
+    "op:numeric-multiply-float": "op/numeric-multiply.xml",
+    "op:numeric-divide-float": "op/numeric-divide.xml",
+    "op:numeric-equal-float": "op/numeric-equal.xml",
+    "op:numeric-less-than-float": "op/numeric-less-than.xml",
+    "op:numeric-greater-than-float": "op/numeric-greater-than.xml",
+    # Numeric operators (double)
+    "op:numeric-add-double": "op/numeric-add.xml",
+    "op:numeric-subtract-double": "op/numeric-subtract.xml",
+    "op:numeric-multiply-double": "op/numeric-multiply.xml",
+    "op:numeric-divide-double": "op/numeric-divide.xml",
+    "op:numeric-equal-double": "op/numeric-equal.xml",
+    "op:numeric-less-than-double": "op/numeric-less-than.xml",
+    "op:numeric-greater-than-double": "op/numeric-greater-than.xml",
+    # Type casting
+    "xs:float-from-int": "prod/CastExpr.xml",
+    "xs:double-from-int": "prod/CastExpr.xml",
+    "xs:integer-from-float": "prod/CastExpr.xml",
+    "xs:integer-from-double": "prod/CastExpr.xml",
+    "xs:float-from-double": "prod/CastExpr.xml",
     # DateTime functions
     "fn:year-from-dateTime": "fn/year-from-dateTime.xml",
     "fn:month-from-dateTime": "fn/month-from-dateTime.xml",
@@ -69,7 +91,7 @@ FUNCTION_TEST_FILES = {
 
 # Map XPath functions to Noir function names
 FUNCTION_MAP = {
-    # Numeric
+    # Numeric (integer)
     "fn:abs": "abs_int",
     "fn:ceiling": "ceil_int",
     "fn:floor": "floor_int",
@@ -83,6 +105,28 @@ FUNCTION_MAP = {
     "op:numeric-equal": "numeric_equal_int",
     "op:numeric-less-than": "numeric_less_than_int",
     "op:numeric-greater-than": "numeric_greater_than_int",
+    # Numeric (float)
+    "op:numeric-add-float": "numeric_add_float",
+    "op:numeric-subtract-float": "numeric_subtract_float",
+    "op:numeric-multiply-float": "numeric_multiply_float",
+    "op:numeric-divide-float": "numeric_divide_float",
+    "op:numeric-equal-float": "numeric_equal_float",
+    "op:numeric-less-than-float": "numeric_less_than_float",
+    "op:numeric-greater-than-float": "numeric_greater_than_float",
+    # Numeric (double)
+    "op:numeric-add-double": "numeric_add_double",
+    "op:numeric-subtract-double": "numeric_subtract_double",
+    "op:numeric-multiply-double": "numeric_multiply_double",
+    "op:numeric-divide-double": "numeric_divide_double",
+    "op:numeric-equal-double": "numeric_equal_double",
+    "op:numeric-less-than-double": "numeric_less_than_double",
+    "op:numeric-greater-than-double": "numeric_greater_than_double",
+    # Type casting
+    "xs:float-from-int": "cast_integer_to_float",
+    "xs:double-from-int": "cast_integer_to_double",
+    "xs:integer-from-float": "cast_float_to_integer",
+    "xs:integer-from-double": "cast_double_to_integer",
+    "xs:float-from-double": "cast_double_to_float",
     # DateTime
     "fn:year-from-dateTime": "year_from_datetime",
     "fn:month-from-dateTime": "month_from_datetime",
@@ -97,6 +141,34 @@ FUNCTION_MAP = {
     # Boolean
     "fn:not": "fn_not",
     "op:boolean-equal": "boolean_equal",
+}
+
+# Float type filter - which function variants accept which types
+FLOAT_FUNCTION_TYPES = {
+    "op:numeric-add-float": "float",
+    "op:numeric-subtract-float": "float",
+    "op:numeric-multiply-float": "float",
+    "op:numeric-divide-float": "float",
+    "op:numeric-equal-float": "float",
+    "op:numeric-less-than-float": "float",
+    "op:numeric-greater-than-float": "float",
+    "op:numeric-add-double": "double",
+    "op:numeric-subtract-double": "double",
+    "op:numeric-multiply-double": "double",
+    "op:numeric-divide-double": "double",
+    "op:numeric-equal-double": "double",
+    "op:numeric-less-than-double": "double",
+    "op:numeric-greater-than-double": "double",
+}
+
+# Cast expression patterns - which casts from what types
+CAST_FUNCTION_PATTERNS = {
+    # Pattern: (source_type, target_type)
+    "xs:float-from-int": ("int", "float"),       # xs:float(integer_expr)
+    "xs:double-from-int": ("int", "double"),     # xs:double(integer_expr)
+    "xs:integer-from-float": ("float", "int"),   # xs:integer(xs:float(...))
+    "xs:integer-from-double": ("double", "int"), # xs:integer(xs:double(...))
+    "xs:float-from-double": ("double", "float"), # xs:float(xs:double(...))
 }
 
 # Functions currently implemented
@@ -236,6 +308,92 @@ def parse_boolean(value: str) -> Optional[bool]:
     return None
 
 
+import struct
+
+def float_to_bits(f: float) -> int:
+    """Convert a Python float to IEEE 754 single precision bits."""
+    packed = struct.pack('>f', f)
+    return struct.unpack('>I', packed)[0]
+
+
+def double_to_bits(f: float) -> int:
+    """Convert a Python float to IEEE 754 double precision bits."""
+    packed = struct.pack('>d', f)
+    return struct.unpack('>Q', packed)[0]
+
+
+def parse_float(value: str) -> Optional[Tuple[float, str]]:
+    """Parse an XPath float or double literal.
+    
+    Returns (float_value, type) where type is 'float' or 'double', or None if parsing fails.
+    """
+    value = value.strip()
+    
+    # Check for xs:float(...) or xs:double(...)
+    float_match = re.match(r"xs:float\s*\(\s*['\"]?([^'\")\s]+)['\"]?\s*\)", value)
+    double_match = re.match(r"xs:double\s*\(\s*['\"]?([^'\")\s]+)['\"]?\s*\)", value)
+    
+    if float_match:
+        try:
+            val = float(float_match.group(1))
+            return (val, 'float')
+        except ValueError:
+            # Handle special values
+            inner = float_match.group(1).upper()
+            if inner == 'NAN':
+                return (float('nan'), 'float')
+            elif inner == 'INF':
+                return (float('inf'), 'float')
+            elif inner == '-INF':
+                return (float('-inf'), 'float')
+            return None
+    
+    if double_match:
+        try:
+            val = float(double_match.group(1))
+            return (val, 'double')
+        except ValueError:
+            inner = double_match.group(1).upper()
+            if inner == 'NAN':
+                return (float('nan'), 'double')
+            elif inner == 'INF':
+                return (float('inf'), 'double')
+            elif inner == '-INF':
+                return (float('-inf'), 'double')
+            return None
+    
+    # Try plain float/double literals (with E notation)
+    if re.match(r'^-?\d+\.?\d*[eE][+-]?\d+$', value) or re.match(r'^-?\d+\.\d+$', value):
+        try:
+            return (float(value), 'double')  # Default to double for plain literals
+        except ValueError:
+            return None
+    
+    return None
+
+
+def detect_operand_type(expr: str) -> Optional[str]:
+    """Detect the numeric type from an XPath expression.
+    
+    Returns 'int', 'float', 'double', or None if cannot determine.
+    """
+    expr = expr.strip()
+    
+    # Check for explicit type casts
+    if 'xs:float' in expr:
+        return 'float'
+    if 'xs:double' in expr:
+        return 'double'
+    if 'xs:decimal' in expr or 'xs:integer' in expr or 'xs:int' in expr or 'xs:long' in expr:
+        return 'int'
+    
+    # Check for floating point literals
+    if re.search(r'\d+[eE][+-]?\d+', expr) or re.search(r'\d+\.\d+', expr):
+        return 'double'
+    
+    return 'int'  # Default to int
+
+
 def parse_datetime(value: str) -> Optional[Tuple[int, int]]:
     """Parse an XPath dateTime literal using elementpath.
     
@@ -324,6 +482,18 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
     expr = expr.strip()
     noir_func = FUNCTION_MAP.get(function_name)
     if not noir_func:
+        return None
+    
+    # Check if this is a float/double variant
+    expected_type = FLOAT_FUNCTION_TYPES.get(function_name)
+    detected_type = detect_operand_type(expr)
+    
+    # For float/double variants, filter to only matching type tests
+    if expected_type is not None:
+        if expected_type != detected_type:
+            return None
+    # For integer variants, skip float/double tests
+    elif detected_type in ('float', 'double'):
         return None
     
     parser = XPath2Parser()
@@ -420,7 +590,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                 pass
         return None
     
-    # Handle numeric mod operator
+    # Handle numeric mod operator (integer only)
     if symbol == "mod" and noir_func == "numeric_mod_int":
         if len(token) >= 2:
             try:
@@ -435,7 +605,74 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                 pass
         return None
     
-    # Handle other numeric operators
+    # Handle float arithmetic operators
+    float_ops = {
+        "+": ("numeric_add_float", "numeric_add_double"),
+        "-": ("numeric_subtract_float", "numeric_subtract_double"),
+        "*": ("numeric_multiply_float", "numeric_multiply_double"),
+        "div": ("numeric_divide_float", "numeric_divide_double"),
+    }
+    
+    if symbol in float_ops and noir_func in float_ops[symbol]:
+        if len(token) >= 2:
+            try:
+                a = token[0].evaluate()
+                b = token[1].evaluate()
+                if isinstance(a, (int, float, Decimal)) and isinstance(b, (int, float, Decimal)):
+                    a_float, b_float = float(a), float(b)
+                    
+                    # Determine if we're generating float32 or float64 code
+                    is_float32 = noir_func.endswith('_float')
+                    
+                    if is_float32:
+                        a_bits = float_to_bits(a_float)
+                        b_bits = float_to_bits(b_float)
+                        setup = f"let a = XsdFloat::from_bits({a_bits});\n    let b = XsdFloat::from_bits({b_bits});"
+                        return (setup, f"{noir_func}(a, b)", None)
+                    else:
+                        a_bits = double_to_bits(a_float)
+                        b_bits = double_to_bits(b_float)
+                        setup = f"let a = XsdDouble::from_bits({a_bits});\n    let b = XsdDouble::from_bits({b_bits});"
+                        return (setup, f"{noir_func}(a, b)", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle float comparison operators (eq, lt, gt)
+    float_cmp_ops = {
+        "eq": ("numeric_equal_float", "numeric_equal_double"),
+        "lt": ("numeric_less_than_float", "numeric_less_than_double"),
+        "gt": ("numeric_greater_than_float", "numeric_greater_than_double"),
+        "=": ("numeric_equal_float", "numeric_equal_double"),
+        "<": ("numeric_less_than_float", "numeric_less_than_double"),
+        ">": ("numeric_greater_than_float", "numeric_greater_than_double"),
+    }
+    
+    if symbol in float_cmp_ops and noir_func in float_cmp_ops[symbol]:
+        if len(token) >= 2:
+            try:
+                a = token[0].evaluate()
+                b = token[1].evaluate()
+                if isinstance(a, (int, float, Decimal)) and isinstance(b, (int, float, Decimal)):
+                    a_float, b_float = float(a), float(b)
+                    
+                    is_float32 = noir_func.endswith('_float')
+                    
+                    if is_float32:
+                        a_bits = float_to_bits(a_float)
+                        b_bits = float_to_bits(b_float)
+                        setup = f"let a = XsdFloat::from_bits({a_bits});\n    let b = XsdFloat::from_bits({b_bits});"
+                        return (setup, f"{noir_func}(a, b)", None)
+                    else:
+                        a_bits = double_to_bits(a_float)
+                        b_bits = double_to_bits(b_float)
+                        setup = f"let a = XsdDouble::from_bits({a_bits});\n    let b = XsdDouble::from_bits({b_bits});"
+                        return (setup, f"{noir_func}(a, b)", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle integer numeric operators
     numeric_ops = {
         "+": "numeric_add_int",
         "-": "numeric_subtract_int",
@@ -472,6 +709,73 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                     return ("", f"abs_int({val_int})", None)
             except Exception:
                 pass
+        return None
+    
+    # Handle type casting expressions
+    # xs:float(integer_expr), xs:double(integer_expr), xs:integer(float_expr), etc.
+    cast_pattern = CAST_FUNCTION_PATTERNS.get(function_name)
+    if cast_pattern is not None:
+        source_type, target_type = cast_pattern
+        
+        # Check if the expression is a cast expression
+        # The symbol should be 'float', 'double', or 'integer' (depending on target type)
+        target_symbols = {
+            'float': 'float',
+            'double': 'double',
+            'int': 'integer',
+        }
+        expected_symbol = target_symbols.get(target_type)
+        
+        if symbol == expected_symbol:
+            args = _get_function_args(token)
+            if len(args) >= 1:
+                try:
+                    # First check if the argument has the right source type
+                    arg_token = args[0]
+                    arg_symbol = _get_function_name(arg_token)
+                    
+                    # For xs:float-from-int: expect integer input (plain number or xs:integer())
+                    if source_type == 'int':
+                        # Try to evaluate as integer
+                        arg_val = arg_token.evaluate()
+                        if isinstance(arg_val, (int, Decimal)):
+                            val_int = int(arg_val)
+                            if not _fits_in_i64(val_int):
+                                return None
+                            return ("", f"{noir_func}({val_int})", None)
+                        elif isinstance(arg_val, float):
+                            # Float literal being cast - skip for int source
+                            return None
+                    
+                    # For xs:integer-from-float: expect xs:float() input
+                    elif source_type == 'float':
+                        if arg_symbol == 'float':
+                            # Get the inner value
+                            inner_args = _get_function_args(arg_token)
+                            if len(inner_args) >= 1:
+                                inner_val = inner_args[0].evaluate()
+                                if isinstance(inner_val, (int, float, Decimal)):
+                                    float_val = float(inner_val)
+                                    bits = float_to_bits(float_val)
+                                    setup = f"let f = XsdFloat::from_bits({bits});"
+                                    return (setup, f"{noir_func}(f)", None)
+                        return None
+                    
+                    # For xs:integer-from-double or xs:float-from-double: expect xs:double() input
+                    elif source_type == 'double':
+                        if arg_symbol == 'double':
+                            inner_args = _get_function_args(arg_token)
+                            if len(inner_args) >= 1:
+                                inner_val = inner_args[0].evaluate()
+                                if isinstance(inner_val, (int, float, Decimal)):
+                                    double_val = float(inner_val)
+                                    bits = double_to_bits(double_val)
+                                    setup = f"let d = XsdDouble::from_bits({bits});"
+                                    return (setup, f"{noir_func}(d)", None)
+                        return None
+                    
+                except Exception:
+                    pass
         return None
     
     return None
@@ -536,9 +840,34 @@ def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
         "fn_not", "boolean_equal",
         "datetime_equal", "datetime_less_than", "datetime_greater_than",
         "numeric_equal_int", "numeric_less_than_int", "numeric_greater_than_int",
+        "numeric_equal_float", "numeric_less_than_float", "numeric_greater_than_float",
+        "numeric_equal_double", "numeric_less_than_double", "numeric_greater_than_double",
     ]
+    
+    # Functions that return float/double types
+    float_returning_functions = [
+        "numeric_add_float", "numeric_subtract_float", 
+        "numeric_multiply_float", "numeric_divide_float",
+        "cast_integer_to_float",  # xs:float(integer)
+        "cast_double_to_float",   # xs:float(double)
+    ]
+    double_returning_functions = [
+        "numeric_add_double", "numeric_subtract_double",
+        "numeric_multiply_double", "numeric_divide_double",
+        "cast_integer_to_double", # xs:double(integer)
+    ]
+    
+    # Functions that return Option<i64>
+    option_int_returning_functions = [
+        "cast_float_to_integer",  # xs:integer(float)
+        "cast_double_to_integer", # xs:integer(double)
+    ]
+    
     noir_func = FUNCTION_MAP.get(function_name)
     func_returns_bool = noir_func in boolean_returning_functions
+    func_returns_float = noir_func in float_returning_functions
+    func_returns_double = noir_func in double_returning_functions
+    func_returns_option_int = noir_func in option_int_returning_functions
     
     # Generate assertion based on result type
     # If embedded_expected is set, it means the XPath expression contained a comparison
@@ -572,8 +901,59 @@ def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
         expected = test.expected_result
         int_val = parse_integer(expected)
         bool_val = parse_boolean(expected)
+        float_val = parse_float(expected)
         
-        if int_val is not None:
+        # For Option<i64> returning functions (cast to integer)
+        if func_returns_option_int:
+            if int_val is not None:
+                assertion = f"assert({test_expr}.is_some());\n    assert({test_expr}.unwrap() == {int_val});"
+            elif float_val is not None:
+                # Truncate float to integer
+                val, _ = float_val
+                int_part = int(val)
+                assertion = f"assert({test_expr}.is_some());\n    assert({test_expr}.unwrap() == {int_part});"
+            else:
+                return f"""// SKIP: {test_name}
+// Cannot parse expected for cast-to-integer function: {expected}
+"""
+        # For float/double returning functions, we need to convert the expected value to bits
+        elif func_returns_float or func_returns_double:
+            # Try to parse as float first
+            if float_val is not None:
+                val, ftype = float_val
+                if func_returns_float:
+                    # For zero comparisons, use equality (handles +0 vs -0)
+                    if val == 0.0:
+                        assertion = f"assert({test_expr} == XsdFloat::zero());"
+                    else:
+                        expected_bits = float_to_bits(val)
+                        assertion = f"assert({test_expr}.to_bits() == {expected_bits});"
+                else:
+                    if val == 0.0:
+                        assertion = f"assert({test_expr} == XsdDouble::zero());"
+                    else:
+                        expected_bits = double_to_bits(val)
+                        assertion = f"assert({test_expr}.to_bits() == {expected_bits});"
+            elif int_val is not None:
+                # Integer value for float function - convert to float bits
+                if func_returns_float:
+                    if int_val == 0:
+                        assertion = f"assert({test_expr} == XsdFloat::zero());"
+                    else:
+                        expected_bits = float_to_bits(float(int_val))
+                        assertion = f"assert({test_expr}.to_bits() == {expected_bits});"
+                else:
+                    if int_val == 0:
+                        assertion = f"assert({test_expr} == XsdDouble::zero());"
+                    else:
+                        expected_bits = double_to_bits(float(int_val))
+                        assertion = f"assert({test_expr}.to_bits() == {expected_bits});"
+            else:
+                # Cannot parse expected value for float function
+                return f"""// SKIP: {test_name}
+// Cannot parse expected for float function: {expected}
+"""
+        elif int_val is not None:
             # Skip negative values for functions that return unsigned types
             unsigned_return_functions = [
                 "month_from_datetime", "day_from_datetime",
@@ -586,6 +966,11 @@ def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
             assertion = f"assert({test_expr} == {int_val});"
         elif bool_val is not None:
             assertion = f"assert({test_expr} == {str(bool_val).lower()});"
+        elif float_val is not None:
+            # Float value but function doesn't return float - type mismatch
+            return f"""// SKIP: {test_name}
+// Float expected value incompatible with function {noir_func}
+"""
         else:
             # Cannot parse expected value
             return f"""// SKIP: {test_name}
@@ -663,6 +1048,16 @@ xpath = {{ path = "../../xpath" }}
     # Add datetime imports if needed
     if "datetime" in function_name.lower():
         imports.append("    datetime_from_epoch_microseconds_with_tz,")
+    
+    # Add float/double type imports if needed
+    # Check both function_name and noir_func for float/double
+    func_lower = function_name.lower()
+    noir_func_lower = noir_func.lower() if noir_func else ""
+    
+    if "float" in func_lower or "float" in noir_func_lower:
+        imports.append("    XsdFloat,")
+    if "double" in func_lower or "double" in noir_func_lower:
+        imports.append("    XsdDouble,")
     
     imports.append("};")
 

@@ -86,6 +86,12 @@ pub use numeric_types::{
     compare_float_double_eq,
     compare_float_double_lt,
     compare_float_double_gt,
+    // Type casting functions
+    cast_integer_to_float,
+    cast_integer_to_double,
+    cast_float_to_integer,
+    cast_double_to_integer,
+    cast_double_to_float,
 };
 
 // Re-export datetime functions
