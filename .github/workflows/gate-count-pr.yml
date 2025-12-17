@@ -41,10 +41,15 @@ jobs:
           which nargo || echo "nargo not found in PATH"
           nargo --version || echo "nargo command failed"
 
+      - name: Save benchmark script to temp location
+        run: |
+          cp scripts/benchmark_gates.py /tmp/benchmark_gates.py
+          echo "Benchmark script saved to /tmp/benchmark_gates.py"
+
       - name: Run gate count benchmark on PR branch
         id: pr-benchmark
         run: |
-          python3 scripts/benchmark_gates.py --output /tmp/pr_gates.json
+          python3 /tmp/benchmark_gates.py --output /tmp/pr_gates.json
           echo "PR branch gate counts generated"
 
       - name: Checkout base branch
@@ -55,7 +60,7 @@ jobs:
       - name: Run gate count benchmark on base branch
         id: base-benchmark
         run: |
-          python3 scripts/benchmark_gates.py --output /tmp/base_gates.json
+          python3 /tmp/benchmark_gates.py --output /tmp/base_gates.json
           echo "Base branch gate counts generated"
 
       - name: Compare gate counts and generate comment
