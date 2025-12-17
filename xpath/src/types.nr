@@ -90,36 +90,3 @@ impl Eq for XsdDayTimeDuration {
         (self.microseconds == other.microseconds) & (self.negative == other.negative)
     }
 }
-
-// ============================================================================
-// Tests
-// ============================================================================
-
-#[test]
-fn test_datetime_creation() {
-    let dt = XsdDateTime::new(1000000);
-    assert(dt.epoch_microseconds == 1000000);
-}
-
-#[test]
-fn test_datetime_equality() {
-    let dt1 = XsdDateTime::new(1000000);
-    let dt2 = XsdDateTime::new(1000000);
-    let dt3 = XsdDateTime::new(2000000);
-    assert(dt1 == dt2);
-    assert(dt1 != dt3);
-}
-
-#[test]
-fn test_duration_creation() {
-    let dur = XsdDayTimeDuration::new(3600000000, false);
-    assert(dur.microseconds == 3600000000);
-    assert(dur.negative == false);
-}
-
-#[test]
-fn test_duration_zero() {
-    let dur = XsdDayTimeDuration::zero();
-    assert(dur.microseconds == 0);
-    assert(dur.negative == false);
-}

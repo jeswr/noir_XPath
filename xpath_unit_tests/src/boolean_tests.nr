@@ -9,6 +9,62 @@ use dep::xpath::{
     boolean_greater_than,
 };
 
+// ============================================================================
+// Tests moved from xpath/src/boolean.nr
+// ============================================================================
+
+#[test]
+fn test_fn_not() {
+    assert(fn_not(true) == false);
+    assert(fn_not(false) == true);
+}
+
+#[test]
+fn test_logical_and() {
+    assert(logical_and(true, true) == true);
+    assert(logical_and(true, false) == false);
+    assert(logical_and(false, true) == false);
+    assert(logical_and(false, false) == false);
+}
+
+#[test]
+fn test_logical_or() {
+    assert(logical_or(true, true) == true);
+    assert(logical_or(true, false) == true);
+    assert(logical_or(false, true) == true);
+    assert(logical_or(false, false) == false);
+}
+
+#[test]
+fn test_boolean_equal() {
+    assert(boolean_equal(true, true) == true);
+    assert(boolean_equal(false, false) == true);
+    assert(boolean_equal(true, false) == false);
+    assert(boolean_equal(false, true) == false);
+}
+
+#[test]
+fn test_boolean_less_than() {
+    // false < true
+    assert(boolean_less_than(false, true) == true);
+    assert(boolean_less_than(true, false) == false);
+    assert(boolean_less_than(true, true) == false);
+    assert(boolean_less_than(false, false) == false);
+}
+
+#[test]
+fn test_boolean_greater_than() {
+    // true > false
+    assert(boolean_greater_than(true, false) == true);
+    assert(boolean_greater_than(false, true) == false);
+    assert(boolean_greater_than(true, true) == false);
+    assert(boolean_greater_than(false, false) == false);
+}
+
+// ============================================================================
+// Additional tests
+// ============================================================================
+
 #[test]
 fn test_boolean_chained_operations() {
     // Complex expressions

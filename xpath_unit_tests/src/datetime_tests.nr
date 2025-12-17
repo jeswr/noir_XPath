@@ -2,6 +2,7 @@
 
 use dep::xpath::{
     XsdDateTime,
+    XsdDayTimeDuration,
     datetime_from_components,
     datetime_from_components_with_tz,
     datetime_from_epoch_microseconds,
@@ -19,6 +20,106 @@ use dep::xpath::{
     timezone_from_datetime,
     duration_to_microseconds,
 };
+
+// ============================================================================
+// Tests moved from xpath/src/types.nr
+// ============================================================================
+
+#[test]
+fn test_datetime_creation() {
+    let dt = XsdDateTime::new(1000000);
+    assert(dt.epoch_microseconds == 1000000);
+}
+
+#[test]
+fn test_datetime_equality() {
+    let dt1 = XsdDateTime::new(1000000);
+    let dt2 = XsdDateTime::new(1000000);
+    let dt3 = XsdDateTime::new(2000000);
+    assert(dt1 == dt2);
+    assert(dt1 != dt3);
+}
+
+#[test]
+fn test_duration_creation() {
+    let dur = XsdDayTimeDuration::new(3600000000, false);
+    assert(dur.microseconds == 3600000000);
+    assert(dur.negative == false);
+}
+
+#[test]
+fn test_duration_zero() {
+    let dur = XsdDayTimeDuration::zero();
+    assert(dur.microseconds == 0);
+    assert(dur.negative == false);
+}
+
+// ============================================================================
+// Tests moved from xpath/src/datetime.nr
+// ============================================================================
+
+#[test]
+fn test_datetime_unix_epoch() {
+    // Unix epoch: 1970-01-01 00:00:00 UTC
+    let dt = datetime_from_epoch_microseconds(0);
+    assert(year_from_datetime(dt) == 1970);
+    assert(month_from_datetime(dt) == 1);
+    assert(day_from_datetime(dt) == 1);
+    assert(hours_from_datetime(dt) == 0);
+    assert(minutes_from_datetime(dt) == 0);
+    assert(seconds_from_datetime(dt) == 0);
+}
+
+#[test]
+fn test_datetime_components() {
+    // 2000-06-15 14:30:45.123456 UTC
+    // Microseconds from 1970-01-01 = 961079445123456
+    let micros: Field = 961079445123456;
+    let dt = datetime_from_epoch_microseconds(micros);
+    
+    assert(year_from_datetime(dt) == 2000);
+    assert(month_from_datetime(dt) == 6);
+    assert(day_from_datetime(dt) == 15);
+    assert(hours_from_datetime(dt) == 14);
+    assert(minutes_from_datetime(dt) == 30);
+    assert(seconds_from_datetime(dt) == 45);
+    assert(microseconds_from_datetime(dt) == 123456);
+}
+
+#[test]
+fn test_datetime_comparison() {
+    let dt1 = datetime_from_epoch_microseconds(1000000);
+    let dt2 = datetime_from_epoch_microseconds(2000000);
+    let dt3 = datetime_from_epoch_microseconds(1000000);
+    
+    assert(datetime_equal(dt1, dt3) == true);
+    assert(datetime_equal(dt1, dt2) == false);
+    
+    assert(datetime_less_than(dt1, dt2) == true);
+    assert(datetime_less_than(dt2, dt1) == false);
+    assert(datetime_less_than(dt1, dt3) == false);
+    
+    assert(datetime_greater_than(dt2, dt1) == true);
+    assert(datetime_greater_than(dt1, dt2) == false);
+    assert(datetime_greater_than(dt1, dt3) == false);
+}
+
+#[test]
+fn test_datetime_from_components_roundtrip() {
+    // Create datetime and verify round-trip
+    let dt = datetime_from_components(2024, 3, 15, 10, 30, 45, 500000);
+    assert(year_from_datetime(dt) == 2024);
+    assert(month_from_datetime(dt) == 3);
+    assert(day_from_datetime(dt) == 15);
+    assert(hours_from_datetime(dt) == 10);
+    assert(minutes_from_datetime(dt) == 30);
+    assert(seconds_from_datetime(dt) == 45);
+    assert(microseconds_from_datetime(dt) == 500000);
+}
+
+// ============================================================================
+// Additional tests
+// ============================================================================
 
 #[test]
 fn test_datetime_year_boundaries() {
@@ -103,3 +204,4 @@ fn test_timezone_from_datetime() {
     // -480 minutes = -28,800 seconds = -28,800,000,000 microseconds
     assert(duration_to_microseconds(tz_pst) == -28_800_000_000);
 }
+
