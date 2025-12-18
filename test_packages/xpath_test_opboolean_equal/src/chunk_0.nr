@@ -7,246 +7,246 @@ use dep::xpath::{
 
 #[test]
 fn op_boolean_equal2args_1() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(false, false) == true);
 }
 
 #[test]
 fn op_boolean_equal2args_2() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal2args_3() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(false, false) == true);
 }
 
 #[test]
 fn op_boolean_equal2args_4() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(false, true) == false);
 }
 
 #[test]
 fn op_boolean_equal2args_5() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(false, false) == true);
 }
 
 #[test]
 fn op_boolean_equal_1() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(false, true) == false);
 }
 
 #[test]
 fn op_boolean_equal_2() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(false, false) == true);
 }
 
 #[test]
 fn op_boolean_equal_3() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal_4() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal_5() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(false, true) == false);
 }
 
 #[test]
 fn op_boolean_equal_6() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal_7() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_8() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_9() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(false, true) == false);
 }
 
 #[test]
 fn op_boolean_equal_10() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal_11() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_15() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal_16() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal_19() {
-    // Only one comparison allowed per expression, unless parenthes
+    // Only one comparison allowed per expression, unless parenthesized
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_001() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, true) == false);
 }
 
 #[test]
 fn op_boolean_equal_more_args_002() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, true) == false);
 }
 
 #[test]
 fn op_boolean_equal_more_args_003() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, false) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_004() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, false) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_005() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, true) == false);
 }
 
 #[test]
 fn op_boolean_equal_more_args_006() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, true) == false);
 }
 
 #[test]
 fn op_boolean_equal_more_args_007() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, false) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_008() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_009() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal_more_args_010() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_011() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal_more_args_012() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_013() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, true) == false);
 }
 
 #[test]
 fn op_boolean_equal_more_args_014() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_015() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn op_boolean_equal_more_args_016() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_017() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_018() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn op_boolean_equal_more_args_019() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, false) == false);
 }
 
 #[test]
 fn k_booleanequal_1() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, false) == true);
 }
 
 #[test]
 fn k_booleanequal_2() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(true, true) == true);
 }
 
 #[test]
 fn k_booleanequal_5() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test:
     assert(boolean_equal(false, false) == true);
 }
