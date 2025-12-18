@@ -45,7 +45,9 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
 - **Boolean Operations**: `fn:not`, `op:boolean-equal`, `op:boolean-less-than`, `op:boolean-greater-than`, logical AND/OR
 - **Numeric Operations**: 
   - Integer: add, subtract, multiply, divide, mod, abs, round, ceil, floor, min, max
-  - Comparisons: equal, less-than, greater-than
+  - Float/Double: add, subtract, multiply, divide, abs, round, ceil, floor (via noir_IEEE754)
+  - Comparisons: equal, less-than, greater-than (for all numeric types)
+  - Type casting and promotion
 - **DateTime Operations**: 
   - Construction: from epoch microseconds, from components
   - Component extraction: year, month, day, hours, minutes, seconds, microseconds, timezone
@@ -66,19 +68,19 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
 
 ### 🔮 Future (Planned)
 
-- Float operations via [noir_IEEE754](https://github.com/jeswr/noir_IEEE754)
 - String functions (STRLEN, SUBSTR, CONCAT, etc.)
 - Regex functions (REGEX, REPLACE)
 - Hash functions (MD5, SHA256, etc.)
 - Decimal type support
+- Float/double aggregates
 
 ## SPARQL 1.1 Coverage
 
 This library implements XPath 2.0 functions and operators required by SPARQL 1.1. 
 
 **Quick Summary:**
-- ✅ **52+ functions fully implemented** (boolean, integer numeric, datetime, duration, aggregates)
-- ⚠️ **Float support partial** (requires noir_IEEE754 integration)
+- ✅ **60+ functions fully implemented** (boolean, numeric for all types, datetime, duration, aggregates)
+- ⚠️ **Float support partial** (unary operators not implemented, aggregates integer-only)
 - 🔮 **String/regex/hash deferred** (complex in ZK circuits)
 - ❌ **RAND/NOW not feasible** (non-deterministic in ZK)
 
@@ -87,12 +89,14 @@ For complete function mapping, see **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)*
 ### ✅ Fully Implemented
 - **Boolean operations**: All boolean functions and operators (fn:not, logical-and, logical-or, comparisons)
 - **Integer numeric operations**: All arithmetic and comparison operators for integers
+- **Float/Double numeric operations**: All arithmetic operations (add, subtract, multiply, divide, abs) and comparisons
+- **Rounding functions**: round, ceil, floor for integers, floats, and doubles
 - **DateTime operations**: Component extraction (year, month, day, hours, minutes, seconds, timezone), comparisons, and arithmetic
 - **Duration operations**: All dayTimeDuration operations including arithmetic and comparisons
 - **Aggregate functions**: COUNT, SUM, AVG, MIN, MAX for integer sequences
 
 ### ⚠️ Partial Support
-- **Numeric operations**: Integer-only (float/double requires noir_IEEE754 dependency)
+- **Numeric operations**: Unary plus/minus operators only for integers; aggregate functions only for integers
 - **Timezone**: TIMEZONE() function implemented; TZ() requires string formatting (deferred)
 
 ### ❌ Not Implemented (Deferred)
@@ -137,6 +141,12 @@ use dep::xpath::{
     abs_int,
     min_int,
     max_int,
+    XsdFloat,
+    XsdDouble,
+    numeric_add_float,
+    round_float,
+    ceil_double,
+    floor_double,
 };
 
 fn example() {
@@ -147,6 +157,17 @@ fn example() {
     let absolute = abs_int(-42);  // 42
     let minimum = min_int(5, 3);  // 3
     let maximum = max_int(5, 3);  // 5
+    
+    // Float operations
+    let f1 = XsdFloat::from_bits(0x40200000);  // 2.5
+    let f2 = XsdFloat::from_bits(0x40000000);  // 2.0
+    let sum_f = numeric_add_float(f1, f2);
+    let rounded = round_float(f1);  // rounds to 2.0 (banker's rounding)
+    
+    // Double operations  
+    let d = XsdDouble::from_bits(0x4005333333333333);  // 2.65
+    let ceiled = ceil_double(d);  // 3.0
+    let floored = floor_double(d);  // 2.0
 }
 ```
 

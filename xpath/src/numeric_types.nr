@@ -434,18 +434,18 @@ pub fn round_float(a: XsdFloat) -> XsdFloat {
     let sign = bits >> 31;
     let exp_bits = (bits >> 23) & 0xFF;
     let mant = bits & 0x7FFFFF;
-    
+
     // Handle special cases
     let is_zero = (exp_bits == 0) & (mant == 0);
     let is_nan = (exp_bits == 0xFF) & (mant != 0);
     let is_inf = (exp_bits == 0xFF) & (mant == 0);
-    
+
     let mut result = a;
-    
+
     if !(is_zero | is_nan | is_inf) {
         // Unbias exponent
         let exp: i32 = (exp_bits as i32) - 127;
-        
+
         // If exponent >= 23, number is already an integer (no fractional bits)
         if exp >= 23 {
             result = a;
@@ -481,25 +481,25 @@ pub fn round_float(a: XsdFloat) -> XsdFloat {
             let frac_bits = 23 - (exp as u32);
             let frac_mask = (1 << frac_bits) - 1;
             let int_mask = 0x7FFFFF - frac_mask;
-            
+
             let frac_part = mant & frac_mask;
             let int_part = mant & int_mask;
-            
+
             // Check if fractional part is exactly 0.5
             let half_bit = 1 << (frac_bits - 1);
             let is_exactly_half = frac_part == half_bit;
             let is_greater_than_half = frac_part > half_bit;
-            
+
             // Determine if we should round up
             let lsb_of_int = (mant >> frac_bits) & 1;
             let round_up = is_greater_than_half | (is_exactly_half & (lsb_of_int == 1));
-            
+
             // Build result
             let incremented = int_part + (1 << frac_bits);
             let mant_overflow = incremented >= 0x800000;
             let new_exp_bits = exp_bits + 1;
             let exp_overflow = new_exp_bits >= 0xFF;
-            
+
             result = if round_up {
                 if mant_overflow {
                     if exp_overflow {
@@ -519,7 +519,7 @@ pub fn round_float(a: XsdFloat) -> XsdFloat {
             };
         }
     }
-    
+
     result
 }
 
@@ -530,17 +530,17 @@ pub fn ceil_float(a: XsdFloat) -> XsdFloat {
     let sign = bits >> 31;
     let exp_bits = (bits >> 23) & 0xFF;
     let mant = bits & 0x7FFFFF;
-    
+
     // Handle special cases
     let is_zero = (exp_bits == 0) & (mant == 0);
     let is_nan = (exp_bits == 0xFF) & (mant != 0);
     let is_inf = (exp_bits == 0xFF) & (mant == 0);
-    
+
     let mut result = a;
-    
+
     if !(is_zero | is_nan | is_inf) {
         let exp: i32 = (exp_bits as i32) - 127;
-        
+
         if exp >= 23 {
             // Already an integer
             result = a;
@@ -558,17 +558,17 @@ pub fn ceil_float(a: XsdFloat) -> XsdFloat {
             let frac_bits = 23 - (exp as u32);
             let frac_mask = (1 << frac_bits) - 1;
             let int_mask = 0x7FFFFF - frac_mask;
-            
+
             let frac_part = mant & frac_mask;
             let int_part = mant & int_mask;
-            
+
             // If positive and has any fractional part, round up
             // If negative, truncate (round toward zero, which is up for negatives)
             let incremented = int_part + (1 << frac_bits);
             let mant_overflow = incremented >= 0x800000;
             let new_exp_bits = exp_bits + 1;
             let exp_overflow = new_exp_bits >= 0xFF;
-            
+
             result = if (sign == 0) & (frac_part != 0) {
                 // Positive with fraction: round up
                 if mant_overflow {
@@ -586,7 +586,7 @@ pub fn ceil_float(a: XsdFloat) -> XsdFloat {
             };
         }
     }
-    
+
     result
 }
 
@@ -597,17 +597,17 @@ pub fn floor_float(a: XsdFloat) -> XsdFloat {
     let sign = bits >> 31;
     let exp_bits = (bits >> 23) & 0xFF;
     let mant = bits & 0x7FFFFF;
-    
+
     // Handle special cases
     let is_zero = (exp_bits == 0) & (mant == 0);
     let is_nan = (exp_bits == 0xFF) & (mant != 0);
     let is_inf = (exp_bits == 0xFF) & (mant == 0);
-    
+
     let mut result = a;
-    
+
     if !(is_zero | is_nan | is_inf) {
         let exp: i32 = (exp_bits as i32) - 127;
-        
+
         if exp >= 23 {
             // Already an integer
             result = a;
@@ -625,17 +625,17 @@ pub fn floor_float(a: XsdFloat) -> XsdFloat {
             let frac_bits = 23 - (exp as u32);
             let frac_mask = (1 << frac_bits) - 1;
             let int_mask = 0x7FFFFF - frac_mask;
-            
+
             let frac_part = mant & frac_mask;
             let int_part = mant & int_mask;
-            
+
             // If negative and has any fractional part, round down (increase magnitude)
             // If positive, truncate (round toward zero, which is down for positives)
             let incremented = int_part + (1 << frac_bits);
             let mant_overflow = incremented >= 0x800000;
             let new_exp_bits = exp_bits + 1;
             let exp_overflow = new_exp_bits >= 0xFF;
-            
+
             result = if (sign == 1) & (frac_part != 0) {
                 // Negative with fraction: round down (increase magnitude)
                 if mant_overflow {
@@ -653,7 +653,7 @@ pub fn floor_float(a: XsdFloat) -> XsdFloat {
             };
         }
     }
-    
+
     result
 }
 
@@ -693,17 +693,17 @@ pub fn round_double(a: XsdDouble) -> XsdDouble {
     let sign = bits >> 63;
     let exp_bits = (bits >> 52) & 0x7FF;
     let mant = bits & 0xFFFFFFFFFFFFF;
-    
+
     // Handle special cases
     let is_zero = (exp_bits == 0) & (mant == 0);
     let is_nan = (exp_bits == 0x7FF) & (mant != 0);
     let is_inf = (exp_bits == 0x7FF) & (mant == 0);
-    
+
     let mut result = a;
-    
+
     if !(is_zero | is_nan | is_inf) {
         let exp: i64 = (exp_bits as i64) - 1023;
-        
+
         if exp >= 52 {
             // Already an integer
             result = a;
@@ -735,22 +735,22 @@ pub fn round_double(a: XsdDouble) -> XsdDouble {
             let frac_bits = 52 - (exp as u64);
             let frac_mask = (1 << frac_bits) - 1;
             let int_mask = 0xFFFFFFFFFFFFF - frac_mask;
-            
+
             let frac_part = mant & frac_mask;
             let int_part = mant & int_mask;
-            
+
             let half_bit = 1 << (frac_bits - 1);
             let is_exactly_half = frac_part == half_bit;
             let is_greater_than_half = frac_part > half_bit;
-            
+
             let lsb_of_int = (mant >> frac_bits) & 1;
             let round_up = is_greater_than_half | (is_exactly_half & (lsb_of_int == 1));
-            
+
             let incremented = int_part + (1 << frac_bits);
             let mant_overflow = incremented >= 0x10000000000000;
             let new_exp_bits = exp_bits + 1;
             let exp_overflow = new_exp_bits >= 0x7FF;
-            
+
             result = if round_up {
                 if mant_overflow {
                     if exp_overflow {
@@ -770,7 +770,7 @@ pub fn round_double(a: XsdDouble) -> XsdDouble {
             };
         }
     }
-    
+
     result
 }
 
@@ -781,16 +781,16 @@ pub fn ceil_double(a: XsdDouble) -> XsdDouble {
     let sign = bits >> 63;
     let exp_bits = (bits >> 52) & 0x7FF;
     let mant = bits & 0xFFFFFFFFFFFFF;
-    
+
     let is_zero = (exp_bits == 0) & (mant == 0);
     let is_nan = (exp_bits == 0x7FF) & (mant != 0);
     let is_inf = (exp_bits == 0x7FF) & (mant == 0);
-    
+
     let mut result = a;
-    
+
     if !(is_zero | is_nan | is_inf) {
         let exp: i64 = (exp_bits as i64) - 1023;
-        
+
         if exp >= 52 {
             result = a;
         } else if exp < 0 {
@@ -803,15 +803,15 @@ pub fn ceil_double(a: XsdDouble) -> XsdDouble {
             let frac_bits = 52 - (exp as u64);
             let frac_mask = (1 << frac_bits) - 1;
             let int_mask = 0xFFFFFFFFFFFFF - frac_mask;
-            
+
             let frac_part = mant & frac_mask;
             let int_part = mant & int_mask;
-            
+
             let incremented = int_part + (1 << frac_bits);
             let mant_overflow = incremented >= 0x10000000000000;
             let new_exp_bits = exp_bits + 1;
             let exp_overflow = new_exp_bits >= 0x7FF;
-            
+
             result = if (sign == 0) & (frac_part != 0) {
                 if mant_overflow {
                     if exp_overflow {
@@ -827,7 +827,7 @@ pub fn ceil_double(a: XsdDouble) -> XsdDouble {
             };
         }
     }
-    
+
     result
 }
 
@@ -838,16 +838,16 @@ pub fn floor_double(a: XsdDouble) -> XsdDouble {
     let sign = bits >> 63;
     let exp_bits = (bits >> 52) & 0x7FF;
     let mant = bits & 0xFFFFFFFFFFFFF;
-    
+
     let is_zero = (exp_bits == 0) & (mant == 0);
     let is_nan = (exp_bits == 0x7FF) & (mant != 0);
     let is_inf = (exp_bits == 0x7FF) & (mant == 0);
-    
+
     let mut result = a;
-    
+
     if !(is_zero | is_nan | is_inf) {
         let exp: i64 = (exp_bits as i64) - 1023;
-        
+
         if exp >= 52 {
             result = a;
         } else if exp < 0 {
@@ -860,15 +860,15 @@ pub fn floor_double(a: XsdDouble) -> XsdDouble {
             let frac_bits = 52 - (exp as u64);
             let frac_mask = (1 << frac_bits) - 1;
             let int_mask = 0xFFFFFFFFFFFFF - frac_mask;
-            
+
             let frac_part = mant & frac_mask;
             let int_part = mant & int_mask;
-            
+
             let incremented = int_part + (1 << frac_bits);
             let mant_overflow = incremented >= 0x10000000000000;
             let new_exp_bits = exp_bits + 1;
             let exp_overflow = new_exp_bits >= 0x7FF;
-            
+
             result = if (sign == 1) & (frac_part != 0) {
                 if mant_overflow {
                     if exp_overflow {
@@ -884,7 +884,7 @@ pub fn floor_double(a: XsdDouble) -> XsdDouble {
             };
         }
     }
-    
+
     result
 }
 

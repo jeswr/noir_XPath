@@ -2,15 +2,14 @@
 
 use dep::xpath::{
     abs_int, cast_double_to_float, cast_double_to_integer, cast_float_to_integer,
-    cast_integer_to_double, cast_integer_to_float, ceil_int, ceil_float, ceil_double,
-    floor_int, floor_float, floor_double, get_common_type, max_int,
-    min_int, numeric_add_double, numeric_add_float, numeric_add_int, numeric_divide_int,
-    numeric_equal_double, numeric_equal_float, numeric_equal_int, numeric_greater_than_double,
-    numeric_greater_than_float, numeric_greater_than_int, numeric_less_than_double,
-    numeric_less_than_float, numeric_less_than_int, numeric_mod_int, numeric_multiply_int,
-    numeric_subtract_int, numeric_unary_minus_int, numeric_unary_plus_int, NumericType, round_int,
-    round_float, round_double,
-    XsdDouble, XsdFloat,
+    cast_integer_to_double, cast_integer_to_float, ceil_double, ceil_float, ceil_int, floor_double,
+    floor_float, floor_int, get_common_type, max_int, min_int, numeric_add_double,
+    numeric_add_float, numeric_add_int, numeric_divide_int, numeric_equal_double,
+    numeric_equal_float, numeric_equal_int, numeric_greater_than_double, numeric_greater_than_float,
+    numeric_greater_than_int, numeric_less_than_double, numeric_less_than_float,
+    numeric_less_than_int, numeric_mod_int, numeric_multiply_int, numeric_subtract_int,
+    numeric_unary_minus_int, numeric_unary_plus_int, NumericType, round_double, round_float,
+    round_int, XsdDouble, XsdFloat,
 };
 
 // ============================================================================
@@ -468,19 +467,18 @@ fn test_abs_edge_cases() {
 
 #[test]
 fn test_round_float_positive() {
-    
     // 2.5 rounds to 2 (round half to even)
     let val = XsdFloat::from_bits(0x40200000); // 2.5
     let result = round_float(val);
     let expected = XsdFloat::from_bits(0x40000000); // 2.0
     assert(numeric_equal_float(result, expected));
-    
+
     // 3.5 rounds to 4 (round half to even)
     let val = XsdFloat::from_bits(0x40600000); // 3.5
     let result = round_float(val);
     let expected = XsdFloat::from_bits(0x40800000); // 4.0
     assert(numeric_equal_float(result, expected));
-    
+
     // 3.7 rounds to 4
     let val = XsdFloat::from_bits(0x406CCCCD); // ~3.7
     let result = round_float(val);
@@ -490,7 +488,6 @@ fn test_round_float_positive() {
 
 #[test]
 fn test_round_float_negative() {
-    
     // -2.5 rounds to -2 (round half to even)
     let val = XsdFloat::from_bits(0xC0200000); // -2.5
     let result = round_float(val);
@@ -500,20 +497,19 @@ fn test_round_float_negative() {
 
 #[test]
 fn test_round_float_special_cases() {
-    
     // Zero
     let result = round_float(XsdFloat::zero());
     assert(numeric_equal_float(result, XsdFloat::zero()));
-    
+
     // Already integer
     let val = XsdFloat::from_bits(0x40800000); // 4.0
     let result = round_float(val);
     assert(numeric_equal_float(result, val));
-    
+
     // NaN
     let result = round_float(XsdFloat::nan());
     assert(result.is_nan());
-    
+
     // Infinity
     let result = round_float(XsdFloat::infinity());
     assert(numeric_equal_float(result, XsdFloat::infinity()));
@@ -521,13 +517,12 @@ fn test_round_float_special_cases() {
 
 #[test]
 fn test_ceil_float_positive() {
-    
     // 2.1 ceils to 3
     let val = XsdFloat::from_bits(0x40066666); // ~2.1
     let result = ceil_float(val);
     let expected = XsdFloat::from_bits(0x40400000); // 3.0
     assert(numeric_equal_float(result, expected));
-    
+
     // 2.9 ceils to 3
     let val = XsdFloat::from_bits(0x4039999A); // ~2.9
     let result = ceil_float(val);
@@ -537,7 +532,6 @@ fn test_ceil_float_positive() {
 
 #[test]
 fn test_ceil_float_negative() {
-    
     // -2.1 ceils to -2
     let val = XsdFloat::from_bits(0xC0066666); // ~-2.1
     let result = ceil_float(val);
@@ -547,13 +541,12 @@ fn test_ceil_float_negative() {
 
 #[test]
 fn test_floor_float_positive() {
-    
     // 2.1 floors to 2
     let val = XsdFloat::from_bits(0x40066666); // ~2.1
     let result = floor_float(val);
     let expected = XsdFloat::from_bits(0x40000000); // 2.0
     assert(numeric_equal_float(result, expected));
-    
+
     // 2.9 floors to 2
     let val = XsdFloat::from_bits(0x4039999A); // ~2.9
     let result = floor_float(val);
@@ -563,7 +556,6 @@ fn test_floor_float_positive() {
 
 #[test]
 fn test_floor_float_negative() {
-    
     // -2.1 floors to -3
     let val = XsdFloat::from_bits(0xC0066666); // ~-2.1
     let result = floor_float(val);
@@ -577,13 +569,12 @@ fn test_floor_float_negative() {
 
 #[test]
 fn test_round_double_positive() {
-    
     // 2.5 rounds to 2 (round half to even)
     let val = XsdDouble::from_bits(0x4004000000000000); // 2.5
     let result = round_double(val);
     let expected = XsdDouble::from_bits(0x4000000000000000); // 2.0
     assert(numeric_equal_double(result, expected));
-    
+
     // 3.5 rounds to 4 (round half to even)
     let val = XsdDouble::from_bits(0x400C000000000000); // 3.5
     let result = round_double(val);
@@ -593,7 +584,6 @@ fn test_round_double_positive() {
 
 #[test]
 fn test_round_double_negative() {
-    
     // -2.5 rounds to -2 (round half to even)
     let val = XsdDouble::from_bits(0xC004000000000000); // -2.5
     let result = round_double(val);
@@ -603,20 +593,19 @@ fn test_round_double_negative() {
 
 #[test]
 fn test_round_double_special_cases() {
-    
     // Zero
     let result = round_double(XsdDouble::zero());
     assert(numeric_equal_double(result, XsdDouble::zero()));
-    
+
     // Already integer
     let val = XsdDouble::from_bits(0x4010000000000000); // 4.0
     let result = round_double(val);
     assert(numeric_equal_double(result, val));
-    
+
     // NaN
     let result = round_double(XsdDouble::nan());
     assert(result.is_nan());
-    
+
     // Infinity
     let result = round_double(XsdDouble::infinity());
     assert(numeric_equal_double(result, XsdDouble::infinity()));
@@ -624,7 +613,6 @@ fn test_round_double_special_cases() {
 
 #[test]
 fn test_ceil_double_positive() {
-    
     // 2.1 ceils to 3
     let val = XsdDouble::from_bits(0x4000CCCCCCCCCCCD); // ~2.1
     let result = ceil_double(val);
@@ -634,7 +622,6 @@ fn test_ceil_double_positive() {
 
 #[test]
 fn test_ceil_double_negative() {
-    
     // -2.1 ceils to -2
     let val = XsdDouble::from_bits(0xC000CCCCCCCCCCCD); // ~-2.1
     let result = ceil_double(val);
@@ -644,7 +631,6 @@ fn test_ceil_double_negative() {
 
 #[test]
 fn test_floor_double_positive() {
-    
     // 2.1 floors to 2
     let val = XsdDouble::from_bits(0x4000CCCCCCCCCCCD); // ~2.1
     let result = floor_double(val);
@@ -654,7 +640,6 @@ fn test_floor_double_positive() {
 
 #[test]
 fn test_floor_double_negative() {
-    
     // -2.1 floors to -3
     let val = XsdDouble::from_bits(0xC000CCCCCCCCCCCD); // ~-2.1
     let result = floor_double(val);

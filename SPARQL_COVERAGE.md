@@ -67,25 +67,25 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 
 | SPARQL Function | XPath Function | Status | Notes |
 |----------------|----------------|--------|-------|
-| abs | fn:abs | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| round | fn:round | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| ceil | fn:ceiling | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| floor | fn:floor | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
+| abs | fn:abs | ✅ | Implemented for integers, floats, and doubles |
+| round | fn:round | ✅ | Implemented for integers, floats, and doubles |
+| ceil | fn:ceiling | ✅ | Implemented for integers, floats, and doubles |
+| floor | fn:floor | ✅ | Implemented for integers, floats, and doubles |
 | RAND | - | ❌ | Not feasible in deterministic ZK context |
 
 ### Numeric Operators
 
 | Operator | XPath Operator | Status | Notes |
 |----------|----------------|--------|-------|
-| `+` (addition) | op:numeric-add | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `-` (subtraction) | op:numeric-subtract | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `*` (multiplication) | op:numeric-multiply | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `/` (division) | op:numeric-divide | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| unary `+` | op:numeric-unary-plus | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| unary `-` | op:numeric-unary-minus | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `=` (equal) | op:numeric-equal | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `<` (less than) | op:numeric-less-than | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `>` (greater than) | op:numeric-greater-than | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
+| `+` (addition) | op:numeric-add | ✅ | Implemented for integers, floats, and doubles |
+| `-` (subtraction) | op:numeric-subtract | ✅ | Implemented for integers, floats, and doubles |
+| `*` (multiplication) | op:numeric-multiply | ✅ | Implemented for integers, floats, and doubles |
+| `/` (division) | op:numeric-divide | ✅ | Implemented for integers, floats, and doubles |
+| unary `+` | op:numeric-unary-plus | ⚠️ | Implemented for integers only |
+| unary `-` | op:numeric-unary-minus | ⚠️ | Implemented for integers only |
+| `=` (equal) | op:numeric-equal | ✅ | Implemented for integers, floats, and doubles |
+| `<` (less than) | op:numeric-less-than | ✅ | Implemented for integers, floats, and doubles |
+| `>` (greater than) | op:numeric-greater-than | ✅ | Implemented for integers, floats, and doubles |
 
 ## 17.4.5 Functions on Dates and Times
 
@@ -163,14 +163,15 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 ### Fully Implemented (✅)
 - All boolean operations
 - All integer numeric operations
+- All float and double numeric operations (via noir_IEEE754)
+- All rounding functions (round, ceil, floor) for integers, floats, and doubles
 - All datetime component extraction and comparison
 - All duration operations
 - Integer aggregate functions (COUNT, SUM, MIN, MAX, AVG)
 - Sequence operations (is_empty, exists, count)
 
 ### Partial Implementation (⚠️)
-- Numeric operations: integers only (floats/doubles require noir_IEEE754)
-- Aggregates: integers only
+- Unary operators: integers only (unary plus/minus for floats/doubles not needed)
 
 ### Deferred/Future (🔮)
 - All string functions (complex in ZK)
