@@ -26,6 +26,22 @@ where
     a > b
 }
 
+/// Generic value less-than-or-equal using the Ord trait
+pub fn value_le<T>(a: T, b: T) -> bool
+where
+    T: Ord,
+{
+    a <= b
+}
+
+/// Generic value greater-than-or-equal using the Ord trait
+pub fn value_ge<T>(a: T, b: T) -> bool
+where
+    T: Ord,
+{
+    a >= b
+}
+
 // ============================================================================
 // Tests
 // ============================================================================
@@ -50,4 +66,18 @@ fn test_value_greater_than() {
     assert(value_greater_than(5 as u32, 3 as u32) == true);
     assert(value_greater_than(3 as u32, 5 as u32) == false);
     assert(value_greater_than(5 as u32, 5 as u32) == false);
+}
+
+#[test]
+fn test_value_le() {
+    assert(value_le(3 as u32, 5 as u32) == true);
+    assert(value_le(5 as u32, 5 as u32) == true);
+    assert(value_le(5 as u32, 3 as u32) == false);
+}
+
+#[test]
+fn test_value_ge() {
+    assert(value_ge(5 as u32, 3 as u32) == true);
+    assert(value_ge(5 as u32, 5 as u32) == true);
+    assert(value_ge(3 as u32, 5 as u32) == false);
 }

@@ -26,11 +26,13 @@ This is a Noir workspace with:
 
 ### XPath Operations
 The library implements various XPath functions and operators including:
-- Numeric operations (add, subtract, multiply, divide, integer-divide, mod)
-- Datetime operations (equal, less-than, greater-than)
-- Datetime extraction functions (year, month, day, hours, minutes, seconds)
-- Boolean operations (not)
-- Math functions (abs)
+- Numeric operations (add, subtract, multiply, divide, integer-divide, mod, equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal)
+- Datetime operations (equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal)
+- Datetime extraction functions (year, month, day, hours, minutes, seconds, timezone)
+- Duration operations (add, subtract, multiply, divide, equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal)
+- Boolean operations (not, and, or, equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal)
+- Math functions (abs, round, ceiling, floor)
+- Comparison utilities (equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal)
 
 ## Common Bug Patterns
 
@@ -56,11 +58,13 @@ nargo test --package xpath_test_opnumeric_add
 
 | Category | Operations | Test Generation |
 |----------|-----------|-----------------|
-| Numeric | add, subtract, multiply, divide, integer-divide, mod | ✅ |
-| Datetime | equal, less-than, greater-than | ✅ |
-| Datetime Extraction | year, month, day, hours, minutes, seconds | ✅ |
-| Boolean | not | ✅ |
-| Math | abs | ✅ |
+| Numeric | add, subtract, multiply, divide, integer-divide, mod, equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal | ✅ |
+| Datetime | equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal | ✅ |
+| Datetime Extraction | year, month, day, hours, minutes, seconds, timezone | ✅ |
+| Duration | add, subtract, multiply, divide, equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal | ✅ |
+| Boolean | not, and, or, equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal | ✅ |
+| Math | abs, round, ceiling, floor | ✅ |
+| Comparison | equal, less-than, greater-than, less-than-or-equal, greater-than-or-equal | ✅ |
 
 ## Future Extensions
 

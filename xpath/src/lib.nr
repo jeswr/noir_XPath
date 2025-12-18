@@ -18,15 +18,16 @@ pub use types::{XsdDateTime, XsdDayTimeDuration};
 
 // Re-export boolean functions
 pub use boolean::{
-    boolean_equal, boolean_greater_than, boolean_less_than, fn_not, logical_and, logical_or,
+    boolean_equal, boolean_ge, boolean_greater_than, boolean_le, boolean_less_than, fn_not,
+    logical_and, logical_or,
 };
 
 // Re-export numeric functions (integer only for now)
 pub use numeric::{
     abs_int, ceil_int, floor_int, max_int, min_int, numeric_add_int, numeric_divide_int,
-    numeric_equal_int, numeric_greater_than_int, numeric_less_than_int, numeric_mod_int,
-    numeric_multiply_int, numeric_subtract_int, numeric_unary_minus_int, numeric_unary_plus_int,
-    round_int,
+    numeric_equal_int, numeric_ge_int, numeric_greater_than_int, numeric_le_int,
+    numeric_less_than_int, numeric_mod_int, numeric_multiply_int, numeric_subtract_int,
+    numeric_unary_minus_int, numeric_unary_plus_int, round_int,
 };
 
 // Re-export float/double types and operations (IEEE 754 compliant)
@@ -49,9 +50,14 @@ pub use numeric_types::{
     // Double rounding functions
     round_double, ceil_double, floor_double,
     // Mixed type comparisons
-    compare_int_double_eq, compare_int_double_lt, compare_int_double_gt, compare_double_int_eq,
-    compare_double_int_lt, compare_double_int_gt, compare_float_double_eq, compare_float_double_lt,
-    compare_float_double_gt,
+    compare_int_double_eq, compare_int_double_lt, compare_int_double_gt, compare_int_double_le,
+    compare_int_double_ge, compare_double_int_eq, compare_double_int_lt, compare_double_int_gt,
+    compare_double_int_le, compare_double_int_ge, compare_float_double_eq, compare_float_double_lt,
+    compare_float_double_gt, compare_float_double_le, compare_float_double_ge,
+    compare_double_float_eq, compare_double_float_lt, compare_double_float_gt,
+    compare_double_float_le, compare_double_float_ge, compare_int_float_eq, compare_int_float_lt,
+    compare_int_float_gt, compare_int_float_le, compare_int_float_ge, compare_float_int_eq,
+    compare_float_int_lt, compare_float_int_gt, compare_float_int_le, compare_float_int_ge,
     // Type casting functions
     cast_integer_to_float, cast_integer_to_double, cast_float_to_integer, cast_double_to_integer,
     cast_double_to_float,
@@ -60,8 +66,8 @@ pub use numeric_types::{
 // Re-export datetime functions
 pub use datetime::{
     datetime_equal, datetime_from_components, datetime_from_components_with_tz,
-    datetime_from_epoch_microseconds, datetime_from_epoch_microseconds_with_tz,
-    datetime_greater_than, datetime_less_than, datetime_timezone_offset,
+    datetime_from_epoch_microseconds, datetime_from_epoch_microseconds_with_tz, datetime_ge,
+    datetime_greater_than, datetime_le, datetime_less_than, datetime_timezone_offset,
     datetime_to_epoch_microseconds, day_from_datetime, hours_from_datetime,
     microseconds_from_datetime, minutes_from_datetime, month_from_datetime, seconds_from_datetime,
     timezone_from_datetime, year_from_datetime,
@@ -71,10 +77,10 @@ pub use datetime::{
 pub use duration::{
     datetime_add_duration, datetime_difference, datetime_subtract_duration, days_from_duration,
     duration_add, duration_divide, duration_divide_by_duration, duration_equal,
-    duration_from_components, duration_from_microseconds, duration_greater_than,
-    duration_is_negative, duration_less_than, duration_multiply, duration_negate, duration_subtract,
-    duration_to_microseconds, duration_zero, hours_from_duration, minutes_from_duration,
-    seconds_from_duration,
+    duration_from_components, duration_from_microseconds, duration_ge, duration_greater_than,
+    duration_is_negative, duration_le, duration_less_than, duration_multiply, duration_negate,
+    duration_subtract, duration_to_microseconds, duration_zero, hours_from_duration,
+    minutes_from_duration, seconds_from_duration,
 };
 
 // Re-export sequence/aggregate functions
@@ -84,4 +90,4 @@ pub use sequence::{
 };
 
 // Re-export comparison functions
-pub use comparison::{value_equal, value_greater_than, value_less_than};
+pub use comparison::{value_equal, value_ge, value_greater_than, value_le, value_less_than};
