@@ -46,9 +46,14 @@ pub use numeric_types::{
     numeric_add_double, numeric_subtract_double, numeric_multiply_double, numeric_divide_double,
     abs_double,
     // Mixed type comparisons
-    compare_int_double_eq, compare_int_double_lt, compare_int_double_gt, compare_double_int_eq,
-    compare_double_int_lt, compare_double_int_gt, compare_float_double_eq, compare_float_double_lt,
-    compare_float_double_gt,
+    compare_int_double_eq, compare_int_double_lt, compare_int_double_gt, compare_int_double_le,
+    compare_int_double_ge, compare_double_int_eq, compare_double_int_lt, compare_double_int_gt,
+    compare_double_int_le, compare_double_int_ge, compare_float_double_eq, compare_float_double_lt,
+    compare_float_double_gt, compare_float_double_le, compare_float_double_ge,
+    compare_double_float_eq, compare_double_float_lt, compare_double_float_gt,
+    compare_double_float_le, compare_double_float_ge, compare_int_float_eq, compare_int_float_lt,
+    compare_int_float_gt, compare_int_float_le, compare_int_float_ge, compare_float_int_eq,
+    compare_float_int_lt, compare_float_int_gt, compare_float_int_le, compare_float_int_ge,
     // Type casting functions
     cast_integer_to_float, cast_integer_to_double, cast_float_to_integer, cast_double_to_integer,
     cast_double_to_float,
