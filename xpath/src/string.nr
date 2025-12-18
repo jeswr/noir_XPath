@@ -2,11 +2,38 @@
 //!
 //! This module implements XPath 2.0 string functions.
 //! These functions are required by SPARQL 1.1 Query Language.
+//!
+//! ## Limitations
+//!
+//! **IMPORTANT**: Due to Noir's type system constraints, functions that need to create
+//! new strings from byte arrays (`substring`, `upper_case`, `lower_case`, `concat`, etc.)
+//! cannot work correctly at runtime. Noir doesn't provide a way to convert byte arrays
+//! back to strings.
+//!
+//! Functions that work correctly:
+//! - `string_length` - Returns the length as a number
+//! - `starts_with` - Returns boolean
+//! - `ends_with` - Returns boolean
+//! - `contains` - Returns boolean
+//!
+//! Functions with limitations (return placeholder strings):
+//! - `substring` - Cannot create actual substring
+//! - `upper_case` - Cannot create uppercase string
+//! - `lower_case` - Cannot create lowercase string
+//! - `concat` - Cannot create concatenated string
+//! - `substring_before` - Cannot create substring
+//! - `substring_after` - Cannot create substring
 
 /// Helper function to convert bytes to str
+///
+/// **WARNING**: This function does NOT work as intended due to Noir limitations.
+/// It returns a zero-initialized string as a placeholder.
+/// Noir doesn't support converting byte arrays to strings at runtime.
 fn bytes_to_str<let N: u32>(bytes: [u8; N]) -> str<N> {
-    // Safety: str<N> and [u8; N] have the same memory layout in Noir
-    unsafe { std::mem::transmute(bytes) }
+    // Create a comptime-known empty string of the right size
+    // This is a workaround - the actual bytes content cannot be transferred to the string
+    let result: str<N> = std::mem::zeroed();
+    result
 }
 
 /// fn:string-length - Returns the length of a string
@@ -121,32 +148,36 @@ pub fn ends_with<let N: u32, let M: u32>(s: str<N>, suffix: str<M>) -> bool {
 
 /// Helper function to find index of substring
 fn index_of<let N: u32, let M: u32>(s: str<N>, substring: str<M>) -> i64 {
-    if M > N {
-        return -1;
-    }
-    if M == 0 {
-        return 0;
-    }
+    let mut result: i64 = -1;
 
-    let s_bytes = s.as_bytes();
-    let sub_bytes = substring.as_bytes();
-    let mut found_index: i64 = -1;
+    // Handle edge cases without early return
+    let size_ok = M <= N;
+    let empty_substring = M == 0;
 
-    // Can't use break, so we iterate through all positions
-    for i in 0..(N - M + 1) {
-        let mut matches = true;
-        for j in 0..M {
-            if s_bytes[i + j] != sub_bytes[j] {
-                matches = false;
+    if empty_substring {
+        result = 0;
+    } else if size_ok {
+        let s_bytes = s.as_bytes();
+        let sub_bytes = substring.as_bytes();
+        let mut found_index: i64 = -1;
+
+        // Can't use break, so we iterate through all positions
+        for i in 0..(N - M + 1) {
+            let mut matches = true;
+            for j in 0..M {
+                if s_bytes[i + j] != sub_bytes[j] {
+                    matches = false;
+                }
+            }
+            // Only update if this is the first match
+            if matches & (found_index == -1) {
+                found_index = i as i64;
             }
         }
-        // Only update if this is the first match
-        if matches & (found_index == -1) {
-            found_index = i as i64;
-        }
+        result = found_index;
     }
 
-    found_index
+    result
 }
 
 /// fn:contains - Returns true if a string contains a given substring
@@ -160,7 +191,10 @@ pub fn contains<let N: u32, let M: u32>(s: str<N>, substring: str<M>) -> bool {
 /// XPath: fn:substring-before($arg1 as xs:string?, $arg2 as xs:string?) as xs:string
 /// SPARQL: STRBEFORE(?str, ?substring)
 /// Returns empty string if substring is not found
-pub fn substring_before<let N: u32, let M: u32, let R: u32>(s: str<N>, substring: str<M>) -> str<R> {
+pub fn substring_before<let N: u32, let M: u32, let R: u32>(
+    s: str<N>,
+    substring: str<M>,
+) -> str<R> {
     let index = index_of(s, substring);
 
     if index == -1 {
@@ -232,7 +266,11 @@ pub fn concat<let N: u32, let M: u32, let R: u32>(s1: str<N>, s2: str<M>) -> str
 }
 
 /// Concatenate three strings
-pub fn concat3<let N1: u32, let N2: u32, let N3: u32, let R: u32>(s1: str<N1>, s2: str<N2>, s3: str<N3>) -> str<R> {
+pub fn concat3<let N1: u32, let N2: u32, let N3: u32, let R: u32>(
+    s1: str<N1>,
+    s2: str<N2>,
+    s3: str<N3>,
+) -> str<R> {
     assert(R == N1 + N2 + N3, "Result size must equal sum of input sizes");
 
     let s1_bytes = s1.as_bytes();
