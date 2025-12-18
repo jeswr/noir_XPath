@@ -67,25 +67,25 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 
 | SPARQL Function | XPath Function | Status | Notes |
 |----------------|----------------|--------|-------|
-| abs | fn:abs | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| round | fn:round | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| ceil | fn:ceiling | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| floor | fn:floor | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
+| abs | fn:abs | ✅ | Implemented for integers and floats/doubles (via noir_IEEE754 v0.1.0) |
+| round | fn:round | ⚠️ | Implemented for integers; float rounding planned |
+| ceil | fn:ceiling | ⚠️ | Implemented for integers; float ceiling planned |
+| floor | fn:floor | ⚠️ | Implemented for integers; float floor planned |
 | RAND | - | ❌ | Not feasible in deterministic ZK context |
 
 ### Numeric Operators
 
 | Operator | XPath Operator | Status | Notes |
 |----------|----------------|--------|-------|
-| `+` (addition) | op:numeric-add | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `-` (subtraction) | op:numeric-subtract | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `*` (multiplication) | op:numeric-multiply | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `/` (division) | op:numeric-divide | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| unary `+` | op:numeric-unary-plus | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| unary `-` | op:numeric-unary-minus | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `=` (equal) | op:numeric-equal | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `<` (less than) | op:numeric-less-than | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `>` (greater than) | op:numeric-greater-than | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
+| `+` (addition) | op:numeric-add | ✅ | Implemented for integers, floats, and doubles (via noir_IEEE754 v0.1.0) |
+| `-` (subtraction) | op:numeric-subtract | ✅ | Implemented for integers, floats, and doubles (via noir_IEEE754 v0.1.0) |
+| `*` (multiplication) | op:numeric-multiply | ✅ | Implemented for integers, floats, and doubles (via noir_IEEE754 v0.1.0) |
+| `/` (division) | op:numeric-divide | ✅ | Implemented for integers, floats, and doubles (via noir_IEEE754 v0.1.0) |
+| unary `+` | op:numeric-unary-plus | ✅ | Implemented for integers |
+| unary `-` | op:numeric-unary-minus | ✅ | Implemented for integers |
+| `=` (equal) | op:numeric-equal | ✅ | Implemented for integers, floats, and doubles (via noir_IEEE754 v0.1.0) |
+| `<` (less than) | op:numeric-less-than | ✅ | Implemented for integers, floats, and doubles (via noir_IEEE754 v0.1.0) |
+| `>` (greater than) | op:numeric-greater-than | ✅ | Implemented for integers, floats, and doubles (via noir_IEEE754 v0.1.0) |
 
 ## 17.4.5 Functions on Dates and Times
 

@@ -293,7 +293,7 @@ See [scripts/README.md](./scripts/README.md) for details.
 
 ## Dependencies
 
-None currently. Float operations via [noir_IEEE754](https://github.com/jeswr/noir_IEEE754) planned for future integration.
+- **[noir_IEEE754](https://github.com/jeswr/noir_IEEE754)** (v0.1.0) - IEEE 754 floating-point arithmetic for float and double operations
 
 ## References
 
