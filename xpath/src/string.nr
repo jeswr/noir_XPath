@@ -20,14 +20,14 @@ pub fn string_length<N>(s: str<N>) -> u64 {
 pub fn substring<N, M>(s: str<N>, start: u64, length: u64) -> str<M> {
     assert(start + length <= N, "Substring out of bounds");
     assert(M == length, "Output length must match requested length");
-    
+
     let mut result_bytes = [0; M];
     let s_bytes = s.as_bytes();
-    
+
     for i in 0..M {
         result_bytes[i] = s_bytes[start + i];
     }
-    
+
     std::str::from_bytes(result_bytes)
 }
 
@@ -37,7 +37,7 @@ pub fn substring<N, M>(s: str<N>, start: u64, length: u64) -> str<M> {
 pub fn upper_case<N>(s: str<N>) -> str<N> {
     let s_bytes = s.as_bytes();
     let mut result_bytes = [0; N];
-    
+
     for i in 0..N {
         let byte = s_bytes[i];
         // Check if it's a lowercase letter (a-z: 97-122)
@@ -47,7 +47,7 @@ pub fn upper_case<N>(s: str<N>) -> str<N> {
             result_bytes[i] = byte;
         }
     }
-    
+
     std::str::from_bytes(result_bytes)
 }
 
@@ -57,7 +57,7 @@ pub fn upper_case<N>(s: str<N>) -> str<N> {
 pub fn lower_case<N>(s: str<N>) -> str<N> {
     let s_bytes = s.as_bytes();
     let mut result_bytes = [0; N];
-    
+
     for i in 0..N {
         let byte = s_bytes[i];
         // Check if it's an uppercase letter (A-Z: 65-90)
@@ -67,7 +67,7 @@ pub fn lower_case<N>(s: str<N>) -> str<N> {
             result_bytes[i] = byte;
         }
     }
-    
+
     std::str::from_bytes(result_bytes)
 }
 
@@ -81,13 +81,13 @@ pub fn starts_with<N, M>(s: str<N>, prefix: str<M>) -> bool {
         let s_bytes = s.as_bytes();
         let prefix_bytes = prefix.as_bytes();
         let mut matches = true;
-        
+
         for i in 0..M {
             if s_bytes[i] != prefix_bytes[i] {
                 matches = false;
             }
         }
-        
+
         matches
     }
 }
@@ -103,13 +103,13 @@ pub fn ends_with<N, M>(s: str<N>, suffix: str<M>) -> bool {
         let suffix_bytes = suffix.as_bytes();
         let start_pos = N - M;
         let mut matches = true;
-        
+
         for i in 0..M {
             if s_bytes[start_pos + i] != suffix_bytes[i] {
                 matches = false;
             }
         }
-        
+
         matches
     }
 }
@@ -127,7 +127,7 @@ pub fn contains<N, M>(s: str<N>, substring: str<M>) -> bool {
 /// Returns empty string if substring is not found
 pub fn substring_before<N, M, R>(s: str<N>, substring: str<M>) -> str<R> {
     let index = s.index_of(substring);
-    
+
     if index == -1 {
         // Substring not found, return empty string
         assert(R == 0, "Result size must be 0 when substring not found");
@@ -135,14 +135,14 @@ pub fn substring_before<N, M, R>(s: str<N>, substring: str<M>) -> str<R> {
     } else {
         let idx = index as u64;
         assert(R == idx, "Result size must match the index of substring");
-        
+
         let s_bytes = s.as_bytes();
         let mut result_bytes = [0; R];
-        
+
         for i in 0..R {
             result_bytes[i] = s_bytes[i];
         }
-        
+
         std::str::from_bytes(result_bytes)
     }
 }
@@ -153,7 +153,7 @@ pub fn substring_before<N, M, R>(s: str<N>, substring: str<M>) -> str<R> {
 /// Returns empty string if substring is not found
 pub fn substring_after<N, M, R>(s: str<N>, substring: str<M>) -> str<R> {
     let index = s.index_of(substring);
-    
+
     if index == -1 {
         // Substring not found, return empty string
         assert(R == 0, "Result size must be 0 when substring not found");
@@ -162,14 +162,14 @@ pub fn substring_after<N, M, R>(s: str<N>, substring: str<M>) -> str<R> {
         let start = (index as u64) + M;
         let len = N - start;
         assert(R == len, "Result size must match the remaining string length");
-        
+
         let s_bytes = s.as_bytes();
         let mut result_bytes = [0; R];
-        
+
         for i in 0..R {
             result_bytes[i] = s_bytes[start + i];
         }
-        
+
         std::str::from_bytes(result_bytes)
     }
 }
@@ -180,43 +180,43 @@ pub fn substring_after<N, M, R>(s: str<N>, substring: str<M>) -> str<R> {
 /// Note: This is a simplified version that concatenates exactly two strings
 pub fn concat<N, M, R>(s1: str<N>, s2: str<M>) -> str<R> {
     assert(R == N + M, "Result size must equal sum of input sizes");
-    
+
     let s1_bytes = s1.as_bytes();
     let s2_bytes = s2.as_bytes();
     let mut result_bytes = [0; R];
-    
+
     for i in 0..N {
         result_bytes[i] = s1_bytes[i];
     }
-    
+
     for i in 0..M {
         result_bytes[N + i] = s2_bytes[i];
     }
-    
+
     std::str::from_bytes(result_bytes)
 }
 
 /// Concatenate three strings
 pub fn concat3<N1, N2, N3, R>(s1: str<N1>, s2: str<N2>, s3: str<N3>) -> str<R> {
     assert(R == N1 + N2 + N3, "Result size must equal sum of input sizes");
-    
+
     let s1_bytes = s1.as_bytes();
     let s2_bytes = s2.as_bytes();
     let s3_bytes = s3.as_bytes();
     let mut result_bytes = [0; R];
-    
+
     for i in 0..N1 {
         result_bytes[i] = s1_bytes[i];
     }
-    
+
     for i in 0..N2 {
         result_bytes[N1 + i] = s2_bytes[i];
     }
-    
+
     for i in 0..N3 {
         result_bytes[N1 + N2 + i] = s3_bytes[i];
     }
-    
+
     std::str::from_bytes(result_bytes)
 }
 
@@ -232,7 +232,7 @@ fn test_substring() {
     let s = "Hello World";
     let result: str<5> = substring(s, 0, 5);
     assert(result == "Hello");
-    
+
     let result2: str<5> = substring(s, 6, 5);
     assert(result2 == "World");
 }
@@ -279,7 +279,7 @@ fn test_contains() {
 fn test_concat() {
     let result: str<10> = concat("Hello", "World");
     assert(result == "HelloWorld");
-    
+
     let result2: str<11> = concat("Hello", " World");
     assert(result2 == "Hello World");
 }
