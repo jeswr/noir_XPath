@@ -109,7 +109,7 @@ All implementable XPath 2.0 functions and operators needed by SPARQL 1.1 are now
 - Sequence operations (3 functions)
 - Comparison utilities (3 functions)
 
-**Total: 52+ implemented functions and operators**
+**Total: 80+ implemented functions and operators**
 
 ### Partial Coverage (⚠️)
 - Numeric operations: Integer-only (floats require noir_IEEE754)
@@ -236,7 +236,7 @@ Every function clearly marked as:
 
 The library now provides **comprehensive coverage of all implementable SPARQL 1.1 functions and operators**:
 
-✅ **52+ functions and operators fully implemented and tested**
+✅ **80+ functions and operators fully implemented and tested**
 
 📚 **Complete documentation** explaining what's supported, what's not, and why
 
