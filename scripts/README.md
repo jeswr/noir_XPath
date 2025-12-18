@@ -54,6 +54,13 @@ The script currently supports generating tests for:
 **Boolean Functions:**
 - `fn:not`, `op:boolean-equal`
 
+**Type Casting Functions:**
+- `xs:float-from-int`, `xs:double-from-int`
+- `xs:integer-from-float`, `xs:integer-from-double`
+- `xs:float-from-double`
+
+Note: Type casting functions are mapped in the script but tests from qt3tests cannot be auto-generated because they use cast expression syntax rather than function call syntax. Manual test packages have been created for these functions.
+
 ### Generated Test Structure
 
 For each function, the script generates a test package:
