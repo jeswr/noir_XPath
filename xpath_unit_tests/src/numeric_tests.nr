@@ -2,13 +2,14 @@
 
 use dep::xpath::{
     abs_int, cast_double_to_float, cast_double_to_integer, cast_float_to_integer,
-    cast_integer_to_double, cast_integer_to_float, ceil_int, floor_int, get_common_type, max_int,
-    min_int, numeric_add_double, numeric_add_float, numeric_add_int, numeric_divide_int,
-    numeric_equal_double, numeric_equal_float, numeric_equal_int, numeric_greater_than_double,
-    numeric_greater_than_float, numeric_greater_than_int, numeric_less_than_double,
-    numeric_less_than_float, numeric_less_than_int, numeric_mod_int, numeric_multiply_int,
-    numeric_subtract_int, numeric_unary_minus_int, numeric_unary_plus_int, NumericType, round_int,
-    XsdDouble, XsdFloat,
+    cast_integer_to_double, cast_integer_to_float, ceil_double, ceil_float, ceil_int, floor_double,
+    floor_float, floor_int, get_common_type, max_int, min_int, numeric_add_double,
+    numeric_add_float, numeric_add_int, numeric_divide_int, numeric_equal_double,
+    numeric_equal_float, numeric_equal_int, numeric_greater_than_double, numeric_greater_than_float,
+    numeric_greater_than_int, numeric_less_than_double, numeric_less_than_float,
+    numeric_less_than_int, numeric_mod_int, numeric_multiply_int, numeric_subtract_int,
+    numeric_unary_minus_int, numeric_unary_plus_int, NumericType, round_double, round_float,
+    round_int, XsdDouble, XsdFloat,
 };
 
 // ============================================================================
@@ -458,4 +459,151 @@ fn test_abs_edge_cases() {
     // Large values
     assert(abs_int(1000000000) == 1000000000);
     assert(abs_int(-1000000000) == 1000000000);
+}
+
+// ============================================================================
+// Float Rounding Function Tests
+// ============================================================================
+
+#[test]
+fn test_round_float() {
+    // Test positive values
+    let f1 = XsdFloat::from_bits(0x3F000000); // 0.5
+    let r1 = round_float(f1);
+    assert(r1.to_bits() == 0x3F800000); // 1.0
+
+    let f2 = XsdFloat::from_bits(0x3FC00000); // 1.5
+    let r2 = round_float(f2);
+    assert(r2.to_bits() == 0x40000000); // 2.0
+
+    // Test negative values
+    let f3 = XsdFloat::from_bits(0xBF000000); // -0.5
+    let r3 = round_float(f3);
+    assert(r3.to_bits() == 0xBF800000); // -1.0
+
+    // Test already integer
+    let f4 = XsdFloat::from_bits(0x40400000); // 3.0
+    let r4 = round_float(f4);
+    assert(r4.to_bits() == 0x40400000); // 3.0
+
+    // Test zero
+    let f5 = XsdFloat::from_bits(0x00000000); // 0.0
+    let r5 = round_float(f5);
+    assert(r5.to_bits() == 0x00000000); // 0.0
+}
+
+#[test]
+fn test_ceil_float() {
+    // Test positive fractional
+    let f1 = XsdFloat::from_bits(0x3F000000); // 0.5
+    let c1 = ceil_float(f1);
+    assert(c1.to_bits() == 0x3F800000); // 1.0
+
+    let f2 = XsdFloat::from_bits(0x3FC00000); // 1.5
+    let c2 = ceil_float(f2);
+    assert(c2.to_bits() == 0x40000000); // 2.0
+
+    // Test negative fractional (ceil rounds toward positive infinity)
+    let f3 = XsdFloat::from_bits(0xBF000000); // -0.5
+    let c3 = ceil_float(f3);
+    assert(c3.to_bits() == 0x80000000); // -0.0
+
+    // Test already integer
+    let f4 = XsdFloat::from_bits(0x40000000); // 2.0
+    let c4 = ceil_float(f4);
+    assert(c4.to_bits() == 0x40000000); // 2.0
+}
+
+#[test]
+fn test_floor_float() {
+    // Test positive fractional (floor rounds toward negative infinity)
+    let f1 = XsdFloat::from_bits(0x3FC00000); // 1.5
+    let fl1 = floor_float(f1);
+    assert(fl1.to_bits() == 0x3F800000); // 1.0
+
+    // Test negative fractional
+    let f2 = XsdFloat::from_bits(0xBF000000); // -0.5
+    let fl2 = floor_float(f2);
+    assert(fl2.to_bits() == 0xBF800000); // -1.0
+
+    // Test already integer
+    let f3 = XsdFloat::from_bits(0x40000000); // 2.0
+    let fl3 = floor_float(f3);
+    assert(fl3.to_bits() == 0x40000000); // 2.0
+
+    // Test positive small
+    let f4 = XsdFloat::from_bits(0x3F000000); // 0.5
+    let fl4 = floor_float(f4);
+    assert(fl4.to_bits() == 0x00000000); // 0.0
+}
+
+// ============================================================================
+// Double Rounding Function Tests
+// ============================================================================
+
+#[test]
+fn test_round_double() {
+    // Test positive values
+    let d1 = XsdDouble::from_bits(0x3FE0000000000000); // 0.5
+    let r1 = round_double(d1);
+    assert(r1.to_bits() == 0x3FF0000000000000); // 1.0
+
+    let d2 = XsdDouble::from_bits(0x3FF8000000000000); // 1.5
+    let r2 = round_double(d2);
+    assert(r2.to_bits() == 0x4000000000000000); // 2.0
+
+    // Test negative values
+    let d3 = XsdDouble::from_bits(0xBFE0000000000000); // -0.5
+    let r3 = round_double(d3);
+    assert(r3.to_bits() == 0xBFF0000000000000); // -1.0
+
+    // Test zero
+    let d4 = XsdDouble::from_bits(0x0000000000000000); // 0.0
+    let r4 = round_double(d4);
+    assert(r4.to_bits() == 0x0000000000000000); // 0.0
+}
+
+#[test]
+fn test_ceil_double() {
+    // Test positive fractional
+    let d1 = XsdDouble::from_bits(0x3FE0000000000000); // 0.5
+    let c1 = ceil_double(d1);
+    assert(c1.to_bits() == 0x3FF0000000000000); // 1.0
+
+    let d2 = XsdDouble::from_bits(0x3FF8000000000000); // 1.5
+    let c2 = ceil_double(d2);
+    assert(c2.to_bits() == 0x4000000000000000); // 2.0
+
+    // Test negative fractional
+    let d3 = XsdDouble::from_bits(0xBFE0000000000000); // -0.5
+    let c3 = ceil_double(d3);
+    assert(c3.to_bits() == 0x8000000000000000); // -0.0
+
+    // Test already integer
+    let d4 = XsdDouble::from_bits(0x4000000000000000); // 2.0
+    let c4 = ceil_double(d4);
+    assert(c4.to_bits() == 0x4000000000000000); // 2.0
+}
+
+#[test]
+fn test_floor_double() {
+    // Test positive fractional
+    let d1 = XsdDouble::from_bits(0x3FF8000000000000); // 1.5
+    let fl1 = floor_double(d1);
+    assert(fl1.to_bits() == 0x3FF0000000000000); // 1.0
+
+    // Test negative fractional
+    let d2 = XsdDouble::from_bits(0xBFE0000000000000); // -0.5
+    let fl2 = floor_double(d2);
+    assert(fl2.to_bits() == 0xBFF0000000000000); // -1.0
+
+    // Test already integer
+    let d3 = XsdDouble::from_bits(0x4000000000000000); // 2.0
+    let fl3 = floor_double(d3);
+    assert(fl3.to_bits() == 0x4000000000000000); // 2.0
+
+    // Test positive small
+    let d4 = XsdDouble::from_bits(0x3FE0000000000000); // 0.5
+    let fl4 = floor_double(d4);
+    assert(fl4.to_bits() == 0x0000000000000000); // 0.0
 }
