@@ -711,6 +711,108 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                 pass
         return None
     
+    # Handle fn:ceiling
+    if symbol == "ceiling" and noir_func == "ceil_int":
+        args = _get_function_args(token)
+        if len(args) >= 1:
+            try:
+                arg_val = args[0].evaluate()
+                if isinstance(arg_val, (int, float, Decimal)):
+                    val_int = int(arg_val)
+                    if not _fits_in_i64(val_int):
+                        return None
+                    return ("", f"ceil_int({val_int})", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle fn:floor
+    if symbol == "floor" and noir_func == "floor_int":
+        args = _get_function_args(token)
+        if len(args) >= 1:
+            try:
+                arg_val = args[0].evaluate()
+                if isinstance(arg_val, (int, float, Decimal)):
+                    val_int = int(arg_val)
+                    if not _fits_in_i64(val_int):
+                        return None
+                    return ("", f"floor_int({val_int})", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle fn:round
+    if symbol == "round" and noir_func == "round_int":
+        args = _get_function_args(token)
+        if len(args) >= 1:
+            try:
+                arg_val = args[0].evaluate()
+                if isinstance(arg_val, (int, float, Decimal)):
+                    val_int = int(arg_val)
+                    if not _fits_in_i64(val_int):
+                        return None
+                    return ("", f"round_int({val_int})", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle integer numeric comparison operators (eq, lt, gt)
+    int_cmp_ops = {
+        "eq": "numeric_equal_int",
+        "lt": "numeric_less_than_int",
+        "gt": "numeric_greater_than_int",
+        "=": "numeric_equal_int",
+        "<": "numeric_less_than_int",
+        ">": "numeric_greater_than_int",
+    }
+    
+    if symbol in int_cmp_ops and int_cmp_ops[symbol] == noir_func:
+        if len(token) >= 2:
+            try:
+                a = token[0].evaluate()
+                b = token[1].evaluate()
+                if isinstance(a, (int, float, Decimal)) and isinstance(b, (int, float, Decimal)):
+                    a_int, b_int = int(a), int(b)
+                    # Skip values outside i64 range
+                    if not _fits_in_i64(a_int) or not _fits_in_i64(b_int):
+                        return None
+                    return ("", f"{noir_func}({a_int}, {b_int})", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle op:boolean-equal
+    if symbol in ("eq", "=") and noir_func == "boolean_equal":
+        if len(token) >= 2:
+            try:
+                a = token[0].evaluate()
+                b = token[1].evaluate()
+                if isinstance(a, bool) and isinstance(b, bool):
+                    return ("", f"boolean_equal({str(a).lower()}, {str(b).lower()})", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle fn:timezone-from-dateTime
+    if symbol == "timezone-from-dateTime" and noir_func == "timezone_from_datetime":
+        args = _get_function_args(token)
+        if len(args) >= 1:
+            try:
+                dt_val = args[0].evaluate()
+                if isinstance(dt_val, DateTime10):
+                    result = _datetime_to_epoch(dt_val)
+                    if result is None:
+                        return None
+                    utc_micros, tz_offset = result
+                    # Skip dates before 1970 (negative epoch) - not supported
+                    if utc_micros < 0:
+                        return None
+                    setup = f"let dt = datetime_from_epoch_microseconds_with_tz({utc_micros}, {tz_offset});"
+                    return (setup, f"{noir_func}(dt)", None)
+            except Exception:
+                pass
+        return None
+    
     # Handle type casting expressions
     # xs:float(integer_expr), xs:double(integer_expr), xs:integer(float_expr), etc.
     cast_pattern = CAST_FUNCTION_PATTERNS.get(function_name)
@@ -740,7 +842,8 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         arg_val = arg_token.evaluate()
                         if isinstance(arg_val, (int, Decimal)):
                             val_int = int(arg_val)
-                            if not _fits_in_i64(val_int):
+                            # Only accept i8 range (-127 to 127) for casts to float/double
+                            if val_int < -127 or val_int > 127:
                                 return None
                             return ("", f"{noir_func}({val_int})", None)
                         elif isinstance(arg_val, float):
