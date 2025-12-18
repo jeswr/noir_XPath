@@ -1,7 +1,8 @@
 //! Additional tests for boolean operations
 
 use dep::xpath::{
-    boolean_equal, boolean_greater_than, boolean_less_than, fn_not, logical_and, logical_or,
+    boolean_equal, boolean_ge, boolean_greater_than, boolean_le, boolean_less_than, fn_not,
+    logical_and, logical_or,
 };
 
 // ============================================================================
@@ -103,4 +104,64 @@ fn test_boolean_greater_than_all_combinations() {
     assert(results[1] == false);
     assert(results[2] == true);
     assert(results[3] == false);
+}
+
+// ============================================================================
+// Tests for new comparison operators (<=, >=)
+// ============================================================================
+
+#[test]
+fn test_boolean_le() {
+    // false <= false -> true
+    assert(boolean_le(false, false) == true);
+    // false <= true -> true (false < true)
+    assert(boolean_le(false, true) == true);
+    // true <= false -> false
+    assert(boolean_le(true, false) == false);
+    // true <= true -> true
+    assert(boolean_le(true, true) == true);
+}
+
+#[test]
+fn test_boolean_ge() {
+    // false >= false -> true
+    assert(boolean_ge(false, false) == true);
+    // false >= true -> false
+    assert(boolean_ge(false, true) == false);
+    // true >= false -> true (true > false)
+    assert(boolean_ge(true, false) == true);
+    // true >= true -> true
+    assert(boolean_ge(true, true) == true);
+}
+
+#[test]
+fn test_boolean_le_all_combinations() {
+    // Truth table for boolean_le (a <= b)
+    let results = [
+        boolean_le(false, false), // true
+        boolean_le(false, true), // true
+        boolean_le(true, false), // false
+        boolean_le(true, true), // true
+    ];
+
+    assert(results[0] == true);
+    assert(results[1] == true);
+    assert(results[2] == false);
+    assert(results[3] == true);
+}
+
+#[test]
+fn test_boolean_ge_all_combinations() {
+    // Truth table for boolean_ge (a >= b)
+    let results = [
+        boolean_ge(false, false), // true
+        boolean_ge(false, true), // false
+        boolean_ge(true, false), // true
+        boolean_ge(true, true), // true
+    ];
+
+    assert(results[0] == true);
+    assert(results[1] == false);
+    assert(results[2] == true);
+    assert(results[3] == true);
 }

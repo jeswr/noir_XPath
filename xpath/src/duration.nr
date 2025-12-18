@@ -205,6 +205,16 @@ pub fn duration_greater_than(a: XsdDayTimeDuration, b: XsdDayTimeDuration) -> bo
     a.to_signed_micros() > b.to_signed_micros()
 }
 
+/// op:dayTimeDuration-less-than-or-equal
+pub fn duration_le(a: XsdDayTimeDuration, b: XsdDayTimeDuration) -> bool {
+    a.to_signed_micros() <= b.to_signed_micros()
+}
+
+/// op:dayTimeDuration-greater-than-or-equal
+pub fn duration_ge(a: XsdDayTimeDuration, b: XsdDayTimeDuration) -> bool {
+    a.to_signed_micros() >= b.to_signed_micros()
+}
+
 // ============================================================================
 // Tests
 // ============================================================================

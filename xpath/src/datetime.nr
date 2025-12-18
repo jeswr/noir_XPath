@@ -216,6 +216,22 @@ pub fn datetime_greater_than(a: XsdDateTime, b: XsdDateTime) -> bool {
     a_micros > b_micros
 }
 
+/// op:dateTime-less-than-or-equal
+/// Returns true if the first dateTime is earlier than or equal to the second.
+pub fn datetime_le(a: XsdDateTime, b: XsdDateTime) -> bool {
+    let a_micros: u64 = a.epoch_microseconds as u64;
+    let b_micros: u64 = b.epoch_microseconds as u64;
+    a_micros <= b_micros
+}
+
+/// op:dateTime-greater-than-or-equal
+/// Returns true if the first dateTime is later than or equal to the second.
+pub fn datetime_ge(a: XsdDateTime, b: XsdDateTime) -> bool {
+    let a_micros: u64 = a.epoch_microseconds as u64;
+    let b_micros: u64 = b.epoch_microseconds as u64;
+    a_micros >= b_micros
+}
+
 // ============================================================================
 // Internal Calendar Functions
 // ============================================================================
