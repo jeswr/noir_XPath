@@ -39,17 +39,54 @@ fn bytes_to_str<let N: u32>(bytes: [u8; N]) -> str<N> {
 /// fn:string-length - Returns the length of a string
 /// XPath: fn:string-length($arg as xs:string?) as xs:integer
 /// SPARQL: STRLEN(?str)
+///
+/// For fixed-size strings in Noir, this returns the actual length by counting
+/// non-null bytes. If your strings always fill their capacity (no trailing nulls),
+/// this will equal N.
 pub fn string_length<let N: u32>(s: str<N>) -> u64 {
-    N as u64
+    let s_bytes = s.as_bytes();
+    let mut len: u64 = 0;
+    let mut ended = false;
+
+    for i in 0..N {
+        let byte = s_bytes[i];
+        let is_zero = byte == 0;
+        let increment = (!ended) & (!is_zero);
+        len = len + (increment as u64);
+        ended = ended | is_zero;
+    }
+
+    len
 }
 
 /// fn:substring - Returns a substring starting at a given position
 /// XPath: fn:substring($sourceString as xs:string?, $start as xs:double) as xs:string
 /// XPath: fn:substring($sourceString as xs:string?, $start as xs:double, $length as xs:double) as xs:string
 /// SPARQL: SUBSTR(?str, start) or SUBSTR(?str, start, length)
-/// Note: XPath uses 1-based indexing, but we use 0-based for simplicity in Noir
+///
+/// **WARNING - Non-standard indexing**:
+/// This implementation uses **0-based** indexing for the `start` position, unlike
+/// XPath 2.0 `fn:substring` (and SPARQL `SUBSTR`), which use **1-based** indexing.
+/// As a result, this function is **not XPath-compliant** and porting XPath/SPARQL
+/// expressions that rely on `fn:substring`/`SUBSTR` semantics may produce different
+/// results.
+///
+/// - `start` is interpreted as a 0-based byte offset into `s` (first byte is `start = 0`)
+/// - `length` is the number of bytes to include in the result
+///
+/// Example (conceptual, ignoring Noir string-conversion limitations):
+/// - In this implementation: `substring("abc", 0, 1)` targets `"a"`
+/// - In XPath 2.0: `fn:substring("abc", 1, 1)` targets `"a"`
+///
+/// See the module-level **Limitations** section for additional constraints on
+/// string construction in Noir.
+///
+/// **WARNING - Non-functional due to Noir limitations**:
+/// This function returns a zero-initialized placeholder string and cannot produce
+/// correct results. See module documentation for details.
 pub fn substring<let N: u32, let M: u32>(s: str<N>, start: u64, length: u64) -> str<M> {
-    assert(start + length <= N as u64, "Substring out of bounds");
+    assert(length <= N as u64, "Substring length out of bounds");
+    assert(start <= N as u64 - length, "Substring out of bounds");
     assert(M as u64 == length, "Output length must match requested length");
 
     let mut result_bytes = [0; M];
@@ -147,6 +184,10 @@ pub fn ends_with<let N: u32, let M: u32>(s: str<N>, suffix: str<M>) -> bool {
 }
 
 /// Helper function to find index of substring
+///
+/// **Performance Note**: This function has O(N*M) time complexity and, due to Noir's
+/// lack of early return/break, continues checking all positions even after finding a
+/// match. For large strings, this could significantly impact proof generation time.
 fn index_of<let N: u32, let M: u32>(s: str<N>, substring: str<M>) -> i64 {
     let mut result: i64 = -1;
 

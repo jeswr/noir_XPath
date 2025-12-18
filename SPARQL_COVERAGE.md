@@ -49,16 +49,16 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 | SPARQL Function | XPath Function | Status | Notes |
 |----------------|----------------|--------|-------|
 | STRLEN | fn:string-length | ✅ | Implemented as `string_length` |
-| SUBSTR | fn:substring | ✅ | Implemented as `substring` |
-| UCASE | fn:upper-case | ✅ | Implemented as `upper_case` |
-| LCASE | fn:lower-case | ✅ | Implemented as `lower_case` |
+| SUBSTR | fn:substring | ⚠️ | Implemented as `substring` but currently returns zero-initialized placeholder strings due to Noir string limitations |
+| UCASE | fn:upper-case | ⚠️ | Implemented as `upper_case` but currently returns zero-initialized placeholder strings due to Noir string limitations |
+| LCASE | fn:lower-case | ⚠️ | Implemented as `lower_case` but currently returns zero-initialized placeholder strings due to Noir string limitations |
 | STRSTARTS | fn:starts-with | ✅ | Implemented as `starts_with` |
 | STRENDS | fn:ends-with | ✅ | Implemented as `ends_with` |
 | CONTAINS | fn:contains | ✅ | Implemented as `contains` |
-| STRBEFORE | fn:substring-before | ✅ | Implemented as `substring_before` |
-| STRAFTER | fn:substring-after | ✅ | Implemented as `substring_after` |
+| STRBEFORE | fn:substring-before | ⚠️ | Implemented as `substring_before` but currently returns zero-initialized placeholder strings due to Noir string limitations |
+| STRAFTER | fn:substring-after | ⚠️ | Implemented as `substring_after` but currently returns zero-initialized placeholder strings due to Noir string limitations |
 | ENCODE_FOR_URI | fn:encode-for-uri | 🔮 | Deferred - requires URI encoding logic |
-| CONCAT | fn:concat | ✅ | Implemented as `concat` (2 args) and `concat3` (3 args) |
+| CONCAT | fn:concat | ⚠️ | Implemented as `concat` (2 args) and `concat3` (3 args) but currently return zero-initialized placeholder strings due to Noir string limitations |
 | langMatches | fn:lang-matches | 🔮 | Deferred - language matching complex |
 | REGEX | fn:matches | 🔮 | Deferred - regex complex in ZK |
 | REPLACE | fn:replace | 🔮 | Deferred - regex complex in ZK |

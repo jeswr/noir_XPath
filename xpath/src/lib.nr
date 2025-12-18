@@ -83,8 +83,7 @@ pub use sequence::{
 // Re-export comparison functions
 pub use comparison::{value_equal, value_greater_than, value_less_than};
 
-// Re-export string functions
-pub use string::{
-    concat, concat3, contains, ends_with, lower_case, starts_with, string_length, substring,
-    substring_after, substring_before, upper_case,
-};
+// Re-export only functional string functions
+// Note: Functions that return strings (substring, upper_case, lower_case, concat, etc.)
+// are not exported as they cannot work correctly due to Noir's byte-to-string limitation
+pub use string::{contains, ends_with, starts_with, string_length};

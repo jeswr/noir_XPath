@@ -81,7 +81,8 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
 This library implements XPath 2.0 functions and operators required by SPARQL 1.1. 
 
 **Quick Summary:**
-- ✅ **62+ functions fully implemented** (boolean, integer numeric, datetime, duration, string, aggregates)
+- ✅ **56+ functions fully implemented** (boolean, integer numeric, datetime, duration, aggregates)
+- ⚠️ **String operations partial** (4 functions work: string-length, starts-with, ends-with, contains)
 - ⚠️ **Float support partial** (requires noir_IEEE754 integration)
 - 🔮 **Regex/hash deferred** (complex in ZK circuits)
 - ❌ **RAND/NOW not feasible** (non-deterministic in ZK)
@@ -91,7 +92,7 @@ For complete function mapping, see **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)*
 ### ✅ Fully Implemented
 - **Boolean operations**: All boolean functions and operators (fn:not, logical-and, logical-or, comparisons)
 - **Integer numeric operations**: All arithmetic and comparison operators for integers
-- **String operations**: Core string functions (string-length, substring, upper-case, lower-case, starts-with, ends-with, contains, substring-before, substring-after, concat)
+- **String operations (partial)**: Functions returning boolean/numeric values work correctly (string-length, starts-with, ends-with, contains); functions returning strings have severe limitations due to Noir constraints
 - **DateTime operations**: Component extraction (year, month, day, hours, minutes, seconds, timezone), comparisons, and arithmetic
 - **Duration operations**: All dayTimeDuration operations including arithmetic and comparisons
 - **Aggregate functions**: COUNT, SUM, AVG, MIN, MAX for integer sequences
@@ -139,48 +140,23 @@ fn example() {
 ```noir
 use dep::xpath::{
     string_length,
-    substring,
-    upper_case,
-    lower_case,
     starts_with,
     ends_with,
     contains,
-    substring_before,
-    substring_after,
-    concat,
-    concat3,
 };
 
 fn example() {
-    // String length
-    assert(string_length("Hello") == 5);
+    let s: str<11> = "Hello World";
     
-    // Substring extraction
-    let s = "Hello World";
-    let hello: str<5> = substring(s, 0, 5);
-    assert(hello == "Hello");
-    
-    // Case conversion
-    assert(upper_case("hello") == "HELLO");
-    assert(lower_case("WORLD") == "world");
-    
-    // String searching
-    assert(starts_with("Hello World", "Hello"));
-    assert(ends_with("Hello World", "World"));
-    assert(contains("Hello World", "lo Wo"));
-    
-    // Substring extraction by delimiter
-    let before: str<6> = substring_before("Hello World", "World");
-    assert(before == "Hello ");
-    
-    let after: str<5> = substring_after("Hello World", "Hello ");
-    assert(after == "World");
-    
-    // String concatenation
-    let result: str<11> = concat3("Hello", " ", "World");
-    assert(result == "Hello World");
+    // These functions work correctly (return boolean/numeric values):
+    assert(string_length::<11>(s) == 11);
+    assert(starts_with::<11, 5>(s, "Hello"));
+    assert(ends_with::<11, 5>(s, "World"));
+    assert(contains::<11, 5>(s, "lo Wo"));
 }
 ```
+
+**Note**: Functions that need to create new strings (substring, upper_case, lower_case, concat, etc.) are not exported in the public API due to Noir's limitation in converting byte arrays back to strings at runtime. Only functions returning boolean or numeric values are available.
 
 ### Numeric Operations
 
@@ -348,7 +324,6 @@ See [scripts/README.md](./scripts/README.md) for details.
 ## Dependencies
 
 - [noir_IEEE754](https://github.com/jeswr/noir_IEEE754) - IEEE 754 floating-point operations
-- [noir-string-utils](https://github.com/madztheo/noir-string-utils) - String manipulation utilities
 
 ## References
 
