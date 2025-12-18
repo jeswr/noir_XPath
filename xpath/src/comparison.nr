@@ -3,17 +3,26 @@
 //! Provides generic comparison functions for values.
 
 /// Generic value equality using the Eq trait
-pub fn value_equal<T>(a: T, b: T) -> bool where T: Eq {
+pub fn value_equal<T>(a: T, b: T) -> bool
+where
+    T: Eq,
+{
     a == b
 }
 
 /// Generic value less-than using the Ord trait
-pub fn value_less_than<T>(a: T, b: T) -> bool where T: Ord {
+pub fn value_less_than<T>(a: T, b: T) -> bool
+where
+    T: Ord,
+{
     a < b
 }
 
 /// Generic value greater-than using the Ord trait
-pub fn value_greater_than<T>(a: T, b: T) -> bool where T: Ord {
+pub fn value_greater_than<T>(a: T, b: T) -> bool
+where
+    T: Ord,
+{
     a > b
 }
 

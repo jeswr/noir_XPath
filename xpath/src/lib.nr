@@ -18,149 +18,66 @@ pub use types::{XsdDateTime, XsdDayTimeDuration};
 
 // Re-export boolean functions
 pub use boolean::{
-    fn_not,
-    logical_and,
-    logical_or,
-    boolean_equal,
-    boolean_less_than,
-    boolean_greater_than,
+    boolean_equal, boolean_greater_than, boolean_less_than, fn_not, logical_and, logical_or,
 };
 
 // Re-export numeric functions (integer only for now)
 pub use numeric::{
-    numeric_add_int,
-    numeric_subtract_int,
-    numeric_multiply_int,
-    numeric_divide_int,
-    numeric_mod_int,
-    numeric_unary_plus_int,
-    numeric_unary_minus_int,
-    numeric_equal_int,
-    numeric_less_than_int,
-    numeric_greater_than_int,
-    abs_int,
+    abs_int, ceil_int, floor_int, max_int, min_int, numeric_add_int, numeric_divide_int,
+    numeric_equal_int, numeric_greater_than_int, numeric_less_than_int, numeric_mod_int,
+    numeric_multiply_int, numeric_subtract_int, numeric_unary_minus_int, numeric_unary_plus_int,
     round_int,
-    ceil_int,
-    floor_int,
-    min_int,
-    max_int,
 };
 
 // Re-export float/double types and operations (IEEE 754 compliant)
 pub use numeric_types::{
-    NumericType,
-    XsdFloat,
-    XsdDouble,
-    get_common_type,
+    NumericType, XsdFloat, XsdDouble, get_common_type,
     // Float comparisons
-    numeric_equal_float,
-    numeric_less_than_float,
-    numeric_greater_than_float,
-    numeric_le_float,
+    numeric_equal_float, numeric_less_than_float, numeric_greater_than_float, numeric_le_float,
     numeric_ge_float,
     // Double comparisons
-    numeric_equal_double,
-    numeric_less_than_double,
-    numeric_greater_than_double,
-    numeric_le_double,
+    numeric_equal_double, numeric_less_than_double, numeric_greater_than_double, numeric_le_double,
     numeric_ge_double,
     // Float arithmetic
-    numeric_add_float,
-    numeric_subtract_float,
-    numeric_multiply_float,
-    numeric_divide_float,
+    numeric_add_float, numeric_subtract_float, numeric_multiply_float, numeric_divide_float,
     abs_float,
     // Double arithmetic
-    numeric_add_double,
-    numeric_subtract_double,
-    numeric_multiply_double,
-    numeric_divide_double,
+    numeric_add_double, numeric_subtract_double, numeric_multiply_double, numeric_divide_double,
     abs_double,
     // Mixed type comparisons
-    compare_int_double_eq,
-    compare_int_double_lt,
-    compare_int_double_gt,
-    compare_double_int_eq,
-    compare_double_int_lt,
-    compare_double_int_gt,
-    compare_float_double_eq,
-    compare_float_double_lt,
+    compare_int_double_eq, compare_int_double_lt, compare_int_double_gt, compare_double_int_eq,
+    compare_double_int_lt, compare_double_int_gt, compare_float_double_eq, compare_float_double_lt,
     compare_float_double_gt,
     // Type casting functions
-    cast_integer_to_float,
-    cast_integer_to_double,
-    cast_float_to_integer,
-    cast_double_to_integer,
+    cast_integer_to_float, cast_integer_to_double, cast_float_to_integer, cast_double_to_integer,
     cast_double_to_float,
 };
 
 // Re-export datetime functions
 pub use datetime::{
-    datetime_from_epoch_microseconds,
-    datetime_from_epoch_microseconds_with_tz,
-    datetime_from_components,
-    datetime_from_components_with_tz,
-    datetime_to_epoch_microseconds,
-    datetime_timezone_offset,
-    timezone_from_datetime,
-    year_from_datetime,
-    month_from_datetime,
-    day_from_datetime,
-    hours_from_datetime,
-    minutes_from_datetime,
-    seconds_from_datetime,
-    microseconds_from_datetime,
-    datetime_equal,
-    datetime_less_than,
-    datetime_greater_than,
+    datetime_equal, datetime_from_components, datetime_from_components_with_tz,
+    datetime_from_epoch_microseconds, datetime_from_epoch_microseconds_with_tz,
+    datetime_greater_than, datetime_less_than, datetime_timezone_offset,
+    datetime_to_epoch_microseconds, day_from_datetime, hours_from_datetime,
+    microseconds_from_datetime, minutes_from_datetime, month_from_datetime, seconds_from_datetime,
+    timezone_from_datetime, year_from_datetime,
 };
 
 // Re-export duration functions
 pub use duration::{
-    duration_from_microseconds,
-    duration_from_components,
-    duration_zero,
-    duration_to_microseconds,
-    duration_is_negative,
-    days_from_duration,
-    hours_from_duration,
-    minutes_from_duration,
+    datetime_add_duration, datetime_difference, datetime_subtract_duration, days_from_duration,
+    duration_add, duration_divide, duration_divide_by_duration, duration_equal,
+    duration_from_components, duration_from_microseconds, duration_greater_than,
+    duration_is_negative, duration_less_than, duration_multiply, duration_negate, duration_subtract,
+    duration_to_microseconds, duration_zero, hours_from_duration, minutes_from_duration,
     seconds_from_duration,
-    duration_add,
-    duration_subtract,
-    duration_multiply,
-    duration_divide,
-    duration_divide_by_duration,
-    duration_negate,
-    datetime_add_duration,
-    datetime_subtract_duration,
-    datetime_difference,
-    duration_equal,
-    duration_less_than,
-    duration_greater_than,
 };
 
 // Re-export sequence/aggregate functions
 pub use sequence::{
-    is_empty,
-    exists,
-    count,
-    sum_int,
-    avg_int,
-    min_int_seq,
-    max_int_seq,
-    sum_int_partial,
-    avg_int_partial,
-    min_int_partial,
-    max_int_partial,
-    all_true,
-    any_true,
-    count_true,
+    all_true, any_true, avg_int, avg_int_partial, count, count_true, exists, is_empty,
+    max_int_partial, max_int_seq, min_int_partial, min_int_seq, sum_int, sum_int_partial,
 };
 
 // Re-export comparison functions
-pub use comparison::{
-    value_equal,
-    value_less_than,
-    value_greater_than,
-};
+pub use comparison::{value_equal, value_greater_than, value_less_than};

@@ -81,7 +81,11 @@ impl XsdDayTimeDuration {
     /// Convert to signed microseconds (i64)
     pub fn to_signed_micros(self) -> i64 {
         let abs_micros: i64 = self.microseconds as i64;
-        if self.negative { -abs_micros } else { abs_micros }
+        if self.negative {
+            -abs_micros
+        } else {
+            abs_micros
+        }
     }
 }
 

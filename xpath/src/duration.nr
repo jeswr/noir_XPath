@@ -44,14 +44,14 @@ pub fn duration_from_components(
     hours: u32,
     minutes: u32,
     seconds: u32,
-    microseconds: u32
+    microseconds: u32,
 ) -> XsdDayTimeDuration {
     let total: i64 = (days as i64) * MICROS_PER_DAY
         + (hours as i64) * MICROS_PER_HOUR
         + (minutes as i64) * MICROS_PER_MINUTE
         + (seconds as i64) * MICROS_PER_SECOND
         + microseconds as i64;
-    
+
     let signed_total = if negative { -total } else { total };
     XsdDayTimeDuration::from_signed_micros(signed_total)
 }
@@ -231,22 +231,22 @@ fn test_duration_negative() {
 fn test_duration_arithmetic() {
     let d1 = duration_from_components(false, 1, 0, 0, 0, 0); // 1 day
     let d2 = duration_from_components(false, 0, 12, 0, 0, 0); // 12 hours
-    
+
     // Add: 1 day + 12 hours = 1.5 days
     let sum = duration_add(d1, d2);
     assert(days_from_duration(sum) == 1);
     assert(hours_from_duration(sum) == 12);
-    
+
     // Subtract: 1 day - 12 hours = 12 hours
     let diff = duration_subtract(d1, d2);
     assert(days_from_duration(diff) == 0);
     assert(hours_from_duration(diff) == 12);
-    
+
     // Multiply: 12 hours * 2 = 1 day
     let product = duration_multiply(d2, 2);
     assert(days_from_duration(product) == 1);
     assert(hours_from_duration(product) == 0);
-    
+
     // Divide: 1 day / 2 = 12 hours
     let quotient = duration_divide(d1, 2);
     assert(days_from_duration(quotient) == 0);
@@ -258,12 +258,12 @@ fn test_datetime_duration_arithmetic() {
     // Start at Unix epoch
     let dt = XsdDateTime::new(0);
     let one_day = duration_from_components(false, 1, 0, 0, 0, 0);
-    
+
     // Add one day
     let dt_plus = datetime_add_duration(dt, one_day);
     let expected_micros: Field = 86_400_000_000;
     assert(dt_plus.epoch_microseconds == expected_micros);
-    
+
     // Subtract back
     let dt_back = datetime_subtract_duration(dt_plus, one_day);
     assert(dt_back.epoch_microseconds == 0);
@@ -274,11 +274,11 @@ fn test_datetime_difference() {
     let dt1 = XsdDateTime::new(0);
     let dt2_micros: Field = 86_400_000_000; // 1 day in microseconds
     let dt2 = XsdDateTime::new(dt2_micros);
-    
+
     let diff = datetime_difference(dt2, dt1);
     assert(days_from_duration(diff) == 1);
     assert(duration_is_negative(diff) == false);
-    
+
     let diff_neg = datetime_difference(dt1, dt2);
     assert(days_from_duration(diff_neg) == 1);
     assert(duration_is_negative(diff_neg) == true);
@@ -289,13 +289,13 @@ fn test_duration_comparison() {
     let d1 = duration_from_components(false, 1, 0, 0, 0, 0);
     let d2 = duration_from_components(false, 2, 0, 0, 0, 0);
     let d3 = duration_from_components(false, 1, 0, 0, 0, 0);
-    
+
     assert(duration_equal(d1, d3) == true);
     assert(duration_equal(d1, d2) == false);
-    
+
     assert(duration_less_than(d1, d2) == true);
     assert(duration_less_than(d2, d1) == false);
-    
+
     assert(duration_greater_than(d2, d1) == true);
     assert(duration_greater_than(d1, d2) == false);
 }

@@ -65,7 +65,11 @@ pub fn numeric_greater_than_int(a: i64, b: i64) -> bool {
 /// fn:abs for integers
 /// Returns the absolute value
 pub fn abs_int(a: i64) -> i64 {
-    if a < 0 { -a } else { a }
+    if a < 0 {
+        -a
+    } else {
+        a
+    }
 }
 
 /// op:numeric-mod for integers
@@ -81,7 +85,7 @@ pub fn round_int(a: i64) -> i64 {
     a
 }
 
-/// fn:ceiling for integers  
+/// fn:ceiling for integers
 /// Returns the value unchanged (identity operation for integers)
 pub fn ceil_int(a: i64) -> i64 {
     a
@@ -95,11 +99,18 @@ pub fn floor_int(a: i64) -> i64 {
 
 /// Minimum of two integers
 pub fn min_int(a: i64, b: i64) -> i64 {
-    if a < b { a } else { b }
+    if a < b {
+        a
+    } else {
+        b
+    }
 }
 
 /// Maximum of two integers
 pub fn max_int(a: i64, b: i64) -> i64 {
-    if a > b { a } else { b }
+    if a > b {
+        a
+    } else {
+        b
+    }
 }
-

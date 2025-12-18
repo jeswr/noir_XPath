@@ -1,39 +1,14 @@
 //! Additional tests for numeric operations
 
 use dep::xpath::{
-    numeric_add_int,
-    numeric_subtract_int,
-    numeric_multiply_int,
-    numeric_divide_int,
-    numeric_equal_int,
-    numeric_less_than_int,
-    numeric_greater_than_int,
-    numeric_unary_plus_int,
-    numeric_unary_minus_int,
-    numeric_mod_int,
-    abs_int,
-    round_int,
-    ceil_int,
-    floor_int,
-    min_int,
-    max_int,
-    NumericType,
-    get_common_type,
-    XsdFloat,
-    XsdDouble,
-    numeric_add_float,
-    numeric_equal_float,
-    numeric_less_than_float,
-    numeric_greater_than_float,
-    numeric_add_double,
-    numeric_equal_double,
-    numeric_less_than_double,
-    numeric_greater_than_double,
-    cast_integer_to_float,
-    cast_integer_to_double,
-    cast_float_to_integer,
-    cast_double_to_integer,
-    cast_double_to_float,
+    abs_int, cast_double_to_float, cast_double_to_integer, cast_float_to_integer,
+    cast_integer_to_double, cast_integer_to_float, ceil_int, floor_int, get_common_type, max_int,
+    min_int, numeric_add_double, numeric_add_float, numeric_add_int, numeric_divide_int,
+    numeric_equal_double, numeric_equal_float, numeric_equal_int, numeric_greater_than_double,
+    numeric_greater_than_float, numeric_greater_than_int, numeric_less_than_double,
+    numeric_less_than_float, numeric_less_than_int, numeric_mod_int, numeric_multiply_int,
+    numeric_subtract_int, numeric_unary_minus_int, numeric_unary_plus_int, NumericType, round_int,
+    XsdDouble, XsdFloat,
 };
 
 // ============================================================================
@@ -66,7 +41,7 @@ fn test_numeric_multiply_int() {
 #[test]
 fn test_numeric_divide_int() {
     assert(numeric_divide_int(6, 3) == 2);
-    assert(numeric_divide_int(7, 3) == 2);  // Integer division truncates
+    assert(numeric_divide_int(7, 3) == 2); // Integer division truncates
     assert(numeric_divide_int(-6, 3) == -2);
 }
 
@@ -155,13 +130,13 @@ fn test_numeric_type_constructors() {
 fn test_get_common_type() {
     // Integer + Integer = Integer
     assert(get_common_type(NumericType::integer(), NumericType::integer()).is_integer());
-    
+
     // Integer + Decimal = Decimal
     assert(get_common_type(NumericType::integer(), NumericType::decimal()).is_decimal());
-    
+
     // Float + Integer = Double (promoted)
     assert(get_common_type(NumericType::float(), NumericType::integer()).is_double());
-    
+
     // Double + anything = Double
     assert(get_common_type(NumericType::double(), NumericType::integer()).is_double());
     assert(get_common_type(NumericType::double(), NumericType::float()).is_double());
@@ -171,7 +146,7 @@ fn test_get_common_type() {
 fn test_float_zero() {
     let zero = XsdFloat::zero();
     let neg_zero = XsdFloat::neg_zero();
-    
+
     // +0 == -0 per IEEE 754
     assert(numeric_equal_float(zero, neg_zero));
 }
@@ -179,7 +154,7 @@ fn test_float_zero() {
 #[test]
 fn test_float_nan() {
     let nan = XsdFloat::nan();
-    
+
     // NaN != NaN per IEEE 754
     assert(!numeric_equal_float(nan, nan));
     assert(!numeric_less_than_float(nan, nan));
@@ -191,7 +166,7 @@ fn test_float_infinity() {
     let inf = XsdFloat::infinity();
     let neg_inf = XsdFloat::neg_infinity();
     let one = XsdFloat::from_bits(0x3F800000); // 1.0f
-    
+
     assert(numeric_less_than_float(neg_inf, one));
     assert(numeric_less_than_float(one, inf));
     assert(numeric_greater_than_float(inf, neg_inf));
@@ -201,7 +176,7 @@ fn test_float_infinity() {
 fn test_double_zero() {
     let zero = XsdDouble::zero();
     let neg_zero = XsdDouble::neg_zero();
-    
+
     // +0 == -0 per IEEE 754
     assert(numeric_equal_double(zero, neg_zero));
 }
@@ -209,7 +184,7 @@ fn test_double_zero() {
 #[test]
 fn test_double_nan() {
     let nan = XsdDouble::nan();
-    
+
     // NaN != NaN per IEEE 754
     assert(!numeric_equal_double(nan, nan));
     assert(!numeric_less_than_double(nan, nan));
@@ -219,10 +194,10 @@ fn test_double_nan() {
 #[test]
 fn test_float_arithmetic() {
     // Use known bit patterns for 2.0 and 3.0
-    let two = XsdFloat::from_bits(0x40000000);   // 2.0f
+    let two = XsdFloat::from_bits(0x40000000); // 2.0f
     let three = XsdFloat::from_bits(0x40400000); // 3.0f
-    let five = XsdFloat::from_bits(0x40A00000);  // 5.0f
-    
+    let five = XsdFloat::from_bits(0x40A00000); // 5.0f
+
     let sum = numeric_add_float(two, three);
     assert(numeric_equal_float(sum, five));
 }
@@ -230,10 +205,10 @@ fn test_float_arithmetic() {
 #[test]
 fn test_double_arithmetic() {
     // Use known bit patterns for 2.0 and 3.0
-    let two = XsdDouble::from_bits(0x4000000000000000);   // 2.0
+    let two = XsdDouble::from_bits(0x4000000000000000); // 2.0
     let three = XsdDouble::from_bits(0x4008000000000000); // 3.0
-    let five = XsdDouble::from_bits(0x4014000000000000);  // 5.0
-    
+    let five = XsdDouble::from_bits(0x4014000000000000); // 5.0
+
     let sum = numeric_add_double(two, three);
     assert(numeric_equal_double(sum, five));
 }
@@ -244,7 +219,7 @@ fn test_float_to_double_promotion() {
     let one_float = XsdFloat::from_bits(0x3F800000); // 1.0f
     let one_double = XsdDouble::from_float(one_float);
     let expected = XsdDouble::from_bits(0x3FF0000000000000); // 1.0
-    
+
     assert(numeric_equal_double(one_double, expected));
 }
 
@@ -458,7 +433,7 @@ fn test_integer_edge_cases() {
     // Test with larger numbers
     assert(numeric_add_int(1000000, 2000000) == 3000000);
     assert(numeric_multiply_int(10000, 10000) == 100000000);
-    
+
     // Test division truncation
     assert(numeric_divide_int(10, 3) == 3);
     assert(numeric_divide_int(10, 4) == 2);
@@ -471,7 +446,7 @@ fn test_integer_comparison_edge_cases() {
     assert(numeric_less_than_int(-100, -50) == true);
     assert(numeric_less_than_int(-50, -100) == false);
     assert(numeric_greater_than_int(-50, -100) == true);
-    
+
     // Test zero
     assert(numeric_less_than_int(-1, 0) == true);
     assert(numeric_less_than_int(0, 1) == true);
@@ -484,4 +459,3 @@ fn test_abs_edge_cases() {
     assert(abs_int(1000000000) == 1000000000);
     assert(abs_int(-1000000000) == 1000000000);
 }
-

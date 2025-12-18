@@ -134,7 +134,7 @@ pub fn max_int_partial<let N: u32>(arr: [i64; N], len: u32) -> i64 {
 }
 
 // ============================================================================
-// Boolean Aggregate Functions  
+// Boolean Aggregate Functions
 // ============================================================================
 
 /// Returns true if all values are true (universal quantification)
@@ -174,10 +174,10 @@ pub fn count_true<let N: u32>(arr: [bool; N]) -> u32 {
 fn test_sequence_empty_exists() {
     let empty: [i64; 0] = [];
     let non_empty: [i64; 3] = [1, 2, 3];
-    
+
     assert(is_empty(empty) == true);
     assert(is_empty(non_empty) == false);
-    
+
     assert(exists(empty) == false);
     assert(exists(non_empty) == true);
 }
@@ -186,7 +186,7 @@ fn test_sequence_empty_exists() {
 fn test_count() {
     let arr: [i64; 5] = [1, 2, 3, 4, 5];
     assert(count(arr) == 5);
-    
+
     let empty: [i64; 0] = [];
     assert(count(empty) == 0);
 }
@@ -195,7 +195,7 @@ fn test_count() {
 fn test_sum_int() {
     let arr: [i64; 5] = [1, 2, 3, 4, 5];
     assert(sum_int(arr) == 15);
-    
+
     let negative: [i64; 3] = [-1, -2, 3];
     assert(sum_int(negative) == 0);
 }
@@ -204,7 +204,7 @@ fn test_sum_int() {
 fn test_avg_int() {
     let arr: [i64; 5] = [10, 20, 30, 40, 50];
     assert(avg_int(arr) == 30);
-    
+
     // Integer division truncates
     let arr2: [i64; 3] = [1, 2, 3];
     assert(avg_int(arr2) == 2); // (1+2+3)/3 = 2
@@ -215,7 +215,7 @@ fn test_min_max_int_seq() {
     let arr: [i64; 5] = [3, 1, 4, 1, 5];
     assert(min_int_seq(arr) == 1);
     assert(max_int_seq(arr) == 5);
-    
+
     let negative: [i64; 3] = [-5, 0, 5];
     assert(min_int_seq(negative) == -5);
     assert(max_int_seq(negative) == 5);
@@ -224,13 +224,13 @@ fn test_min_max_int_seq() {
 #[test]
 fn test_partial_aggregates() {
     let arr: [i64; 5] = [10, 20, 30, 40, 50];
-    
+
     // Sum first 3 elements
     assert(sum_int_partial(arr, 3) == 60);
-    
+
     // Average of first 2
     assert(avg_int_partial(arr, 2) == 15);
-    
+
     // Min/max of first 3
     assert(min_int_partial(arr, 3) == 10);
     assert(max_int_partial(arr, 3) == 30);
@@ -241,15 +241,15 @@ fn test_boolean_aggregates() {
     let all_t: [bool; 3] = [true, true, true];
     let some_t: [bool; 3] = [true, false, true];
     let all_f: [bool; 3] = [false, false, false];
-    
+
     assert(all_true(all_t) == true);
     assert(all_true(some_t) == false);
     assert(all_true(all_f) == false);
-    
+
     assert(any_true(all_t) == true);
     assert(any_true(some_t) == true);
     assert(any_true(all_f) == false);
-    
+
     assert(count_true(all_t) == 3);
     assert(count_true(some_t) == 2);
     assert(count_true(all_f) == 0);

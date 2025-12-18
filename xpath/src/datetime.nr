@@ -10,8 +10,8 @@
 //! - fn:hours-from-dateTime, fn:minutes-from-dateTime, fn:seconds-from-dateTime
 //! - op:dateTime-equal, op:dateTime-less-than, op:dateTime-greater-than
 
-use crate::types::XsdDateTime;
 use crate::duration::duration_from_microseconds;
+use crate::types::XsdDateTime;
 
 // ============================================================================
 // Time Constants (as u64 for arithmetic)
@@ -41,7 +41,10 @@ pub fn datetime_from_epoch_microseconds(micros: Field) -> XsdDateTime {
 /// Create a DateTime from epoch microseconds with timezone offset
 /// micros: UTC epoch microseconds
 /// tz_offset_minutes: timezone offset in minutes (e.g., -300 for -05:00, +330 for +05:30)
-pub fn datetime_from_epoch_microseconds_with_tz(micros: Field, tz_offset_minutes: i16) -> XsdDateTime {
+pub fn datetime_from_epoch_microseconds_with_tz(
+    micros: Field,
+    tz_offset_minutes: i16,
+) -> XsdDateTime {
     XsdDateTime::new_with_tz(micros, tz_offset_minutes)
 }
 
@@ -60,7 +63,7 @@ pub fn datetime_from_components(
     hour: u8,
     minute: u8,
     second: u8,
-    microsecond: u32
+    microsecond: u32,
 ) -> XsdDateTime {
     datetime_from_components_with_tz(year, month, day, hour, minute, second, microsecond, 0)
 }
@@ -83,24 +86,24 @@ pub fn datetime_from_components_with_tz(
     minute: u8,
     second: u8,
     microsecond: u32,
-    tz_offset_minutes: i16
+    tz_offset_minutes: i16,
 ) -> XsdDateTime {
     let days = civil_to_days(year, month, day);
-    
+
     // Convert time components to microseconds (local time)
     let time_micros: u64 = (hour as u64) * MICROSECONDS_PER_HOUR
         + (minute as u64) * MICROSECONDS_PER_MINUTE
         + (second as u64) * MICROSECONDS_PER_SECOND
         + microsecond as u64;
-    
+
     // Total microseconds since epoch (in local time)
     let local_micros: u64 = (days as u64) * MICROSECONDS_PER_DAY + time_micros;
-    
+
     // Convert to UTC by subtracting the timezone offset
     let offset_micros: i64 = (tz_offset_minutes as i64) * 60_000_000;
     let utc_micros: i64 = (local_micros as i64) - offset_micros;
     let utc_u64: u64 = utc_micros as u64;
-    
+
     XsdDateTime::new_with_tz(utc_u64 as Field, tz_offset_minutes)
 }
 
@@ -220,24 +223,28 @@ pub fn datetime_greater_than(a: XsdDateTime, b: XsdDateTime) -> bool {
 /// Convert civil date to days since Unix epoch
 /// Based on Howard Hinnant's algorithms: http://howardhinnant.github.io/date_algorithms.html
 fn civil_to_days(year: i32, month: u8, day: u8) -> i64 {
-    let y: i64 = if month <= 2 { year as i64 - 1 } else { year as i64 };
+    let y: i64 = if month <= 2 {
+        year as i64 - 1
+    } else {
+        year as i64
+    };
     let m: i64 = month as i64;
     let d: i64 = day as i64;
-    
+
     // Calculate era (400-year period)
     let era: i64 = if y >= 0 { y / 400 } else { (y - 399) / 400 };
-    
+
     // Year of era [0, 399]
     let yoe: i64 = y - era * 400;
-    
+
     // Day of year calculation
     // For months Mar-Dec, use m-3; for Jan-Feb, use m+9
     let adj_m: i64 = if m > 2 { m - 3 } else { m + 9 };
     let doy: i64 = (153 * adj_m + 2) / 5 + d - 1;
-    
+
     // Day of era
     let doe: i64 = yoe * 365 + yoe / 4 - yoe / 100 + doy;
-    
+
     // Total days from epoch
     era * 146097 + doe - 719468
 }
@@ -248,34 +255,37 @@ fn epoch_to_civil(epoch_micros: Field) -> (i32, u8, u8) {
     // Convert to days since epoch
     let micros: u64 = epoch_micros as u64;
     let days: i64 = (micros / MICROSECONDS_PER_DAY) as i64;
-    
+
     // Shift epoch from 1970-01-01 to 0000-03-01 for easier leap year handling
     // days from 1970-01-01 to 0000-03-01 is -719468
     let z: i64 = days + 719468;
-    
+
     // Calculate era (400-year period)
-    let era: i64 = if z >= 0 { z / 146097 } else { (z - 146096) / 146097 };
-    
+    let era: i64 = if z >= 0 {
+        z / 146097
+    } else {
+        (z - 146096) / 146097
+    };
+
     // Day of era [0, 146096]
     let doe: i64 = z - era * 146097;
-    
+
     // Year of era [0, 399]
     let yoe: i64 = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
-    
+
     // Year
     let y: i64 = yoe + era * 400;
-    
+
     // Day of year [0, 365]
     let doy: i64 = doe - (365 * yoe + yoe / 4 - yoe / 100);
-    
+
     // Month and day calculation
     let mp: i64 = (5 * doy + 2) / 153;
     let d: i64 = doy - (153 * mp + 2) / 5 + 1;
     let m: i64 = if mp < 10 { mp + 3 } else { mp - 9 };
-    
+
     // Adjust year if month is Jan or Feb
     let year: i64 = if m <= 2 { y + 1 } else { y };
-    
+
     (year as i32, m as u8, d as u8)
 }
-
