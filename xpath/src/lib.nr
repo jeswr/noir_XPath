@@ -12,6 +12,7 @@ mod datetime;
 mod duration;
 mod sequence;
 mod comparison;
+mod string;
 
 // Re-export types
 pub use types::{XsdDateTime, XsdDayTimeDuration};
@@ -81,3 +82,9 @@ pub use sequence::{
 
 // Re-export comparison functions
 pub use comparison::{value_equal, value_greater_than, value_less_than};
+
+// Re-export string functions
+pub use string::{
+    concat, concat3, contains, ends_with, lower_case, starts_with, string_length, substring,
+    substring_after, substring_before, upper_case,
+};
