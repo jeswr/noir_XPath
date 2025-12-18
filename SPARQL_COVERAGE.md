@@ -169,8 +169,8 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 - Sequence operations (is_empty, exists, count)
 
 ### Partial Implementation (⚠️)
-- Numeric operations: integers only (floats/doubles require noir_IEEE754)
-- Aggregates: integers only
+- Advanced float rounding: Basic float arithmetic complete (via noir_IEEE754 v0.1.0); round/ceil/floor for floats planned
+- Aggregates: integers only (float aggregates planned for future)
 
 ### Deferred/Future (🔮)
 - All string functions (complex in ZK)
