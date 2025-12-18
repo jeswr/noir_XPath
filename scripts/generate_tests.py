@@ -1092,7 +1092,11 @@ xpath = {{ path = "../../xpath" }}
 
 
 def update_workspace_toml(workspace_dir: Path) -> None:
-    """Update the workspace Nargo.toml to include generated test packages."""
+    """Update the workspace Nargo.toml to include generated test packages.
+    
+    This function reads the existing Nargo.toml, preserves any manually added
+    members (those not in test_packages/), and adds/updates test package entries.
+    """
     nargo_path = workspace_dir / "Nargo.toml"
     if not nargo_path.exists():
         return
@@ -1101,17 +1105,36 @@ def update_workspace_toml(workspace_dir: Path) -> None:
     if not test_packages_dir.exists():
         return
 
-    # Find all generated packages
-    packages = []
+    # Find all generated packages in test_packages directory
+    new_test_packages = set()
     for pkg_dir in sorted(test_packages_dir.iterdir()):
         if pkg_dir.is_dir() and (pkg_dir / "Nargo.toml").exists():
-            packages.append(f"test_packages/{pkg_dir.name}")
+            new_test_packages.add(f"test_packages/{pkg_dir.name}")
 
-    if not packages:
-        return
-
-    # Build the complete members list
-    all_members = ["xpath", "xpath_unit_tests"] + packages
+    # Read existing Nargo.toml to preserve manually added members
+    existing_content = nargo_path.read_text()
+    existing_members = []
+    
+    # Parse existing members from the TOML file
+    # Look for members = [ ... ] pattern
+    members_match = re.search(r'members\s*=\s*\[(.*?)\]', existing_content, re.DOTALL)
+    if members_match:
+        members_str = members_match.group(1)
+        # Extract quoted strings
+        existing_members = re.findall(r'"([^"]+)"', members_str)
+    
+    # Separate existing members into:
+    # 1. Non-test-package members (manually added, preserve these)
+    # 2. Test package members (will be replaced with current test packages)
+    preserved_members = []
+    for member in existing_members:
+        if not member.startswith("test_packages/"):
+            preserved_members.append(member)
+    
+    # Build the complete members list:
+    # - Preserved non-test-package members first (in original order)
+    # - Then all current test packages (sorted)
+    all_members = preserved_members + sorted(new_test_packages)
     
     # Generate new Nargo.toml content
     members_list = ",\n    ".join(f'"{m}"' for m in all_members)
@@ -1121,8 +1144,18 @@ members = [
 ]
 """
     
-    nargo_path.write_text(new_content)
-    print(f"\nUpdated workspace Nargo.toml with {len(packages)} test packages")
+    # Only write if content changed
+    if new_content != existing_content:
+        nargo_path.write_text(new_content)
+        added_count = len(new_test_packages - set(m for m in existing_members if m.startswith("test_packages/")))
+        removed_count = len(set(m for m in existing_members if m.startswith("test_packages/")) - new_test_packages)
+        print(f"\nUpdated workspace Nargo.toml: {len(new_test_packages)} test packages")
+        if added_count > 0:
+            print(f"  Added {added_count} new test package(s)")
+        if removed_count > 0:
+            print(f"  Removed {removed_count} obsolete test package(s)")
+    else:
+        print(f"\nWorkspace Nargo.toml is already up to date ({len(new_test_packages)} test packages)")
 
 
 def main():
