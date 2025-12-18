@@ -14,8 +14,6 @@ Output:
 
 import argparse
 import json
-import os
-import re
 import shutil
 import subprocess
 import sys
@@ -226,12 +224,14 @@ def run_nargo_info(project_dir: Path) -> dict:
                     if acir_str != 'N/A':
                         info["acir_opcodes"] = int(acir_str)
                 except (ValueError, IndexError):
+                    # If the ACIR opcode count cannot be parsed, omit it from the results.
                     pass
                 try:
                     brillig_str = parts[4].strip() if len(parts) > 4 else "N/A"
                     if brillig_str != 'N/A':
                         info["brillig_opcodes"] = int(brillig_str)
                 except (ValueError, IndexError):
+                    # If the Brillig opcode count cannot be parsed, omit it from the results.
                     pass
 
     return info
@@ -306,6 +306,8 @@ def benchmark_all(output_file: Path = None):
                 else:
                     existing_results = [data]
         except (json.JSONDecodeError, IOError):
+            # If the existing results file is missing, unreadable, or contains
+            # invalid JSON, ignore it and proceed with only the new results.
             pass
 
     # Append new results
@@ -335,6 +337,7 @@ def get_git_commit():
         if result.returncode == 0:
             return result.stdout.strip()[:8]
     except Exception:
+        # If git is unavailable or this is not a git repository, fall back to "unknown".
         pass
     return "unknown"
 
