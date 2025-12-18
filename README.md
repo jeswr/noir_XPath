@@ -63,13 +63,17 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
   - Boolean aggregates: all_true, any_true, count_true
   - Partial array operations (with explicit length)
 - **Comparison Utilities**: Generic value comparison with Eq/Ord traits
+- **Hash Functions**:
+  - SHA256 fully implemented (returns 32-byte array)
+  - MD5, SHA1, SHA384, SHA512 have placeholder implementations
 
 ### 🔮 Future (Planned)
 
 - Float operations via [noir_IEEE754](https://github.com/jeswr/noir_IEEE754)
 - String functions (STRLEN, SUBSTR, CONCAT, etc.)
 - Regex functions (REGEX, REPLACE)
-- Hash functions (MD5, SHA256, etc.)
+- Complete implementation of MD5, SHA1, SHA384, SHA512 (awaiting library integration)
+- Hex string formatting for hash functions
 - Decimal type support
 
 ## SPARQL 1.1 Coverage

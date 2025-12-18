@@ -12,6 +12,7 @@ mod datetime;
 mod duration;
 mod sequence;
 mod comparison;
+mod hash;
 
 // Re-export types
 pub use types::{XsdDateTime, XsdDayTimeDuration};
@@ -81,3 +82,6 @@ pub use sequence::{
 
 // Re-export comparison functions
 pub use comparison::{value_equal, value_greater_than, value_less_than};
+
+// Re-export hash functions
+pub use hash::{md5, sha1, sparql_sha256, sparql_sha384, sparql_sha512};

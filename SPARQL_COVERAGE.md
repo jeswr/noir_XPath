@@ -113,11 +113,13 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 
 | Function | Status | Notes |
 |----------|--------|-------|
-| MD5 | 🔮 | Deferred - requires string output formatting |
-| SHA1 | 🔮 | Deferred - requires string output formatting |
-| SHA256 | 🔮 | Deferred - requires string output formatting |
-| SHA384 | 🔮 | Deferred - requires string output formatting |
-| SHA512 | 🔮 | Deferred - requires string output formatting |
+| MD5 | ⚠️ | Placeholder implementation (returns zeros) - awaiting official MD5 library |
+| SHA1 | ⚠️ | Placeholder implementation (returns zeros) - awaiting official SHA1 library |
+| SHA256 | ✅ | Fully implemented using noir-lang/sha256 library (returns 32-byte array) |
+| SHA384 | ⚠️ | Placeholder implementation (returns zeros) - noir-lang/sha512 library integration pending |
+| SHA512 | ⚠️ | Placeholder implementation (returns zeros) - noir-lang/sha512 library integration pending |
+
+**Note:** All implemented hash functions return byte arrays instead of hex-encoded strings. String formatting is deferred to a future version due to the complexity of string handling in ZK circuits.
 
 ## Boolean Operators
 
@@ -167,15 +169,17 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 - All duration operations
 - Integer aggregate functions (COUNT, SUM, MIN, MAX, AVG)
 - Sequence operations (is_empty, exists, count)
+- SHA256 hash function (returns byte array)
 
 ### Partial Implementation (⚠️)
 - Numeric operations: integers only (floats/doubles require noir_IEEE754)
 - Aggregates: integers only
+- Hash functions: SHA256 fully implemented, MD5/SHA1/SHA384/SHA512 have placeholder implementations
 
 ### Deferred/Future (🔮)
 - All string functions (complex in ZK)
 - All regex functions (complex in ZK)
-- Hash functions (require string output)
+- Hex string formatting for hash functions
 - TZ() function (requires string formatting)
 
 ### Not Feasible (❌)
@@ -194,6 +198,7 @@ When using this library for SPARQL 1.1 query verification in zero-knowledge:
 2. **String Operations**: All string-based operations must be performed outside the circuit or deferred to future versions
 3. **Numeric Types**: Float and double operations will be added when noir_IEEE754 integration is complete
 4. **RDF Terms**: RDF-specific functionality is outside the scope of this XPath function library and should be implemented separately
+5. **Hash Functions**: All hash functions return byte arrays. SHA256 is fully functional. MD5, SHA1, SHA384, and SHA512 have placeholder implementations awaiting library integration. Convert byte arrays to hex strings outside the circuit if needed.
 
 ## Testing
 

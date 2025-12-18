@@ -8,3 +8,4 @@ fn main() {
 mod numeric_tests;
 mod datetime_tests;
 mod boolean_tests;
+mod hash_tests;

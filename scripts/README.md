@@ -54,6 +54,9 @@ The script currently supports generating tests for:
 **Boolean Functions:**
 - `fn:not`, `op:boolean-equal`
 
+**Hash Functions:**
+- Note: Hash functions (MD5, SHA1, SHA256, SHA384, SHA512) do not have qt3tests test files in the standard suite as they are SPARQL-specific extensions. Unit tests for hash functions are maintained in `xpath_unit_tests/src/hash_tests.nr`.
+
 ### Generated Test Structure
 
 For each function, the script generates a test package:
