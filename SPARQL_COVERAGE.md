@@ -86,8 +86,8 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 | `=` (equal) | op:numeric-equal | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
 | `<` (less than) | op:numeric-less-than | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
 | `>` (greater than) | op:numeric-greater-than | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `<=` (less than or equal) | op:numeric-less-than-or-equal | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
-| `>=` (greater than or equal) | op:numeric-greater-than-or-equal | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
+| `<=` (less than or equal) | op:numeric-less-than-or-equal | ✅ | Implemented for integers, floats, and doubles |
+| `>=` (greater than or equal) | op:numeric-greater-than-or-equal | ✅ | Implemented for integers, floats, and doubles |
 
 ## 17.4.5 Functions on Dates and Times
 
@@ -170,16 +170,15 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 
 ### Fully Implemented (✅)
 - All boolean operations (8 operators including `<=` and `>=`)
-- All integer numeric operations (13 operators including `<=` and `>=`)
-- All datetime component extraction and comparison (10 operators including `<=` and `>=`)
-- All duration operations (13 operators including `<=` and `>=`)
+- All numeric operations (11 operators including `<=` and `>=`) for integers, floats, and doubles
+- All datetime component extraction and comparison (12 total: 7 extraction functions + 5 comparison operators including `<=` and `>=`)
+- All duration operations (13 total: 5 arithmetic operators + 5 comparison operators including `<=` and `>=`, plus 3 datetime-duration operators)
 - Integer aggregate functions (COUNT, SUM, MIN, MAX, AVG)
 - Sequence operations (is_empty, exists, count)
 - Generic comparison utilities (5 operators including `<=` and `>=`)
 
 ### Partial Implementation (⚠️)
-- Numeric operations: integers only (floats/doubles require noir_IEEE754)
-- Aggregates: integers only
+- Aggregates: integers only (floats/doubles not yet supported)
 
 ### Deferred/Future (🔮)
 - All string functions (complex in ZK)
