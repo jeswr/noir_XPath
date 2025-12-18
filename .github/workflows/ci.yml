@@ -48,8 +48,9 @@ jobs:
           toolchain: ${{ matrix.noir-version }}
 
       - name: Check format
-        run: nargo fmt --check  --package xpath 
-        run: nargo fmt --check  --package xpath_unit_tests 
+        run: |
+          nargo fmt --check  --package xpath 
+          nargo fmt --check  --package xpath_unit_tests 
 
   # Run all tests on all Noir versions
   test:
