@@ -35,7 +35,7 @@ Add to your `Nargo.toml`:
 
 ```toml
 [dependencies]
-xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0" }
+xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory = "xpath" }
 ```
 
 ## Features
