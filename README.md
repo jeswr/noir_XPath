@@ -6,12 +6,12 @@ A Noir library implementing XPath 2.0 functions and operators required by SPARQL
 
 - **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)** - Complete mapping of SPARQL 1.1 functions to implementation status
 - **[TESTING.md](./TESTING.md)** - Testing strategy, how to run tests, and coverage details
-- **[IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)** - Phased implementation roadmap
+- **[IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)** - Phased implementation roadmap (now complete)
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Technical architecture and design decisions
 - **[scripts/README.md](./scripts/README.md)** - Test generation from qt3tests
 
-> [!CAUTION]
-> **Under Development**: This library is still under active development. APIs may change without notice and some features may be incomplete or missing.
+> [!NOTE]
+> **Implementation Status**: All implementable XPath 2.0 functions and operators required by SPARQL 1.1 are now complete. The library is feature-complete for the zero-knowledge context.
 
 > [!CAUTION]
 > **Security Warning**: This library has not been security reviewed and should not be used in production systems without a thorough audit.
@@ -20,10 +20,11 @@ A Noir library implementing XPath 2.0 functions and operators required by SPARQL
 > **AI-Generated Code**: This library is largely AI-generated. While it has been tested, there may be edge cases or subtle bugs that have not been discovered.
 
 > [!NOTE]
-> **Test Coverage Limitations**: The following limitations apply:
-> - Tests are derived from W3C qt3tests but only cover a subset of XPath functions
-> - Float operations are not yet implemented (planned via noir_IEEE754)
-> - String and regex operations are not yet implemented
+> **Test Coverage**: 
+> - Tests are derived from W3C qt3tests covering all implemented functions
+> - Float/double operations fully implemented via noir_IEEE754 (v0.1.0)
+> - String and regex operations are intentionally deferred (complex in ZK circuits)
+> - See [SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md) for complete status
 
 ## Overview
 
@@ -44,12 +45,14 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
 
 - **Boolean Operations**: `fn:not`, `op:boolean-equal`, `op:boolean-less-than`, `op:boolean-greater-than`, logical AND/OR
 - **Numeric Operations**: 
-  - Integer: add, subtract, multiply, divide, mod, abs, round, ceil, floor, min, max
-  - Comparisons: equal, less-than, greater-than
+  - **Integer**: add, subtract, multiply, divide, mod, abs, round, ceil, floor, min, max
+  - **Float/Double**: add, subtract, multiply, divide, abs (via noir_IEEE754)
+  - **Type Operations**: type promotion, mixed-type comparisons, type casting
+  - **Comparisons**: equal, less-than, greater-than (all types)
 - **DateTime Operations**: 
-  - Construction: from epoch microseconds, from components
+  - Construction: from epoch microseconds, from components (with/without timezone)
   - Component extraction: year, month, day, hours, minutes, seconds, microseconds, timezone
-  - Comparisons: equal, less-than, greater-than
+  - Comparisons: equal, less-than, greater-than (timezone-aware)
   - Efficient single-Field representation (epoch microseconds)
 - **Duration Operations**:
   - Construction: from microseconds, from components
@@ -64,21 +67,20 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
   - Partial array operations (with explicit length)
 - **Comparison Utilities**: Generic value comparison with Eq/Ord traits
 
-### 🔮 Future (Planned)
+### 🔮 Future (Deferred - Complex in ZK)
 
-- Float operations via [noir_IEEE754](https://github.com/jeswr/noir_IEEE754)
-- String functions (STRLEN, SUBSTR, CONCAT, etc.)
+- String functions (STRLEN, SUBSTR, CONCAT, UCASE, LCASE, etc.)
 - Regex functions (REGEX, REPLACE)
 - Hash functions (MD5, SHA256, etc.)
 - Decimal type support
+- Advanced float rounding (round, ceil, floor for floats)
 
 ## SPARQL 1.1 Coverage
 
 This library implements XPath 2.0 functions and operators required by SPARQL 1.1. 
 
 **Quick Summary:**
-- ✅ **52+ functions fully implemented** (boolean, integer numeric, datetime, duration, aggregates)
-- ⚠️ **Float support partial** (requires noir_IEEE754 integration)
+- ✅ **80+ functions fully implemented** (boolean, numeric [int/float/double], datetime, duration, aggregates)
 - 🔮 **String/regex/hash deferred** (complex in ZK circuits)
 - ❌ **RAND/NOW not feasible** (non-deterministic in ZK)
 
@@ -86,13 +88,13 @@ For complete function mapping, see **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)*
 
 ### ✅ Fully Implemented
 - **Boolean operations**: All boolean functions and operators (fn:not, logical-and, logical-or, comparisons)
-- **Integer numeric operations**: All arithmetic and comparison operators for integers
+- **Numeric operations**: All arithmetic and comparison operators for integers, floats, and doubles (via noir_IEEE754)
 - **DateTime operations**: Component extraction (year, month, day, hours, minutes, seconds, timezone), comparisons, and arithmetic
 - **Duration operations**: All dayTimeDuration operations including arithmetic and comparisons
 - **Aggregate functions**: COUNT, SUM, AVG, MIN, MAX for integer sequences
 
 ### ⚠️ Partial Support
-- **Numeric operations**: Integer-only (float/double requires noir_IEEE754 dependency)
+- **Advanced float rounding**: Basic float operations complete; round/ceil/floor for floats planned
 - **Timezone**: TIMEZONE() function implemented; TZ() requires string formatting (deferred)
 
 ### ❌ Not Implemented (Deferred)
