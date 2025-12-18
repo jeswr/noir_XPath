@@ -1174,7 +1174,8 @@ def main():
         functions = IMPLEMENTED_FUNCTIONS
 
     # Process each function
-    total_tests = 0
+    total_tests_identified = 0
+    total_tests_generated = 0
     print("\nGenerating tests...")
     for func in functions:
         if func not in FUNCTION_TEST_FILES:
@@ -1183,17 +1184,20 @@ def main():
 
         test_file = args.qt3_dir / FUNCTION_TEST_FILES[func]
         tests = parse_test_file(test_file)
+        total_tests_identified += len(tests)
 
         if tests:
             count = generate_test_package(func, tests, args.output_dir)
-            total_tests += count
+            total_tests_generated += count
         else:
             print(f"  No tests found for {func}")
 
     # Update workspace Nargo.toml
     update_workspace_toml(args.output_dir.parent)
 
-    print(f"\nTest generation complete! Total: {total_tests} tests generated")
+    print(f"\nTest generation complete!")
+    print(f"Total tests identified in qt3tests: {total_tests_identified}")
+    print(f"Total tests generated: {total_tests_generated}")
 
 
 if __name__ == "__main__":
