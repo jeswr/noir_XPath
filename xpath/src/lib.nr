@@ -40,10 +40,10 @@ pub use numeric_types::{
     numeric_ge_double,
     // Float arithmetic
     numeric_add_float, numeric_subtract_float, numeric_multiply_float, numeric_divide_float,
-    abs_float,
+    abs_float, round_float, ceil_float, floor_float,
     // Double arithmetic
     numeric_add_double, numeric_subtract_double, numeric_multiply_double, numeric_divide_double,
-    abs_double,
+    abs_double, round_double, ceil_double, floor_double,
     // Mixed type comparisons
     compare_int_double_eq, compare_int_double_lt, compare_int_double_gt, compare_double_int_eq,
     compare_double_int_lt, compare_double_int_gt, compare_float_double_eq, compare_float_double_lt,
