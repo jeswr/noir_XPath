@@ -86,6 +86,8 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 | `=` (equal) | op:numeric-equal | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
 | `<` (less than) | op:numeric-less-than | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
 | `>` (greater than) | op:numeric-greater-than | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
+| `<=` (less than or equal) | op:numeric-less-than-or-equal | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
+| `>=` (greater than or equal) | op:numeric-greater-than-or-equal | ⚠️ | Implemented for integers; floats require noir_IEEE754 |
 
 ## 17.4.5 Functions on Dates and Times
 
@@ -108,6 +110,8 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 | `=` (equal) | op:dateTime-equal | ✅ | Implemented as `datetime_equal` |
 | `<` (less than) | op:dateTime-less-than | ✅ | Implemented as `datetime_less_than` |
 | `>` (greater than) | op:dateTime-greater-than | ✅ | Implemented as `datetime_greater_than` |
+| `<=` (less than or equal) | op:dateTime-less-than-or-equal | ✅ | Implemented as `datetime_le` |
+| `>=` (greater than or equal) | op:dateTime-greater-than-or-equal | ✅ | Implemented as `datetime_ge` |
 
 ## 17.4.6 Hash Functions
 
@@ -129,6 +133,8 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 | `=` (equal) | op:boolean-equal | ✅ | Implemented as `boolean_equal` |
 | `<` (less than) | op:boolean-less-than | ✅ | Implemented as `boolean_less_than` |
 | `>` (greater than) | op:boolean-greater-than | ✅ | Implemented as `boolean_greater_than` |
+| `<=` (less than or equal) | op:boolean-less-than-or-equal | ✅ | Implemented as `boolean_le` |
+| `>=` (greater than or equal) | op:boolean-greater-than-or-equal | ✅ | Implemented as `boolean_ge` |
 
 ## Duration Operations
 
@@ -145,6 +151,8 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 | `=` (equal) | op:dayTimeDuration-equal | ✅ | Implemented as `duration_equal` |
 | `<` (less than) | op:dayTimeDuration-less-than | ✅ | Implemented as `duration_less_than` |
 | `>` (greater than) | op:dayTimeDuration-greater-than | ✅ | Implemented as `duration_greater_than` |
+| `<=` (less than or equal) | op:dayTimeDuration-less-than-or-equal | ✅ | Implemented as `duration_le` |
+| `>=` (greater than or equal) | op:dayTimeDuration-greater-than-or-equal | ✅ | Implemented as `duration_ge` |
 
 ## Aggregate Functions
 
@@ -161,12 +169,13 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 ## Summary
 
 ### Fully Implemented (✅)
-- All boolean operations
-- All integer numeric operations
-- All datetime component extraction and comparison
-- All duration operations
+- All boolean operations (8 operators including `<=` and `>=`)
+- All integer numeric operations (13 operators including `<=` and `>=`)
+- All datetime component extraction and comparison (10 operators including `<=` and `>=`)
+- All duration operations (13 operators including `<=` and `>=`)
 - Integer aggregate functions (COUNT, SUM, MIN, MAX, AVG)
 - Sequence operations (is_empty, exists, count)
+- Generic comparison utilities (5 operators including `<=` and `>=`)
 
 ### Partial Implementation (⚠️)
 - Numeric operations: integers only (floats/doubles require noir_IEEE754)
