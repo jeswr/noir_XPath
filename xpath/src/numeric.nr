@@ -62,6 +62,16 @@ pub fn numeric_greater_than_int(a: i64, b: i64) -> bool {
     a > b
 }
 
+/// op:numeric-less-than-or-equal for integers
+pub fn numeric_le_int(a: i64, b: i64) -> bool {
+    a <= b
+}
+
+/// op:numeric-greater-than-or-equal for integers
+pub fn numeric_ge_int(a: i64, b: i64) -> bool {
+    a >= b
+}
+
 /// fn:abs for integers
 /// Returns the absolute value
 pub fn abs_int(a: i64) -> i64 {

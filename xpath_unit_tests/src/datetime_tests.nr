@@ -2,10 +2,12 @@
 
 use dep::xpath::{
     datetime_equal, datetime_from_components, datetime_from_components_with_tz,
-    datetime_from_epoch_microseconds, datetime_greater_than, datetime_less_than,
-    datetime_timezone_offset, day_from_datetime, duration_to_microseconds, hours_from_datetime,
-    microseconds_from_datetime, minutes_from_datetime, month_from_datetime, seconds_from_datetime,
-    timezone_from_datetime, XsdDateTime, XsdDayTimeDuration, year_from_datetime,
+    datetime_from_epoch_microseconds, datetime_ge, datetime_greater_than, datetime_le,
+    datetime_less_than, datetime_timezone_offset, day_from_datetime, duration_equal,
+    duration_from_components, duration_ge, duration_greater_than, duration_le, duration_less_than,
+    duration_to_microseconds, hours_from_datetime, microseconds_from_datetime,
+    minutes_from_datetime, month_from_datetime, seconds_from_datetime, timezone_from_datetime,
+    XsdDateTime, XsdDayTimeDuration, year_from_datetime,
 };
 
 // ============================================================================
@@ -190,4 +192,119 @@ fn test_timezone_from_datetime() {
     let tz_pst = timezone_from_datetime(dt_pst);
     // -480 minutes = -28,800 seconds = -28,800,000,000 microseconds
     assert(duration_to_microseconds(tz_pst) == -28_800_000_000);
+}
+
+// ============================================================================
+// Tests for new comparison operators (<=, >=)
+// ============================================================================
+
+#[test]
+fn test_datetime_le() {
+    let dt1 = datetime_from_components(2024, 1, 1, 0, 0, 0, 0);
+    let dt2 = datetime_from_components(2024, 6, 15, 12, 30, 0, 0);
+    let dt3 = datetime_from_components(2024, 1, 1, 0, 0, 0, 0);
+
+    // dt1 < dt2
+    assert(datetime_le(dt1, dt2) == true);
+    // dt1 == dt3
+    assert(datetime_le(dt1, dt3) == true);
+    // dt2 > dt1
+    assert(datetime_le(dt2, dt1) == false);
+}
+
+#[test]
+fn test_datetime_ge() {
+    let dt1 = datetime_from_components(2024, 1, 1, 0, 0, 0, 0);
+    let dt2 = datetime_from_components(2024, 6, 15, 12, 30, 0, 0);
+    let dt3 = datetime_from_components(2024, 6, 15, 12, 30, 0, 0);
+
+    // dt2 > dt1
+    assert(datetime_ge(dt2, dt1) == true);
+    // dt2 == dt3
+    assert(datetime_ge(dt2, dt3) == true);
+    // dt1 < dt2
+    assert(datetime_ge(dt1, dt2) == false);
+}
+
+#[test]
+fn test_datetime_le_same_instant() {
+    let dt = datetime_from_components(2024, 12, 25, 15, 30, 45, 123456);
+    assert(datetime_le(dt, dt) == true);
+}
+
+#[test]
+fn test_datetime_ge_same_instant() {
+    let dt = datetime_from_components(2024, 12, 25, 15, 30, 45, 123456);
+    assert(datetime_ge(dt, dt) == true);
+}
+
+#[test]
+fn test_datetime_le_ge_with_microseconds() {
+    let dt1 = datetime_from_components(2024, 1, 1, 0, 0, 0, 100);
+    let dt2 = datetime_from_components(2024, 1, 1, 0, 0, 0, 200);
+
+    assert(datetime_le(dt1, dt2) == true);
+    assert(datetime_le(dt2, dt1) == false);
+    assert(datetime_ge(dt2, dt1) == true);
+    assert(datetime_ge(dt1, dt2) == false);
+}
+
+// ============================================================================
+// Tests for duration comparison operators (<=, >=)
+// ============================================================================
+
+#[test]
+fn test_duration_le() {
+    let d1 = duration_from_components(false, 1, 0, 0, 0, 0); // 1 day
+    let d2 = duration_from_components(false, 2, 0, 0, 0, 0); // 2 days
+    let d3 = duration_from_components(false, 1, 0, 0, 0, 0); // 1 day
+
+    // d1 < d2
+    assert(duration_le(d1, d2) == true);
+    // d1 == d3
+    assert(duration_le(d1, d3) == true);
+    // d2 > d1
+    assert(duration_le(d2, d1) == false);
+}
+
+#[test]
+fn test_duration_ge() {
+    let d1 = duration_from_components(false, 1, 0, 0, 0, 0); // 1 day
+    let d2 = duration_from_components(false, 2, 0, 0, 0, 0); // 2 days
+    let d3 = duration_from_components(false, 2, 0, 0, 0, 0); // 2 days
+
+    // d2 > d1
+    assert(duration_ge(d2, d1) == true);
+    // d2 == d3
+    assert(duration_ge(d2, d3) == true);
+    // d1 < d2
+    assert(duration_ge(d1, d2) == false);
+}
+
+#[test]
+fn test_duration_le_negative() {
+    let d1 = duration_from_components(true, 2, 0, 0, 0, 0); // -2 days
+    let d2 = duration_from_components(true, 1, 0, 0, 0, 0); // -1 day
+    let d3 = duration_from_components(false, 1, 0, 0, 0, 0); // +1 day
+
+    // -2 < -1
+    assert(duration_le(d1, d2) == true);
+    // -1 < +1
+    assert(duration_le(d2, d3) == true);
+    // -2 == -2
+    assert(duration_le(d1, d1) == true);
+}
+
+#[test]
+fn test_duration_ge_negative() {
+    let d1 = duration_from_components(true, 2, 0, 0, 0, 0); // -2 days
+    let d2 = duration_from_components(true, 1, 0, 0, 0, 0); // -1 day
+    let d3 = duration_from_components(false, 1, 0, 0, 0, 0); // +1 day
+
+    // -1 > -2
+    assert(duration_ge(d2, d1) == true);
+    // +1 > -1
+    assert(duration_ge(d3, d2) == true);
+    // -2 == -2
+    assert(duration_ge(d1, d1) == true);
 }

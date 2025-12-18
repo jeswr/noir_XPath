@@ -4,11 +4,11 @@ use dep::xpath::{
     abs_int, cast_double_to_float, cast_double_to_integer, cast_float_to_integer,
     cast_integer_to_double, cast_integer_to_float, ceil_int, floor_int, get_common_type, max_int,
     min_int, numeric_add_double, numeric_add_float, numeric_add_int, numeric_divide_int,
-    numeric_equal_double, numeric_equal_float, numeric_equal_int, numeric_greater_than_double,
-    numeric_greater_than_float, numeric_greater_than_int, numeric_less_than_double,
-    numeric_less_than_float, numeric_less_than_int, numeric_mod_int, numeric_multiply_int,
-    numeric_subtract_int, numeric_unary_minus_int, numeric_unary_plus_int, NumericType, round_int,
-    XsdDouble, XsdFloat,
+    numeric_equal_double, numeric_equal_float, numeric_equal_int, numeric_ge_int,
+    numeric_greater_than_double, numeric_greater_than_float, numeric_greater_than_int,
+    numeric_le_int, numeric_less_than_double, numeric_less_than_float, numeric_less_than_int,
+    numeric_mod_int, numeric_multiply_int, numeric_subtract_int, numeric_unary_minus_int,
+    numeric_unary_plus_int, NumericType, round_int, XsdDouble, XsdFloat,
 };
 
 // ============================================================================
@@ -458,4 +458,44 @@ fn test_abs_edge_cases() {
     // Large values
     assert(abs_int(1000000000) == 1000000000);
     assert(abs_int(-1000000000) == 1000000000);
+}
+
+// ============================================================================
+// Tests for new comparison operators (<=, >=)
+// ============================================================================
+
+#[test]
+fn test_numeric_le_int() {
+    // Less than
+    assert(numeric_le_int(3, 5) == true);
+    // Equal
+    assert(numeric_le_int(5, 5) == true);
+    // Greater than
+    assert(numeric_le_int(5, 3) == false);
+    // Negative numbers
+    assert(numeric_le_int(-10, -5) == true);
+    assert(numeric_le_int(-5, -5) == true);
+    assert(numeric_le_int(-5, -10) == false);
+    // Zero
+    assert(numeric_le_int(0, 0) == true);
+    assert(numeric_le_int(-1, 0) == true);
+    assert(numeric_le_int(0, 1) == true);
+}
+
+#[test]
+fn test_numeric_ge_int() {
+    // Greater than
+    assert(numeric_ge_int(5, 3) == true);
+    // Equal
+    assert(numeric_ge_int(5, 5) == true);
+    // Less than
+    assert(numeric_ge_int(3, 5) == false);
+    // Negative numbers
+    assert(numeric_ge_int(-5, -10) == true);
+    assert(numeric_ge_int(-5, -5) == true);
+    assert(numeric_ge_int(-10, -5) == false);
+    // Zero
+    assert(numeric_ge_int(0, 0) == true);
+    assert(numeric_ge_int(0, -1) == true);
+    assert(numeric_ge_int(1, 0) == true);
 }
