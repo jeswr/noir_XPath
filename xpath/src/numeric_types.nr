@@ -816,8 +816,10 @@ pub fn round_float(a: XsdFloat) -> XsdFloat {
             // 0 <= unbiased_exp < 23
             // Some bits are fractional
             let frac_bits = (23 - unbiased_exp) as u32;
-            let int_mask: u32 = 0x7FFFFF << frac_bits; // Mask for integer part
-            let frac_mask: u32 = (1 << frac_bits) - 1; // Mask for fractional part
+            // Mask for fractional part: lowest frac_bits of the mantissa
+            let frac_mask: u32 = (1u32 << frac_bits) - 1u32;
+            // Mask for integer part: XOR to get complement within mantissa bits
+            let int_mask: u32 = 0x7FFFFF ^ frac_mask;
 
             let int_part = mant & int_mask;
             let frac_part = mant & frac_mask;
@@ -884,8 +886,8 @@ pub fn ceil_float(a: XsdFloat) -> XsdFloat {
             }
         } else {
             let frac_bits = (23 - unbiased_exp) as u32;
-            let int_mask: u32 = 0x7FFFFF << frac_bits;
-            let frac_mask: u32 = (1 << frac_bits) - 1;
+            let frac_mask: u32 = (1u32 << frac_bits) - 1;
+            let int_mask: u32 = 0x7FFFFF ^ frac_mask;
 
             let int_part = mant & int_mask;
             let frac_part = mant & frac_mask;
@@ -947,8 +949,9 @@ pub fn floor_float(a: XsdFloat) -> XsdFloat {
             }
         } else {
             let frac_bits = (23 - unbiased_exp) as u32;
-            let int_mask: u32 = 0x7FFFFF << frac_bits;
-            let frac_mask: u32 = (1 << frac_bits) - 1;
+            let frac_bits_u64: u64 = frac_bits as u64;
+            let int_mask: u32 = ((0x7FFFFFu64) << frac_bits_u64) as u32;
+            let frac_mask: u32 = ((1u64 << frac_bits_u64) - 1) as u32;
 
             let int_part = mant & int_mask;
             let frac_part = mant & frac_mask;
@@ -1016,8 +1019,10 @@ pub fn round_double(a: XsdDouble) -> XsdDouble {
         } else {
             // 0 <= unbiased_exp < 52
             let frac_bits = (52 - unbiased_exp) as u64;
-            let int_mask: u64 = 0xFFFFFFFFFFFFF << frac_bits;
-            let frac_mask: u64 = (1 << frac_bits) - 1;
+            // Mask for fractional mantissa bits (lowest frac_bits bits set)
+            let frac_mask: u64 = (1u64 << frac_bits) - 1;
+            // Mask for integer mantissa bits (remaining upper mantissa bits)
+            let int_mask: u64 = 0xFFFFFFFFFFFFF - frac_mask;
 
             let int_part = mant & int_mask;
             let frac_part = mant & frac_mask;
@@ -1074,8 +1079,17 @@ pub fn ceil_double(a: XsdDouble) -> XsdDouble {
             }
         } else {
             let frac_bits = (52 - unbiased_exp) as u64;
-            let int_mask: u64 = 0xFFFFFFFFFFFFF << frac_bits;
-            let frac_mask: u64 = (1 << frac_bits) - 1;
+
+            // Build a mask for the fractional bits first, guarding against large shifts.
+            let frac_mask: u64 = if frac_bits >= 64 {
+                0xFFFFFFFFFFFFFFFF
+            } else {
+                (1u64 << frac_bits) - 1
+            };
+
+            // The mantissa occupies only the low 52 bits, so the integer mask is the
+            // complement (via XOR) of the fractional mask within those 52 bits.
+            let int_mask: u64 = 0xFFFFFFFFFFFFF ^ frac_mask;
 
             let int_part = mant & int_mask;
             let frac_part = mant & frac_mask;
@@ -1128,12 +1142,16 @@ pub fn floor_double(a: XsdDouble) -> XsdDouble {
                 XsdDouble::from_bits(0x0000000000000000) // +0
             }
         } else {
-            let frac_bits = (52 - unbiased_exp) as u64;
-            let int_mask: u64 = 0xFFFFFFFFFFFFF << frac_bits;
-            let frac_mask: u64 = (1 << frac_bits) - 1;
-
-            let int_part = mant & int_mask;
-            let frac_part = mant & frac_mask;
+            let frac_bits: u64 = (52 - unbiased_exp) as u64;
+            // Compute integer and fractional parts without creating a potentially
+            // overflowing mask like `0xFFFFFFFFFFFFF << frac_bits`.
+            let int_part: u64 = (mant >> frac_bits) << frac_bits;
+            let frac_mask: u64 = if frac_bits == 64 {
+                0xFFFFFFFFFFFFFFFF
+            } else {
+                (1u64 << frac_bits) - 1
+            };
+            let frac_part: u64 = mant & frac_mask;
 
             if frac_part == 0 {
                 a

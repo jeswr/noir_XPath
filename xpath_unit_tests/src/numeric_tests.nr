@@ -607,3 +607,175 @@ fn test_floor_double() {
     let fl4 = floor_double(d4);
     assert(fl4.to_bits() == 0x0000000000000000); // 0.0
 }
+
+// ============================================================================
+// Special Value Tests for Rounding Functions
+// ============================================================================
+
+#[test]
+fn test_round_float_special_values() {
+    // Test NaN
+    let nan = XsdFloat::nan();
+    let r_nan = round_float(nan);
+    assert(r_nan.is_nan());
+
+    // Test positive infinity
+    let pos_inf = XsdFloat::infinity();
+    let r_pos_inf = round_float(pos_inf);
+    assert(r_pos_inf.to_bits() == 0x7F800000);
+
+    // Test negative infinity
+    let neg_inf = XsdFloat::neg_infinity();
+    let r_neg_inf = round_float(neg_inf);
+    assert(r_neg_inf.to_bits() == 0xFF800000);
+
+    // Test positive zero
+    let pos_zero = XsdFloat::zero();
+    let r_pos_zero = round_float(pos_zero);
+    assert(r_pos_zero.to_bits() == 0x00000000);
+
+    // Test negative zero
+    let neg_zero = XsdFloat::neg_zero();
+    let r_neg_zero = round_float(neg_zero);
+    assert(r_neg_zero.to_bits() == 0x80000000);
+}
+
+#[test]
+fn test_ceil_float_special_values() {
+    // Test NaN
+    let nan = XsdFloat::nan();
+    let c_nan = ceil_float(nan);
+    assert(c_nan.is_nan());
+
+    // Test positive infinity
+    let pos_inf = XsdFloat::infinity();
+    let c_pos_inf = ceil_float(pos_inf);
+    assert(c_pos_inf.to_bits() == 0x7F800000);
+
+    // Test negative infinity
+    let neg_inf = XsdFloat::neg_infinity();
+    let c_neg_inf = ceil_float(neg_inf);
+    assert(c_neg_inf.to_bits() == 0xFF800000);
+
+    // Test positive zero
+    let pos_zero = XsdFloat::zero();
+    let c_pos_zero = ceil_float(pos_zero);
+    assert(c_pos_zero.to_bits() == 0x00000000);
+
+    // Test negative zero
+    let neg_zero = XsdFloat::neg_zero();
+    let c_neg_zero = ceil_float(neg_zero);
+    assert(c_neg_zero.to_bits() == 0x80000000);
+}
+
+#[test]
+fn test_floor_float_special_values() {
+    // Test NaN
+    let nan = XsdFloat::nan();
+    let f_nan = floor_float(nan);
+    assert(f_nan.is_nan());
+
+    // Test positive infinity
+    let pos_inf = XsdFloat::infinity();
+    let f_pos_inf = floor_float(pos_inf);
+    assert(f_pos_inf.to_bits() == 0x7F800000);
+
+    // Test negative infinity
+    let neg_inf = XsdFloat::neg_infinity();
+    let f_neg_inf = floor_float(neg_inf);
+    assert(f_neg_inf.to_bits() == 0xFF800000);
+
+    // Test positive zero
+    let pos_zero = XsdFloat::zero();
+    let f_pos_zero = floor_float(pos_zero);
+    assert(f_pos_zero.to_bits() == 0x00000000);
+
+    // Test negative zero
+    let neg_zero = XsdFloat::neg_zero();
+    let f_neg_zero = floor_float(neg_zero);
+    assert(f_neg_zero.to_bits() == 0x80000000);
+}
+
+#[test]
+fn test_round_double_special_values() {
+    // Test NaN
+    let nan = XsdDouble::nan();
+    let r_nan = round_double(nan);
+    assert(r_nan.is_nan());
+
+    // Test positive infinity
+    let pos_inf = XsdDouble::infinity();
+    let r_pos_inf = round_double(pos_inf);
+    assert(r_pos_inf.to_bits() == 0x7FF0000000000000);
+
+    // Test negative infinity
+    let neg_inf = XsdDouble::neg_infinity();
+    let r_neg_inf = round_double(neg_inf);
+    assert(r_neg_inf.to_bits() == 0xFFF0000000000000);
+
+    // Test positive zero
+    let pos_zero = XsdDouble::zero();
+    let r_pos_zero = round_double(pos_zero);
+    assert(r_pos_zero.to_bits() == 0x0000000000000000);
+
+    // Test negative zero
+    let neg_zero = XsdDouble::neg_zero();
+    let r_neg_zero = round_double(neg_zero);
+    assert(r_neg_zero.to_bits() == 0x8000000000000000);
+}
+
+#[test]
+fn test_ceil_double_special_values() {
+    // Test NaN
+    let nan = XsdDouble::nan();
+    let c_nan = ceil_double(nan);
+    assert(c_nan.is_nan());
+
+    // Test positive infinity
+    let pos_inf = XsdDouble::infinity();
+    let c_pos_inf = ceil_double(pos_inf);
+    assert(c_pos_inf.to_bits() == 0x7FF0000000000000);
+
+    // Test negative infinity
+    let neg_inf = XsdDouble::neg_infinity();
+    let c_neg_inf = ceil_double(neg_inf);
+    assert(c_neg_inf.to_bits() == 0xFFF0000000000000);
+
+    // Test positive zero
+    let pos_zero = XsdDouble::zero();
+    let c_pos_zero = ceil_double(pos_zero);
+    assert(c_pos_zero.to_bits() == 0x0000000000000000);
+
+    // Test negative zero
+    let neg_zero = XsdDouble::neg_zero();
+    let c_neg_zero = ceil_double(neg_zero);
+    assert(c_neg_zero.to_bits() == 0x8000000000000000);
+}
+
+#[test]
+fn test_floor_double_special_values() {
+    // Test NaN
+    let nan = XsdDouble::nan();
+    let f_nan = floor_double(nan);
+    assert(f_nan.is_nan());
+
+    // Test positive infinity
+    let pos_inf = XsdDouble::infinity();
+    let f_pos_inf = floor_double(pos_inf);
+    assert(f_pos_inf.to_bits() == 0x7FF0000000000000);
+
+    // Test negative infinity
+    let neg_inf = XsdDouble::neg_infinity();
+    let f_neg_inf = floor_double(neg_inf);
+    assert(f_neg_inf.to_bits() == 0xFFF0000000000000);
+
+    // Test positive zero
+    let pos_zero = XsdDouble::zero();
+    let f_pos_zero = floor_double(pos_zero);
+    assert(f_pos_zero.to_bits() == 0x0000000000000000);
+
+    // Test negative zero
+    let neg_zero = XsdDouble::neg_zero();
+    let f_neg_zero = floor_double(neg_zero);
+    assert(f_neg_zero.to_bits() == 0x8000000000000000);
+}
