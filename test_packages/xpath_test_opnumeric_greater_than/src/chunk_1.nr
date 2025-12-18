@@ -7,48 +7,48 @@ use dep::xpath::{
 
 #[test]
 fn op_numeric_greater_thansht2args_1() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(numeric_greater_than_int(-32768, -32768) == false);
 }
 
 #[test]
 fn op_numeric_greater_thansht2args_2() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(numeric_greater_than_int(-5324, -32768) == true);
 }
 
 #[test]
 fn op_numeric_greater_thansht2args_3() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(numeric_greater_than_int(32767, -32768) == true);
 }
 
 #[test]
 fn op_numeric_greater_thansht2args_4() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(numeric_greater_than_int(-32768, -5324) == false);
 }
 
 #[test]
 fn op_numeric_greater_thansht2args_5() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     assert(numeric_greater_than_int(-32768, 32767) == false);
 }
 
 #[test]
 fn k_numericgt_1() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test: K-NumericGT-1  
     assert(numeric_greater_than_int(1, -1) == true);
 }
 
 #[test]
 fn k_numericgt_3() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test: K-NumericGT-3  
     assert(numeric_greater_than_int(1, -1) == true);
 }
 
 #[test]
 fn k_numericgt_23() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test: K-NumericGT-23 
     assert(numeric_greater_than_int(4, 0) == true);
 }

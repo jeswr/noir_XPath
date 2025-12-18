@@ -723,6 +723,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         return None
                     return ("", f"ceil_int({val_int})", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     
@@ -738,6 +739,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         return None
                     return ("", f"floor_int({val_int})", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     
@@ -753,6 +755,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         return None
                     return ("", f"round_int({val_int})", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     
@@ -778,6 +781,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         return None
                     return ("", f"{noir_func}({a_int}, {b_int})", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     
@@ -790,6 +794,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                 if isinstance(a, bool) and isinstance(b, bool):
                     return ("", f"boolean_equal({str(a).lower()}, {str(b).lower()})", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     
@@ -810,6 +815,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                     setup = f"let dt = datetime_from_epoch_microseconds_with_tz({utc_micros}, {tz_offset});"
                     return (setup, f"{noir_func}(dt)", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     
@@ -842,8 +848,8 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         arg_val = arg_token.evaluate()
                         if isinstance(arg_val, (int, Decimal)):
                             val_int = int(arg_val)
-                            # Only accept i8 range (-127 to 127) for casts to float/double
-                            if val_int < -127 or val_int > 127:
+                            # Only accept i8 range (-128 to 127) for casts to float/double
+                            if val_int < -128 or val_int > 127:
                                 return None
                             return ("", f"{noir_func}({val_int})", None)
                         elif isinstance(arg_val, float):
@@ -1083,7 +1089,17 @@ def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
         return None
     
     # Build test function
-    desc = test.description.replace("\n", " ").replace('"', "'")[:60] if test.description else ""
+    # Truncate description to max 80 chars, but avoid cutting words mid-way
+    if test.description:
+        desc = test.description.replace("\n", " ").replace('"', "'")
+        if len(desc) > 80:
+            # Try to truncate at a word boundary
+            desc = desc[:80]
+            last_space = desc.rfind(' ')
+            if last_space > 60:  # Only truncate at space if it's not too short
+                desc = desc[:last_space]
+    else:
+        desc = ""
     lines = [f"#[test]", f"fn {test_name}() {{"]
     if desc:
         lines.append(f"    // {desc}")
