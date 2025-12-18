@@ -515,6 +515,132 @@ pub fn compare_float_double_gt(a: XsdFloat, b: XsdDouble) -> bool {
     numeric_greater_than_double(a_double, b)
 }
 
+/// Compare integer to double for less-than-or-equal
+pub fn compare_int_double_le(a: i64, b: XsdDouble) -> bool {
+    let a_double = XsdDouble::from_small_int(a as i8);
+    numeric_le_double(a_double, b)
+}
+
+/// Compare integer to double for greater-than-or-equal
+pub fn compare_int_double_ge(a: i64, b: XsdDouble) -> bool {
+    let a_double = XsdDouble::from_small_int(a as i8);
+    numeric_ge_double(a_double, b)
+}
+
+/// Compare double to integer for less-than-or-equal
+pub fn compare_double_int_le(a: XsdDouble, b: i64) -> bool {
+    let b_double = XsdDouble::from_small_int(b as i8);
+    numeric_le_double(a, b_double)
+}
+
+/// Compare double to integer for greater-than-or-equal
+pub fn compare_double_int_ge(a: XsdDouble, b: i64) -> bool {
+    let b_double = XsdDouble::from_small_int(b as i8);
+    numeric_ge_double(a, b_double)
+}
+
+/// Compare float to double for less-than-or-equal
+pub fn compare_float_double_le(a: XsdFloat, b: XsdDouble) -> bool {
+    let a_double = XsdDouble::from_float(a);
+    numeric_le_double(a_double, b)
+}
+
+/// Compare float to double for greater-than-or-equal
+pub fn compare_float_double_ge(a: XsdFloat, b: XsdDouble) -> bool {
+    let a_double = XsdDouble::from_float(a);
+    numeric_ge_double(a_double, b)
+}
+
+/// Compare double to float for equality
+pub fn compare_double_float_eq(a: XsdDouble, b: XsdFloat) -> bool {
+    let b_double = XsdDouble::from_float(b);
+    numeric_equal_double(a, b_double)
+}
+
+/// Compare double to float for less-than
+pub fn compare_double_float_lt(a: XsdDouble, b: XsdFloat) -> bool {
+    let b_double = XsdDouble::from_float(b);
+    numeric_less_than_double(a, b_double)
+}
+
+/// Compare double to float for greater-than
+pub fn compare_double_float_gt(a: XsdDouble, b: XsdFloat) -> bool {
+    let b_double = XsdDouble::from_float(b);
+    numeric_greater_than_double(a, b_double)
+}
+
+/// Compare double to float for less-than-or-equal
+pub fn compare_double_float_le(a: XsdDouble, b: XsdFloat) -> bool {
+    let b_double = XsdDouble::from_float(b);
+    numeric_le_double(a, b_double)
+}
+
+/// Compare double to float for greater-than-or-equal
+pub fn compare_double_float_ge(a: XsdDouble, b: XsdFloat) -> bool {
+    let b_double = XsdDouble::from_float(b);
+    numeric_ge_double(a, b_double)
+}
+
+/// Compare integer to float for equality
+pub fn compare_int_float_eq(a: i64, b: XsdFloat) -> bool {
+    let a_float = XsdFloat::from_small_int(a as i8);
+    numeric_equal_float(a_float, b)
+}
+
+/// Compare integer to float for less-than
+pub fn compare_int_float_lt(a: i64, b: XsdFloat) -> bool {
+    let a_float = XsdFloat::from_small_int(a as i8);
+    numeric_less_than_float(a_float, b)
+}
+
+/// Compare integer to float for greater-than
+pub fn compare_int_float_gt(a: i64, b: XsdFloat) -> bool {
+    let a_float = XsdFloat::from_small_int(a as i8);
+    numeric_greater_than_float(a_float, b)
+}
+
+/// Compare integer to float for less-than-or-equal
+pub fn compare_int_float_le(a: i64, b: XsdFloat) -> bool {
+    let a_float = XsdFloat::from_small_int(a as i8);
+    numeric_le_float(a_float, b)
+}
+
+/// Compare integer to float for greater-than-or-equal
+pub fn compare_int_float_ge(a: i64, b: XsdFloat) -> bool {
+    let a_float = XsdFloat::from_small_int(a as i8);
+    numeric_ge_float(a_float, b)
+}
+
+/// Compare float to integer for equality
+pub fn compare_float_int_eq(a: XsdFloat, b: i64) -> bool {
+    let b_float = XsdFloat::from_small_int(b as i8);
+    numeric_equal_float(a, b_float)
+}
+
+/// Compare float to integer for less-than
+pub fn compare_float_int_lt(a: XsdFloat, b: i64) -> bool {
+    let b_float = XsdFloat::from_small_int(b as i8);
+    numeric_less_than_float(a, b_float)
+}
+
+/// Compare float to integer for greater-than
+pub fn compare_float_int_gt(a: XsdFloat, b: i64) -> bool {
+    let b_float = XsdFloat::from_small_int(b as i8);
+    numeric_greater_than_float(a, b_float)
+}
+
+/// Compare float to integer for less-than-or-equal
+pub fn compare_float_int_le(a: XsdFloat, b: i64) -> bool {
+    let b_float = XsdFloat::from_small_int(b as i8);
+    numeric_le_float(a, b_float)
+}
+
+/// Compare float to integer for greater-than-or-equal
+pub fn compare_float_int_ge(a: XsdFloat, b: i64) -> bool {
+    let b_float = XsdFloat::from_small_int(b as i8);
+    numeric_ge_float(a, b_float)
+}
+
 // ============================================================================
 // Type Casting Functions (xs:float, xs:double, xs:integer constructors)
 // ============================================================================

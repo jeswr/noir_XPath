@@ -2,13 +2,21 @@
 
 use dep::xpath::{
     abs_int, cast_double_to_float, cast_double_to_integer, cast_float_to_integer,
-    cast_integer_to_double, cast_integer_to_float, ceil_int, floor_int, get_common_type, max_int,
-    min_int, numeric_add_double, numeric_add_float, numeric_add_int, numeric_divide_int,
-    numeric_equal_double, numeric_equal_float, numeric_equal_int, numeric_greater_than_double,
-    numeric_greater_than_float, numeric_greater_than_int, numeric_less_than_double,
-    numeric_less_than_float, numeric_less_than_int, numeric_mod_int, numeric_multiply_int,
-    numeric_subtract_int, numeric_unary_minus_int, numeric_unary_plus_int, NumericType, round_int,
-    XsdDouble, XsdFloat,
+    cast_integer_to_double, cast_integer_to_float, ceil_int, compare_double_float_eq,
+    compare_double_float_ge, compare_double_float_gt, compare_double_float_le,
+    compare_double_float_lt, compare_double_int_eq, compare_double_int_ge, compare_double_int_gt,
+    compare_double_int_le, compare_double_int_lt, compare_float_double_eq, compare_float_double_ge,
+    compare_float_double_gt, compare_float_double_le, compare_float_double_lt, compare_float_int_eq,
+    compare_float_int_ge, compare_float_int_gt, compare_float_int_le, compare_float_int_lt,
+    compare_int_double_eq, compare_int_double_ge, compare_int_double_gt, compare_int_double_le,
+    compare_int_double_lt, compare_int_float_eq, compare_int_float_ge, compare_int_float_gt,
+    compare_int_float_le, compare_int_float_lt, floor_int, get_common_type, max_int, min_int,
+    numeric_add_double, numeric_add_float, numeric_add_int, numeric_divide_int,
+    numeric_equal_double, numeric_equal_float, numeric_equal_int, numeric_ge_int,
+    numeric_greater_than_double, numeric_greater_than_float, numeric_greater_than_int,
+    numeric_le_int, numeric_less_than_double, numeric_less_than_float, numeric_less_than_int,
+    numeric_mod_int, numeric_multiply_int, numeric_subtract_int, numeric_unary_minus_int,
+    numeric_unary_plus_int, NumericType, round_int, XsdDouble, XsdFloat,
 };
 
 // ============================================================================
@@ -458,4 +466,204 @@ fn test_abs_edge_cases() {
     // Large values
     assert(abs_int(1000000000) == 1000000000);
     assert(abs_int(-1000000000) == 1000000000);
+}
+
+// ============================================================================
+// Tests for new comparison operators (<=, >=)
+// ============================================================================
+
+#[test]
+fn test_numeric_le_int() {
+    // Less than
+    assert(numeric_le_int(3, 5) == true);
+    // Equal
+    assert(numeric_le_int(5, 5) == true);
+    // Greater than
+    assert(numeric_le_int(5, 3) == false);
+    // Negative numbers
+    assert(numeric_le_int(-10, -5) == true);
+    assert(numeric_le_int(-5, -5) == true);
+    assert(numeric_le_int(-5, -10) == false);
+    // Zero
+    assert(numeric_le_int(0, 0) == true);
+    assert(numeric_le_int(-1, 0) == true);
+    assert(numeric_le_int(0, 1) == true);
+}
+
+#[test]
+fn test_numeric_ge_int() {
+    // Greater than
+    assert(numeric_ge_int(5, 3) == true);
+    // Equal
+    assert(numeric_ge_int(5, 5) == true);
+    // Less than
+    assert(numeric_ge_int(3, 5) == false);
+    // Negative numbers
+    assert(numeric_ge_int(-5, -10) == true);
+    assert(numeric_ge_int(-5, -5) == true);
+    assert(numeric_ge_int(-10, -5) == false);
+    // Zero
+    assert(numeric_ge_int(0, 0) == true);
+    assert(numeric_ge_int(0, -1) == true);
+    assert(numeric_ge_int(1, 0) == true);
+}
+
+// ============================================================================
+// Tests for mixed-type comparison operators
+// ============================================================================
+
+#[test]
+fn test_compare_int_double_le() {
+    let int_val = 5;
+    let double_val = XsdDouble::from_small_int(10);
+    assert(compare_int_double_le(int_val, double_val) == true);
+
+    let int_val2 = 10;
+    let double_val2 = XsdDouble::from_small_int(10);
+    assert(compare_int_double_le(int_val2, double_val2) == true);
+
+    let int_val3 = 15;
+    let double_val3 = XsdDouble::from_small_int(10);
+    assert(compare_int_double_le(int_val3, double_val3) == false);
+}
+
+#[test]
+fn test_compare_int_double_ge() {
+    let int_val = 15;
+    let double_val = XsdDouble::from_small_int(10);
+    assert(compare_int_double_ge(int_val, double_val) == true);
+
+    let int_val2 = 10;
+    let double_val2 = XsdDouble::from_small_int(10);
+    assert(compare_int_double_ge(int_val2, double_val2) == true);
+
+    let int_val3 = 5;
+    let double_val3 = XsdDouble::from_small_int(10);
+    assert(compare_int_double_ge(int_val3, double_val3) == false);
+}
+
+#[test]
+fn test_compare_double_int_le() {
+    let double_val = XsdDouble::from_small_int(5);
+    let int_val = 10;
+    assert(compare_double_int_le(double_val, int_val) == true);
+
+    let double_val2 = XsdDouble::from_small_int(10);
+    let int_val2 = 10;
+    assert(compare_double_int_le(double_val2, int_val2) == true);
+
+    let double_val3 = XsdDouble::from_small_int(15);
+    let int_val3 = 10;
+    assert(compare_double_int_le(double_val3, int_val3) == false);
+}
+
+#[test]
+fn test_compare_double_int_ge() {
+    let double_val = XsdDouble::from_small_int(15);
+    let int_val = 10;
+    assert(compare_double_int_ge(double_val, int_val) == true);
+
+    let double_val2 = XsdDouble::from_small_int(10);
+    let int_val2 = 10;
+    assert(compare_double_int_ge(double_val2, int_val2) == true);
+
+    let double_val3 = XsdDouble::from_small_int(5);
+    let int_val3 = 10;
+    assert(compare_double_int_ge(double_val3, int_val3) == false);
+}
+
+#[test]
+fn test_compare_float_double_le() {
+    let float_val = XsdFloat::from_small_int(5);
+    let double_val = XsdDouble::from_small_int(10);
+    assert(compare_float_double_le(float_val, double_val) == true);
+
+    let float_val2 = XsdFloat::from_small_int(10);
+    let double_val2 = XsdDouble::from_small_int(10);
+    assert(compare_float_double_le(float_val2, double_val2) == true);
+
+    let float_val3 = XsdFloat::from_small_int(15);
+    let double_val3 = XsdDouble::from_small_int(10);
+    assert(compare_float_double_le(float_val3, double_val3) == false);
+}
+
+#[test]
+fn test_compare_float_double_ge() {
+    let float_val = XsdFloat::from_small_int(15);
+    let double_val = XsdDouble::from_small_int(10);
+    assert(compare_float_double_ge(float_val, double_val) == true);
+
+    let float_val2 = XsdFloat::from_small_int(10);
+    let double_val2 = XsdDouble::from_small_int(10);
+    assert(compare_float_double_ge(float_val2, double_val2) == true);
+
+    let float_val3 = XsdFloat::from_small_int(5);
+    let double_val3 = XsdDouble::from_small_int(10);
+    assert(compare_float_double_ge(float_val3, double_val3) == false);
+}
+
+#[test]
+fn test_compare_double_float_le() {
+    let double_val = XsdDouble::from_small_int(5);
+    let float_val = XsdFloat::from_small_int(10);
+    assert(compare_double_float_le(double_val, float_val) == true);
+
+    let double_val2 = XsdDouble::from_small_int(10);
+    let float_val2 = XsdFloat::from_small_int(10);
+    assert(compare_double_float_le(double_val2, float_val2) == true);
+}
+
+#[test]
+fn test_compare_double_float_ge() {
+    let double_val = XsdDouble::from_small_int(15);
+    let float_val = XsdFloat::from_small_int(10);
+    assert(compare_double_float_ge(double_val, float_val) == true);
+
+    let double_val2 = XsdDouble::from_small_int(10);
+    let float_val2 = XsdFloat::from_small_int(10);
+    assert(compare_double_float_ge(double_val2, float_val2) == true);
+}
+
+#[test]
+fn test_compare_int_float_le() {
+    let int_val = 5;
+    let float_val = XsdFloat::from_small_int(10);
+    assert(compare_int_float_le(int_val, float_val) == true);
+
+    let int_val2 = 10;
+    let float_val2 = XsdFloat::from_small_int(10);
+    assert(compare_int_float_le(int_val2, float_val2) == true);
+}
+
+#[test]
+fn test_compare_int_float_ge() {
+    let int_val = 15;
+    let float_val = XsdFloat::from_small_int(10);
+    assert(compare_int_float_ge(int_val, float_val) == true);
+
+    let int_val2 = 10;
+    let float_val2 = XsdFloat::from_small_int(10);
+    assert(compare_int_float_ge(int_val2, float_val2) == true);
+}
+
+#[test]
+fn test_compare_float_int_le() {
+    let float_val = XsdFloat::from_small_int(5);
+    let int_val = 10;
+    assert(compare_float_int_le(float_val, int_val) == true);
+
+    let float_val2 = XsdFloat::from_small_int(10);
+    let int_val2 = 10;
+    assert(compare_float_int_le(float_val2, int_val2) == true);
+}
+
+#[test]
+fn test_compare_float_int_ge() {
+    let float_val = XsdFloat::from_small_int(15);
+    let int_val = 10;
+    assert(compare_float_int_ge(float_val, int_val) == true);
+
+    let float_val2 = XsdFloat::from_small_int(10);
+    let int_val2 = 10;
+    assert(compare_float_int_ge(float_val2, int_val2) == true);
 }

@@ -34,12 +34,28 @@ Auto-generated test packages from the W3C qt3tests suite in `test_packages/`:
 - `xpath_test_opdatetime_equal/` - Tests for op:dateTime-equal
 - `xpath_test_opdatetime_greater_than/` - Tests for op:dateTime-greater-than
 - `xpath_test_opdatetime_less_than/` - Tests for op:dateTime-less-than
-- `xpath_test_opnumeric_add/` - Tests for op:numeric-add
-- `xpath_test_opnumeric_divide/` - Tests for op:numeric-divide
+- `xpath_test_opnumeric_add/` - Tests for op:numeric-add (integer)
+- `xpath_test_opnumeric_add_float/` - Tests for op:numeric-add (float)
+- `xpath_test_opnumeric_add_double/` - Tests for op:numeric-add (double)
+- `xpath_test_opnumeric_divide/` - Tests for op:numeric-divide (integer)
+- `xpath_test_opnumeric_divide_float/` - Tests for op:numeric-divide (float)
+- `xpath_test_opnumeric_divide_double/` - Tests for op:numeric-divide (double)
 - `xpath_test_opnumeric_integer_divide/` - Tests for op:numeric-integer-divide
 - `xpath_test_opnumeric_mod/` - Tests for op:numeric-mod
-- `xpath_test_opnumeric_multiply/` - Tests for op:numeric-multiply
-- `xpath_test_opnumeric_subtract/` - Tests for op:numeric-subtract
+- `xpath_test_opnumeric_multiply/` - Tests for op:numeric-multiply (integer)
+- `xpath_test_opnumeric_multiply_float/` - Tests for op:numeric-multiply (float)
+- `xpath_test_opnumeric_multiply_double/` - Tests for op:numeric-multiply (double)
+- `xpath_test_opnumeric_subtract/` - Tests for op:numeric-subtract (integer)
+- `xpath_test_opnumeric_subtract_float/` - Tests for op:numeric-subtract (float)
+- `xpath_test_opnumeric_subtract_double/` - Tests for op:numeric-subtract (double)
+
+### 4. Type Casting Test Packages
+Manual test packages for XPath type casting functions:
+- `xpath_test_xsfloat_from_int/` - Tests for xs:float($arg as xs:integer)
+- `xpath_test_xsdouble_from_int/` - Tests for xs:double($arg as xs:integer)
+- `xpath_test_xsinteger_from_float/` - Tests for xs:integer($arg as xs:float)
+- `xpath_test_xsinteger_from_double/` - Tests for xs:integer($arg as xs:double)
+- `xpath_test_xsfloat_from_double/` - Tests for xs:float($arg as xs:double)
 
 ## Running Tests
 
@@ -95,6 +111,13 @@ nargo test --package xpath_test_fnabs
 ### ✅ Tested (Unit Tests Only)
 
 Functions with comprehensive unit tests but no qt3tests coverage yet:
+
+**Type Casting:**
+- xs:float (from integer) - `xpath_test_xsfloat_from_int/` (manual tests)
+- xs:double (from integer) - `xpath_test_xsdouble_from_int/` (manual tests)
+- xs:integer (from float) - `xpath_test_xsinteger_from_float/` (manual tests)
+- xs:integer (from double) - `xpath_test_xsinteger_from_double/` (manual tests)
+- xs:float (from double) - `xpath_test_xsfloat_from_double/` (manual tests)
 
 **Numeric:**
 - fn:round, fn:ceiling, fn:floor (identity for integers)

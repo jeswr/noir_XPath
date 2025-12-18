@@ -46,3 +46,21 @@ pub fn boolean_greater_than(a: bool, b: bool) -> bool {
     // Only true when a is true and b is false
     a & (!b)
 }
+
+/// op:boolean-less-than-or-equal
+/// Returns true if the first argument is less than or equal to the second.
+/// In XPath boolean ordering: false <= true, false <= false, true <= true
+pub fn boolean_le(a: bool, b: bool) -> bool {
+    // a <= b is equivalent to (a < b) OR (a == b)
+    // Or more simply: NOT (a > b)
+    !(a & (!b))
+}
+
+/// op:boolean-greater-than-or-equal
+/// Returns true if the first argument is greater than or equal to the second.
+/// In XPath boolean ordering: true >= false, true >= true, false >= false
+pub fn boolean_ge(a: bool, b: bool) -> bool {
+    // a >= b is equivalent to (a > b) OR (a == b)
+    // Or more simply: NOT (a < b)
+    !((!a) & b)
+}
