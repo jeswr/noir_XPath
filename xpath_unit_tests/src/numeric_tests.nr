@@ -2,21 +2,22 @@
 
 use dep::xpath::{
     abs_int, cast_double_to_float, cast_double_to_integer, cast_float_to_integer,
-    cast_integer_to_double, cast_integer_to_float, ceil_int, compare_double_float_eq,
-    compare_double_float_ge, compare_double_float_gt, compare_double_float_le,
-    compare_double_float_lt, compare_double_int_eq, compare_double_int_ge, compare_double_int_gt,
-    compare_double_int_le, compare_double_int_lt, compare_float_double_eq, compare_float_double_ge,
-    compare_float_double_gt, compare_float_double_le, compare_float_double_lt, compare_float_int_eq,
-    compare_float_int_ge, compare_float_int_gt, compare_float_int_le, compare_float_int_lt,
-    compare_int_double_eq, compare_int_double_ge, compare_int_double_gt, compare_int_double_le,
-    compare_int_double_lt, compare_int_float_eq, compare_int_float_ge, compare_int_float_gt,
-    compare_int_float_le, compare_int_float_lt, floor_int, get_common_type, max_int, min_int,
-    numeric_add_double, numeric_add_float, numeric_add_int, numeric_divide_int,
-    numeric_equal_double, numeric_equal_float, numeric_equal_int, numeric_ge_int,
-    numeric_greater_than_double, numeric_greater_than_float, numeric_greater_than_int,
-    numeric_le_int, numeric_less_than_double, numeric_less_than_float, numeric_less_than_int,
-    numeric_mod_int, numeric_multiply_int, numeric_subtract_int, numeric_unary_minus_int,
-    numeric_unary_plus_int, NumericType, round_int, XsdDouble, XsdFloat,
+    cast_integer_to_double, cast_integer_to_float, ceil_double, ceil_float, ceil_int,
+    compare_double_float_eq, compare_double_float_ge, compare_double_float_gt,
+    compare_double_float_le, compare_double_float_lt, compare_double_int_eq, compare_double_int_ge,
+    compare_double_int_gt, compare_double_int_le, compare_double_int_lt, compare_float_double_eq,
+    compare_float_double_ge, compare_float_double_gt, compare_float_double_le,
+    compare_float_double_lt, compare_float_int_eq, compare_float_int_ge, compare_float_int_gt,
+    compare_float_int_le, compare_float_int_lt, compare_int_double_eq, compare_int_double_ge,
+    compare_int_double_gt, compare_int_double_le, compare_int_double_lt, compare_int_float_eq,
+    compare_int_float_ge, compare_int_float_gt, compare_int_float_le, compare_int_float_lt,
+    floor_double, floor_float, floor_int, get_common_type, max_int, min_int, numeric_add_double,
+    numeric_add_float, numeric_add_int, numeric_divide_int, numeric_equal_double,
+    numeric_equal_float, numeric_equal_int, numeric_ge_int, numeric_greater_than_double,
+    numeric_greater_than_float, numeric_greater_than_int, numeric_le_int, numeric_less_than_double,
+    numeric_less_than_float, numeric_less_than_int, numeric_mod_int, numeric_multiply_int,
+    numeric_subtract_int, numeric_unary_minus_int, numeric_unary_plus_int, NumericType,
+    round_double, round_float, round_int, XsdDouble, XsdFloat,
 };
 
 // ============================================================================
@@ -785,6 +786,9 @@ fn test_floor_double_special_values() {
     let neg_zero = XsdDouble::neg_zero();
     let f_neg_zero = floor_double(neg_zero);
     assert(f_neg_zero.to_bits() == 0x8000000000000000);
+}
+
+// ============================================================================
 // Tests for new comparison operators (<=, >=)
 // ============================================================================
 
