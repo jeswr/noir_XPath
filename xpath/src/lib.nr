@@ -89,5 +89,5 @@ pub use sequence::{
 // Re-export only functional string functions
 // Note: Functions that return strings (substring, upper_case, lower_case, concat, etc.)
 // are not exported as they cannot work correctly due to Noir's byte-to-string limitation
-pub use string::{contains, ends_with, starts_with, string_length};
 pub use comparison::{value_equal, value_ge, value_greater_than, value_le, value_less_than};
+pub use string::{contains, ends_with, starts_with, string_length};

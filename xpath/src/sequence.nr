@@ -17,13 +17,13 @@
 
 /// fn:empty for arrays
 /// Returns true if the sequence is empty (length is 0)
-pub fn is_empty<T, let N: u32>(arr: [T; N]) -> bool {
+pub fn is_empty<T, let N: u32>(_arr: [T; N]) -> bool {
     N == 0
 }
 
 /// fn:exists for arrays
 /// Returns true if the sequence is not empty (has at least one item)
-pub fn exists<T, let N: u32>(arr: [T; N]) -> bool {
+pub fn exists<T, let N: u32>(_arr: [T; N]) -> bool {
     N > 0
 }
 
