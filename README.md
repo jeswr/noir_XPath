@@ -23,7 +23,7 @@ A Noir library implementing XPath 2.0 functions and operators required by SPARQL
 > **Test Coverage Limitations**: The following limitations apply:
 > - Tests are derived from W3C qt3tests but only cover a subset of XPath functions
 > - Float operations are not yet implemented (planned via noir_IEEE754)
-> - String and regex operations are not yet implemented
+> - Regex operations are not yet implemented (complex in ZK circuits)
 
 ## Overview
 
@@ -46,6 +46,10 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
 - **Numeric Operations**: 
   - Integer: add, subtract, multiply, divide, mod, abs, round, ceil, floor, min, max
   - Comparisons: equal, less-than, greater-than
+- **String Operations**:
+  - Basic: string-length, substring, upper-case, lower-case
+  - Search: starts-with, ends-with, contains
+  - Manipulation: substring-before, substring-after, concat
 - **DateTime Operations**: 
   - Construction: from epoch microseconds, from components
   - Component extraction: year, month, day, hours, minutes, seconds, microseconds, timezone
@@ -67,7 +71,7 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
 ### 🔮 Future (Planned)
 
 - Float operations via [noir_IEEE754](https://github.com/jeswr/noir_IEEE754)
-- String functions (STRLEN, SUBSTR, CONCAT, etc.)
+- Advanced string functions (ENCODE_FOR_URI, langMatches)
 - Regex functions (REGEX, REPLACE)
 - Hash functions (MD5, SHA256, etc.)
 - Decimal type support
@@ -77,9 +81,10 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
 This library implements XPath 2.0 functions and operators required by SPARQL 1.1. 
 
 **Quick Summary:**
-- ✅ **52+ functions fully implemented** (boolean, integer numeric, datetime, duration, aggregates)
+- ✅ **56+ functions fully implemented** (boolean, integer numeric, datetime, duration, aggregates)
+- ⚠️ **String operations partial** (4 functions work: string-length, starts-with, ends-with, contains)
 - ⚠️ **Float support partial** (requires noir_IEEE754 integration)
-- 🔮 **String/regex/hash deferred** (complex in ZK circuits)
+- 🔮 **Regex/hash deferred** (complex in ZK circuits)
 - ❌ **RAND/NOW not feasible** (non-deterministic in ZK)
 
 For complete function mapping, see **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)**
@@ -87,6 +92,7 @@ For complete function mapping, see **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)*
 ### ✅ Fully Implemented
 - **Boolean operations**: All boolean functions and operators (fn:not, logical-and, logical-or, comparisons)
 - **Integer numeric operations**: All arithmetic and comparison operators for integers
+- **String operations (partial)**: Functions returning boolean/numeric values work correctly (string-length, starts-with, ends-with, contains); functions returning strings have severe limitations due to Noir constraints
 - **DateTime operations**: Component extraction (year, month, day, hours, minutes, seconds, timezone), comparisons, and arithmetic
 - **Duration operations**: All dayTimeDuration operations including arithmetic and comparisons
 - **Aggregate functions**: COUNT, SUM, AVG, MIN, MAX for integer sequences
@@ -98,8 +104,10 @@ For complete function mapping, see **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)*
 ### ❌ Not Implemented (Deferred)
 The following SPARQL 1.1 functions are deferred due to complexity in zero-knowledge circuits:
 
-- **String functions**: All string operations (STRLEN, SUBSTR, CONCAT, UCASE, LCASE, STRSTARTS, STRENDS, CONTAINS, STRBEFORE, STRAFTER, ENCODE_FOR_URI, REGEX, REPLACE, etc.)
-  - Reason: Variable-length data and UTF-8 encoding are complex in ZK circuits
+- **Advanced string functions**: ENCODE_FOR_URI, langMatches
+  - Reason: Require complex encoding/matching logic
+- **Regex functions**: REGEX, REPLACE
+  - Reason: Regular expression engines are complex in ZK circuits
 - **Hash functions**: MD5, SHA1, SHA256, SHA384, SHA512
   - Reason: Require string output formatting
 - **RDF term functions**: isIRI, isBlank, isLiteral, str, lang, datatype, IRI, BNODE, etc.
@@ -126,6 +134,29 @@ fn example() {
     assert(boolean_equal(result, true));
 }
 ```
+
+### String Operations
+
+```noir
+use dep::xpath::{
+    string_length,
+    starts_with,
+    ends_with,
+    contains,
+};
+
+fn example() {
+    let s: str<11> = "Hello World";
+    
+    // These functions work correctly (return boolean/numeric values):
+    assert(string_length::<11>(s) == 11);
+    assert(starts_with::<11, 5>(s, "Hello"));
+    assert(ends_with::<11, 5>(s, "World"));
+    assert(contains::<11, 5>(s, "lo Wo"));
+}
+```
+
+**Note**: Functions that need to create new strings (substring, upper_case, lower_case, concat, etc.) are not exported in the public API due to Noir's limitation in converting byte arrays back to strings at runtime. Only functions returning boolean or numeric values are available.
 
 ### Numeric Operations
 
@@ -250,7 +281,8 @@ noir_XPath/
 │       ├── datetime.nr      # DateTime operations
 │       ├── duration.nr      # Duration operations
 │       ├── sequence.nr      # Sequence/aggregate functions
-│       └── comparison.nr    # Comparison utilities
+│       ├── comparison.nr    # Comparison utilities
+│       └── string.nr        # String operations
 ├── xpath_unit_tests/        # Unit tests
 ├── test_packages/           # Auto-generated tests from qt3tests
 └── scripts/                 # Test generation scripts
@@ -291,7 +323,7 @@ See [scripts/README.md](./scripts/README.md) for details.
 
 ## Dependencies
 
-None currently. Float operations via [noir_IEEE754](https://github.com/jeswr/noir_IEEE754) planned for future integration.
+- [noir_IEEE754](https://github.com/jeswr/noir_IEEE754) - IEEE 754 floating-point operations
 
 ## References
 
