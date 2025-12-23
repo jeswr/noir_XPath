@@ -48,18 +48,18 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 
 | SPARQL Function | XPath Function | Status | Notes |
 |----------------|----------------|--------|-------|
-| STRLEN | fn:string-length | 🔮 | Deferred - string handling complex in ZK |
-| SUBSTR | fn:substring | 🔮 | Deferred - string handling complex in ZK |
-| UCASE | fn:upper-case | 🔮 | Deferred - string handling complex in ZK |
-| LCASE | fn:lower-case | 🔮 | Deferred - string handling complex in ZK |
-| STRSTARTS | fn:starts-with | 🔮 | Deferred - string handling complex in ZK |
-| STRENDS | fn:ends-with | 🔮 | Deferred - string handling complex in ZK |
-| CONTAINS | fn:contains | 🔮 | Deferred - string handling complex in ZK |
-| STRBEFORE | fn:substring-before | 🔮 | Deferred - string handling complex in ZK |
-| STRAFTER | fn:substring-after | 🔮 | Deferred - string handling complex in ZK |
-| ENCODE_FOR_URI | fn:encode-for-uri | 🔮 | Deferred - string handling complex in ZK |
-| CONCAT | fn:concat | 🔮 | Deferred - string handling complex in ZK |
-| langMatches | fn:lang-matches | 🔮 | Deferred - string handling complex in ZK |
+| STRLEN | fn:string-length | ✅ | Implemented as `string_length` |
+| SUBSTR | fn:substring | ❌ | Not possible in Noir - requires byte-to-string conversion |
+| UCASE | fn:upper-case | ❌ | Not possible in Noir - requires byte-to-string conversion |
+| LCASE | fn:lower-case | ❌ | Not possible in Noir - requires byte-to-string conversion |
+| STRSTARTS | fn:starts-with | ✅ | Implemented as `starts_with` |
+| STRENDS | fn:ends-with | ✅ | Implemented as `ends_with` |
+| CONTAINS | fn:contains | ✅ | Implemented as `contains` |
+| STRBEFORE | fn:substring-before | ❌ | Not possible in Noir - requires byte-to-string conversion |
+| STRAFTER | fn:substring-after | ❌ | Not possible in Noir - requires byte-to-string conversion |
+| ENCODE_FOR_URI | fn:encode-for-uri | 🔮 | Deferred - requires URI encoding logic |
+| CONCAT | fn:concat | ❌ | Not possible in Noir - requires byte-to-string conversion |
+| langMatches | fn:lang-matches | 🔮 | Deferred - language matching complex |
 | REGEX | fn:matches | 🔮 | Deferred - regex complex in ZK |
 | REPLACE | fn:replace | 🔮 | Deferred - regex complex in ZK |
 
