@@ -87,6 +87,11 @@ FUNCTION_TEST_FILES = {
     # Boolean
     "fn:not": "fn/not.xml",
     "op:boolean-equal": "op/boolean-equal.xml",
+    # String functions
+    "fn:string-length": "fn/string-length.xml",
+    "fn:starts-with": "fn/starts-with.xml",
+    "fn:ends-with": "fn/ends-with.xml",
+    "fn:contains": "fn/contains.xml",
 }
 
 # Map XPath functions to Noir function names
@@ -141,6 +146,11 @@ FUNCTION_MAP = {
     # Boolean
     "fn:not": "fn_not",
     "op:boolean-equal": "boolean_equal",
+    # String functions
+    "fn:string-length": "string_length",
+    "fn:starts-with": "starts_with",
+    "fn:ends-with": "ends_with",
+    "fn:contains": "contains",
 }
 
 # Float type filter - which function variants accept which types
