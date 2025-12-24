@@ -7,5 +7,6 @@ fn main() {
 
 mod numeric_tests;
 mod datetime_tests;
+mod date_tests;
 mod boolean_tests;
 mod string_tests;

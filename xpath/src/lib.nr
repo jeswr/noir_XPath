@@ -10,12 +10,13 @@ mod numeric;
 mod numeric_types;
 mod datetime;
 mod duration;
+mod date;
 mod sequence;
 mod comparison;
 mod string;
 
 // Re-export types
-pub use types::{XsdDateTime, XsdDayTimeDuration};
+pub use types::{XsdDate, XsdDateTime, XsdDayTimeDuration};
 
 // Re-export boolean functions
 pub use boolean::{
@@ -78,6 +79,13 @@ pub use duration::{
     duration_is_negative, duration_le, duration_less_than, duration_multiply, duration_negate,
     duration_subtract, duration_to_microseconds, duration_zero, hours_from_duration,
     minutes_from_duration, seconds_from_duration,
+};
+
+// Re-export date functions
+pub use date::{
+    date_equal, date_from_components, date_from_components_with_tz, date_from_epoch_days,
+    date_from_epoch_days_with_tz, date_ge, date_greater_than, date_le, date_less_than,
+    day_from_date, month_from_date, timezone_from_date, year_from_date,
 };
 
 // Re-export sequence/aggregate functions
