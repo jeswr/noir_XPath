@@ -95,6 +95,25 @@ FUNCTION_TEST_FILES = {
     # Boolean
     "fn:not": "fn/not.xml",
     "op:boolean-equal": "op/boolean-equal.xml",
+    "op:boolean-less-than": "op/boolean-less-than.xml",
+    "op:boolean-greater-than": "op/boolean-greater-than.xml",
+    # Duration functions (Stream A)
+    "fn:days-from-duration": "fn/days-from-duration.xml",
+    "fn:hours-from-duration": "fn/hours-from-duration.xml",
+    "fn:minutes-from-duration": "fn/minutes-from-duration.xml",
+    "fn:seconds-from-duration": "fn/seconds-from-duration.xml",
+    # Duration arithmetic and comparisons (Stream B)
+    "op:add-dayTimeDuration-to-dateTime": "op/add-dayTimeDuration-to-dateTime.xml",
+    "op:subtract-dayTimeDuration-from-dateTime": "op/subtract-dayTimeDuration-from-dateTime.xml",
+    "op:subtract-dateTimes": "op/subtract-dateTimes.xml",
+    "op:add-dayTimeDurations": "op/add-dayTimeDurations.xml",
+    "op:subtract-dayTimeDurations": "op/subtract-dayTimeDurations.xml",
+    "op:dayTimeDuration-equal": "op/duration-equal.xml",
+    "op:dayTimeDuration-less-than": "op/dayTimeDuration-less-than.xml",
+    "op:dayTimeDuration-greater-than": "op/dayTimeDuration-greater-than.xml",
+    # Numeric unary operators (Stream E)
+    "op:numeric-unary-plus": "op/numeric-unary-plus.xml",
+    "op:numeric-unary-minus": "op/numeric-unary-minus.xml",
     # String functions
     "fn:string-length": "fn/string-length.xml",
     "fn:starts-with": "fn/starts-with.xml",
@@ -162,6 +181,25 @@ FUNCTION_MAP = {
     # Boolean
     "fn:not": "fn_not",
     "op:boolean-equal": "boolean_equal",
+    "op:boolean-less-than": "boolean_less_than",
+    "op:boolean-greater-than": "boolean_greater_than",
+    # Duration functions (Stream A)
+    "fn:days-from-duration": "days_from_duration",
+    "fn:hours-from-duration": "hours_from_duration",
+    "fn:minutes-from-duration": "minutes_from_duration",
+    "fn:seconds-from-duration": "seconds_from_duration",
+    # Duration arithmetic and comparisons (Stream B)
+    "op:add-dayTimeDuration-to-dateTime": "datetime_add_duration",
+    "op:subtract-dayTimeDuration-from-dateTime": "datetime_subtract_duration",
+    "op:subtract-dateTimes": "datetime_difference",
+    "op:add-dayTimeDurations": "duration_add",
+    "op:subtract-dayTimeDurations": "duration_subtract",
+    "op:dayTimeDuration-equal": "duration_equal",
+    "op:dayTimeDuration-less-than": "duration_less_than",
+    "op:dayTimeDuration-greater-than": "duration_greater_than",
+    # Numeric unary operators (Stream E)
+    "op:numeric-unary-plus": "numeric_unary_plus_int",
+    "op:numeric-unary-minus": "numeric_unary_minus_int",
     # String functions
     "fn:string-length": "string_length",
     "fn:starts-with": "starts_with",
@@ -472,6 +510,70 @@ def parse_datetime(value: str) -> Optional[Tuple[int, int]]:
         return None
 
 
+def parse_duration(value: str) -> Optional[int]:
+    """Parse an XPath xs:dayTimeDuration literal.
+    
+    Returns duration in microseconds (signed integer) or None if parsing fails.
+    Format: P[nD][T[nH][nM][n.nS]]
+    Examples: "P3DT10H30M", "PT2H30M", "-P2DT4H"
+    """
+    value = value.strip()
+    
+    # Handle xs:dayTimeDuration() wrapper
+    match = re.match(r"xs:dayTimeDuration\s*\(['\"]([^'\"]+)['\"]\)", value)
+    if match:
+        value = match.group(1)
+    
+    # Check for negative sign
+    negative = value.startswith('-')
+    if negative:
+        value = value[1:]
+    
+    # Duration must start with P
+    if not value.startswith('P'):
+        return None
+    
+    value = value[1:]  # Remove 'P'
+    
+    # Split on 'T' to get date and time parts
+    if 'T' in value:
+        date_part, time_part = value.split('T', 1)
+    else:
+        date_part = value
+        time_part = ''
+    
+    total_micros = 0
+    
+    # Parse date part (days)
+    if date_part:
+        day_match = re.search(r'(\d+(?:\.\d+)?)D', date_part)
+        if day_match:
+            days = float(day_match.group(1))
+            total_micros += int(days * 86_400_000_000)  # 24*60*60*1_000_000
+    
+    # Parse time part (hours, minutes, seconds)
+    if time_part:
+        hour_match = re.search(r'(\d+(?:\.\d+)?)H', time_part)
+        if hour_match:
+            hours = float(hour_match.group(1))
+            total_micros += int(hours * 3_600_000_000)  # 60*60*1_000_000
+        
+        min_match = re.search(r'(\d+(?:\.\d+)?)M', time_part)
+        if min_match:
+            minutes = float(min_match.group(1))
+            total_micros += int(minutes * 60_000_000)  # 60*1_000_000
+        
+        sec_match = re.search(r'(\d+(?:\.\d+)?)S', time_part)
+        if sec_match:
+            seconds = float(sec_match.group(1))
+            total_micros += int(seconds * 1_000_000)
+    
+    if negative:
+        total_micros = -total_micros
+    
+    return total_micros
+
+
 # i64 bounds
 I64_MIN = -9223372036854775808
 I64_MAX = 9223372036854775807
@@ -579,6 +681,185 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
             except Exception:
                 pass
         return None
+    
+    # Handle duration component extraction functions (Stream A)
+    xpath_to_noir_dur_funcs = {
+        "days-from-duration": "days_from_duration",
+        "hours-from-duration": "hours_from_duration",
+        "minutes-from-duration": "minutes_from_duration",
+        "seconds-from-duration": "seconds_from_duration",
+    }
+    
+    if symbol in xpath_to_noir_dur_funcs:
+        expected_noir_fn = xpath_to_noir_dur_funcs[symbol]
+        if expected_noir_fn != noir_func:
+            return None
+        
+        # Get function arguments
+        args = _get_function_args(token)
+        
+        # The argument should be a duration - try to parse it
+        if len(args) >= 1:
+            arg = args[0]
+            # Try to get the duration string from the token
+            try:
+                # Check if it's a duration constructor
+                arg_symbol = _get_function_name(arg)
+                if arg_symbol == "dayTimeDuration":
+                    # Get the inner string value
+                    inner_args = _get_function_args(arg)
+                    if len(inner_args) >= 1:
+                        duration_str = inner_args[0].evaluate()
+                        if isinstance(duration_str, str):
+                            micros = parse_duration(duration_str)
+                            if micros is not None and _fits_in_i64(micros):
+                                setup = f"let dur = duration_from_microseconds({micros});"
+                                return (setup, f"{noir_func}(dur)", None)
+            except Exception:
+                # If parsing the duration constructor fails, we cannot generate
+                # the specialized setup; fall back to returning None to skip this test
+                pass
+        return None
+    
+    # Handle duration comparison operators (Stream B)
+    if symbol in ("eq", "lt", "gt", "=", "<", ">"):
+        duration_cmp_map = {
+            "eq": "duration_equal", "=": "duration_equal",
+            "lt": "duration_less_than", "<": "duration_less_than",
+            "gt": "duration_greater_than", ">": "duration_greater_than",
+        }
+        expected_noir_fn = duration_cmp_map.get(symbol)
+        
+        if expected_noir_fn == noir_func and len(token) >= 2:
+            # Both operands should be durations
+            try:
+                # Try to parse both as duration strings
+                arg1_symbol = _get_function_name(token[0])
+                arg2_symbol = _get_function_name(token[1])
+                
+                if arg1_symbol == "dayTimeDuration" and arg2_symbol == "dayTimeDuration":
+                    inner_args1 = _get_function_args(token[0])
+                    inner_args2 = _get_function_args(token[1])
+                    
+                    if len(inner_args1) >= 1 and len(inner_args2) >= 1:
+                        duration_str1 = inner_args1[0].evaluate()
+                        duration_str2 = inner_args2[0].evaluate()
+                        
+                        if isinstance(duration_str1, str) and isinstance(duration_str2, str):
+                            micros1 = parse_duration(duration_str1)
+                            micros2 = parse_duration(duration_str2)
+                            
+                            if micros1 is not None and micros2 is not None:
+                                if _fits_in_i64(micros1) and _fits_in_i64(micros2):
+                                    setup = f"let dur1 = duration_from_microseconds({micros1});\n    let dur2 = duration_from_microseconds({micros2});"
+                                    return (setup, f"{noir_func}(dur1, dur2)", None)
+            except Exception:
+                # This is a best-effort optimization for duration comparisons; if parsing
+                # fails for any reason, fall back to the generic handling below
+                pass
+    
+    # Handle duration arithmetic operators (Stream B)
+    if symbol in ("+", "-"):
+        # Try to detect if this is duration + duration or datetime + duration
+        if len(token) >= 2:
+            try:
+                # Check the types of operands
+                arg1_symbol = _get_function_name(token[0])
+                arg2_symbol = _get_function_name(token[1])
+                
+                # Duration + Duration or Duration - Duration
+                if arg1_symbol == "dayTimeDuration" and arg2_symbol == "dayTimeDuration":
+                    if symbol == "+" and noir_func == "duration_add":
+                        inner_args1 = _get_function_args(token[0])
+                        inner_args2 = _get_function_args(token[1])
+                        
+                        if len(inner_args1) >= 1 and len(inner_args2) >= 1:
+                            duration_str1 = inner_args1[0].evaluate()
+                            duration_str2 = inner_args2[0].evaluate()
+                            
+                            if isinstance(duration_str1, str) and isinstance(duration_str2, str):
+                                micros1 = parse_duration(duration_str1)
+                                micros2 = parse_duration(duration_str2)
+                                
+                                if micros1 is not None and micros2 is not None:
+                                    if _fits_in_i64(micros1) and _fits_in_i64(micros2):
+                                        setup = f"let dur1 = duration_from_microseconds({micros1});\n    let dur2 = duration_from_microseconds({micros2});"
+                                        return (setup, f"{noir_func}(dur1, dur2)", None)
+                    elif symbol == "-" and noir_func == "duration_subtract":
+                        inner_args1 = _get_function_args(token[0])
+                        inner_args2 = _get_function_args(token[1])
+                        
+                        if len(inner_args1) >= 1 and len(inner_args2) >= 1:
+                            duration_str1 = inner_args1[0].evaluate()
+                            duration_str2 = inner_args2[0].evaluate()
+                            
+                            if isinstance(duration_str1, str) and isinstance(duration_str2, str):
+                                micros1 = parse_duration(duration_str1)
+                                micros2 = parse_duration(duration_str2)
+                                
+                                if micros1 is not None and micros2 is not None:
+                                    if _fits_in_i64(micros1) and _fits_in_i64(micros2):
+                                        setup = f"let dur1 = duration_from_microseconds({micros1});\n    let dur2 = duration_from_microseconds({micros2});"
+                                        return (setup, f"{noir_func}(dur1, dur2)", None)
+                
+                # DateTime + Duration
+                elif arg1_symbol == "dateTime" and arg2_symbol == "dayTimeDuration":
+                    if symbol == "+" and noir_func == "datetime_add_duration":
+                        dt_val = token[0].evaluate()
+                        inner_args2 = _get_function_args(token[1])
+                        
+                        if isinstance(dt_val, DateTime10) and len(inner_args2) >= 1:
+                            duration_str = inner_args2[0].evaluate()
+                            
+                            if isinstance(duration_str, str):
+                                result = _datetime_to_epoch(dt_val)
+                                micros_dur = parse_duration(duration_str)
+                                
+                                if result is not None and micros_dur is not None:
+                                    utc_micros, tz_offset = result
+                                    if utc_micros >= 0 and _fits_in_i64(micros_dur):
+                                        setup = f"let dt = datetime_from_epoch_microseconds_with_tz({utc_micros}, {tz_offset});\n    let dur = duration_from_microseconds({micros_dur});"
+                                        return (setup, f"{noir_func}(dt, dur)", None)
+                
+                # DateTime - Duration
+                elif arg1_symbol == "dateTime" and arg2_symbol == "dayTimeDuration":
+                    if symbol == "-" and noir_func == "datetime_subtract_duration":
+                        dt_val = token[0].evaluate()
+                        inner_args2 = _get_function_args(token[1])
+                        
+                        if isinstance(dt_val, DateTime10) and len(inner_args2) >= 1:
+                            duration_str = inner_args2[0].evaluate()
+                            
+                            if isinstance(duration_str, str):
+                                result = _datetime_to_epoch(dt_val)
+                                micros_dur = parse_duration(duration_str)
+                                
+                                if result is not None and micros_dur is not None:
+                                    utc_micros, tz_offset = result
+                                    if utc_micros >= 0 and _fits_in_i64(micros_dur):
+                                        setup = f"let dt = datetime_from_epoch_microseconds_with_tz({utc_micros}, {tz_offset});\n    let dur = duration_from_microseconds({micros_dur});"
+                                        return (setup, f"{noir_func}(dt, dur)", None)
+                
+                # DateTime - DateTime (returns duration)
+                elif arg1_symbol == "dateTime" and arg2_symbol == "dateTime":
+                    if symbol == "-" and noir_func == "datetime_difference":
+                        dt1 = token[0].evaluate()
+                        dt2 = token[1].evaluate()
+                        
+                        if isinstance(dt1, DateTime10) and isinstance(dt2, DateTime10):
+                            result1 = _datetime_to_epoch(dt1)
+                            result2 = _datetime_to_epoch(dt2)
+                            
+                            if result1 is not None and result2 is not None:
+                                utc_micros1, tz_offset1 = result1
+                                utc_micros2, tz_offset2 = result2
+                                
+                                if utc_micros1 >= 0 and utc_micros2 >= 0:
+                                    setup = f"let dt1 = datetime_from_epoch_microseconds_with_tz({utc_micros1}, {tz_offset1});\n    let dt2 = datetime_from_epoch_microseconds_with_tz({utc_micros2}, {tz_offset2});"
+                                    return (setup, f"{noir_func}(dt1, dt2)", None)
+            except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
+                pass
     
     # Handle datetime comparison operators (eq, lt, gt)
     if symbol in ("eq", "lt", "gt", "=", "<", ">"):
@@ -857,6 +1138,35 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         setup = f"let val = XsdDouble::from_bits({val_bits});"
                         return (setup, f"{noir_func}(val)", None)
             except Exception:
+    # Handle numeric unary operators (Stream E)
+    if symbol == "+" and noir_func == "numeric_unary_plus_int":
+        # Unary plus: +$value
+        if len(token) >= 1:
+            try:
+                arg_val = token[0].evaluate()
+                if isinstance(arg_val, (int, float, Decimal)):
+                    val_int = int(arg_val)
+                    if not _fits_in_i64(val_int):
+                        return None
+                    return ("", f"numeric_unary_plus_int({val_int})", None)
+            except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
+                pass
+        return None
+    
+    if symbol == "-" and noir_func == "numeric_unary_minus_int":
+        # Check if this is unary minus (single operand) vs binary subtract (two operands)
+        if len(token) == 1:
+            # Unary minus: -$value
+            try:
+                arg_val = token[0].evaluate()
+                if isinstance(arg_val, (int, float, Decimal)):
+                    val_int = int(arg_val)
+                    if not _fits_in_i64(val_int):
+                        return None
+                    return ("", f"numeric_unary_minus_int({val_int})", None)
+            except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     
@@ -894,6 +1204,26 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                 b = token[1].evaluate()
                 if isinstance(a, bool) and isinstance(b, bool):
                     return ("", f"boolean_equal({str(a).lower()}, {str(b).lower()})", None)
+            except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
+                pass
+        return None
+    
+    # Handle op:boolean-less-than and op:boolean-greater-than (Stream F)
+    bool_cmp_ops = {
+        "lt": "boolean_less_than",
+        "<": "boolean_less_than",
+        "gt": "boolean_greater_than",
+        ">": "boolean_greater_than",
+    }
+    
+    if symbol in bool_cmp_ops and bool_cmp_ops[symbol] == noir_func:
+        if len(token) >= 2:
+            try:
+                a = token[0].evaluate()
+                b = token[1].evaluate()
+                if isinstance(a, bool) and isinstance(b, bool):
+                    return ("", f"{noir_func}({str(a).lower()}, {str(b).lower()})", None)
             except Exception:
                 # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
@@ -1047,8 +1377,9 @@ def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
     
     # Determine what functions return boolean values
     boolean_returning_functions = [
-        "fn_not", "boolean_equal",
+        "fn_not", "boolean_equal", "boolean_less_than", "boolean_greater_than",
         "datetime_equal", "datetime_less_than", "datetime_greater_than",
+        "duration_equal", "duration_less_than", "duration_greater_than",
         "numeric_equal_int", "numeric_less_than_int", "numeric_greater_than_int",
         "numeric_equal_float", "numeric_less_than_float", "numeric_greater_than_float",
         "numeric_equal_double", "numeric_less_than_double", "numeric_greater_than_double",
@@ -1170,6 +1501,8 @@ def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
             unsigned_return_functions = [
                 "month_from_datetime", "day_from_datetime",
                 "hours_from_datetime", "minutes_from_datetime", "seconds_from_datetime",
+                "days_from_duration", "hours_from_duration", 
+                "minutes_from_duration", "seconds_from_duration",
             ]
             if int_val < 0 and noir_func in unsigned_return_functions:
                 return f"""// SKIP: {test_name}
@@ -1270,6 +1603,10 @@ xpath = {{ path = "../../xpath" }}
     # Add datetime imports if needed
     if "datetime" in function_name.lower():
         imports.append("    datetime_from_epoch_microseconds_with_tz,")
+    
+    # Add duration imports if needed
+    if "duration" in function_name.lower():
+        imports.append("    duration_from_microseconds,")
     
     # Add float/double type imports if needed
     # Check both function_name and noir_func for float/double

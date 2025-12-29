@@ -94,3 +94,37 @@ impl Eq for XsdDayTimeDuration {
         (self.microseconds == other.microseconds) & (self.negative == other.negative)
     }
 }
+
+/// Date representation with timezone support.
+/// Stores days since Unix epoch (1970-01-01) as an integer,
+/// plus the original timezone offset for correct component extraction.
+pub struct XsdDate {
+    /// Days since Unix epoch (1970-01-01), can be negative for dates before 1970
+    pub epoch_days: i32,
+    /// Timezone offset in minutes from UTC (e.g., -300 for EST, 0 for UTC)
+    /// Range: -840 to +840 minutes (-14:00 to +14:00)
+    pub tz_offset_minutes: i16,
+}
+
+impl XsdDate {
+    /// Create a new Date from epoch days (assumes UTC)
+    pub fn new(epoch_days: i32) -> Self {
+        XsdDate { epoch_days, tz_offset_minutes: 0 }
+    }
+
+    /// Create a new Date with timezone offset
+    pub fn new_with_tz(epoch_days: i32, tz_offset_minutes: i16) -> Self {
+        XsdDate { epoch_days, tz_offset_minutes }
+    }
+}
+
+impl Eq for XsdDate {
+    fn eq(self, other: Self) -> bool {
+        // Compare epoch_days directly, which compares calendar dates (not instants in time).
+        // This follows XPath date semantics: dates with the same year/month/day are equal
+        // regardless of timezone. For example, 2000-01-01+05:00 equals 2000-01-01-10:00
+        // because they represent the same calendar date in different timezones.
+        // Note: timezone offset is intentionally not compared here.
+        self.epoch_days == other.epoch_days
+    }
+}
