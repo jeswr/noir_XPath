@@ -5,7 +5,7 @@ use dep::xpath::{datetime_from_epoch_microseconds_with_tz, datetime_greater_than
 
 #[test]
 fn op_datetime_greater_than2args_1() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let dt1 = datetime_from_epoch_microseconds_with_tz(0, 0);
     let dt2 = datetime_from_epoch_microseconds_with_tz(0, 0);
     assert(datetime_greater_than(dt1, dt2) == false);
@@ -13,7 +13,7 @@ fn op_datetime_greater_than2args_1() {
 
 #[test]
 fn op_datetime_greater_than2args_2() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let dt1 = datetime_from_epoch_microseconds_with_tz(828841252000000, 0);
     let dt2 = datetime_from_epoch_microseconds_with_tz(0, 0);
     assert(datetime_greater_than(dt1, dt2) == true);
@@ -21,7 +21,7 @@ fn op_datetime_greater_than2args_2() {
 
 #[test]
 fn op_datetime_greater_than2args_3() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let dt1 = datetime_from_epoch_microseconds_with_tz(1924991999000000, 0);
     let dt2 = datetime_from_epoch_microseconds_with_tz(0, 0);
     assert(datetime_greater_than(dt1, dt2) == true);
@@ -29,7 +29,7 @@ fn op_datetime_greater_than2args_3() {
 
 #[test]
 fn op_datetime_greater_than2args_4() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let dt1 = datetime_from_epoch_microseconds_with_tz(0, 0);
     let dt2 = datetime_from_epoch_microseconds_with_tz(828841252000000, 0);
     assert(datetime_greater_than(dt1, dt2) == false);
@@ -37,7 +37,7 @@ fn op_datetime_greater_than2args_4() {
 
 #[test]
 fn op_datetime_greater_than2args_5() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let dt1 = datetime_from_epoch_microseconds_with_tz(0, 0);
     let dt2 = datetime_from_epoch_microseconds_with_tz(1924991999000000, 0);
     assert(datetime_greater_than(dt1, dt2) == false);

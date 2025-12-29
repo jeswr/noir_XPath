@@ -19,10 +19,11 @@
 use ieee754::float::{
     abs_float32, abs_float64, add_float32, add_float32_with_rounding, add_float64,
     add_float64_with_rounding, div_float32, div_float64, float32_eq, float32_from_bits, float32_ge,
-    float32_gt, float32_is_nan, float32_le, float32_lt, float32_to_bits, FLOAT32_ZERO, float64_eq,
-    float64_from_bits, float64_ge, float64_gt, float64_is_nan, float64_le, float64_lt,
-    float64_to_bits, FLOAT64_ZERO, IEEE754Float32, IEEE754Float64, mul_float32, mul_float64,
-    sub_float32, sub_float64,
+    float32_gt, float32_is_infinity, float32_is_nan, float32_is_zero, float32_le, float32_lt,
+    float32_to_bits, FLOAT32_ZERO, float64_eq, float64_from_bits, float64_ge, float64_gt,
+    float64_is_infinity, float64_is_nan, float64_is_zero, float64_le, float64_lt, float64_to_bits,
+    FLOAT64_ZERO, IEEE754Float32, IEEE754Float64, mul_float32, mul_float64, sub_float32,
+    sub_float64,
 };
 use ieee754::types::{
     ROUNDING_MODE_NEAREST_AWAY, ROUNDING_MODE_TOWARD_NEGATIVE, ROUNDING_MODE_TOWARD_POSITIVE,
@@ -901,50 +902,474 @@ pub fn cast_double_to_float(d: XsdDouble) -> XsdFloat {
 // Rounding Functions
 // ============================================================================
 
+// Float32 constants
+global FLOAT32_SIGN_MASK: u32 = 0x80000000;
+global FLOAT32_EXP_MASK: u32 = 0x7F800000;
+global FLOAT32_MANTISSA_MASK: u32 = 0x007FFFFF;
+global FLOAT32_EXP_BIAS: u32 = 127;
+global FLOAT32_MANTISSA_BITS: u32 = 23;
+
+// Float64 constants
+global FLOAT64_SIGN_MASK: u64 = 0x8000000000000000;
+global FLOAT64_EXP_MASK: u64 = 0x7FF0000000000000;
+global FLOAT64_MANTISSA_MASK: u64 = 0x000FFFFFFFFFFFFF;
+global FLOAT64_EXP_BIAS: u64 = 1023;
+global FLOAT64_MANTISSA_BITS: u64 = 52;
+
 /// fn:round for xs:float
-/// Round to nearest integer, ties away from zero (XPath spec)
-/// Uses IEEE 754 rounding mode NEAREST_AWAY
+/// Round to nearest integer, ties toward positive infinity (XPath spec)
+/// XPath fn:round: 0.5 -> 1, -0.5 -> -0, 1.5 -> 2, -1.5 -> -1
 pub fn round_float(a: XsdFloat) -> XsdFloat {
-    let zero = float32_from_bits(FLOAT32_ZERO);
-    XsdFloat { value: add_float32_with_rounding(a.value, zero, ROUNDING_MODE_NEAREST_AWAY) }
+    let bits = a.to_bits();
+    let is_special =
+        float32_is_nan(a.value) | float32_is_infinity(a.value) | float32_is_zero(a.value);
+
+    let sign = bits & FLOAT32_SIGN_MASK;
+    let is_negative = sign != 0;
+    let exp_bits = (bits & FLOAT32_EXP_MASK) >> FLOAT32_MANTISSA_BITS;
+    let mantissa = bits & FLOAT32_MANTISSA_MASK;
+    let exp = exp_bits as i32 - FLOAT32_EXP_BIAS as i32;
+
+    // Case: already integer (exp >= 23)
+    let is_integer = exp >= FLOAT32_MANTISSA_BITS as i32;
+
+    // Case: |value| < 0.5 (exp < -1)
+    let is_small = exp < -1;
+
+    // Case: 0.5 <= |value| < 1 (exp == -1)
+    let is_half_to_one = exp == -1;
+
+    // For exp == -1, the value is sign * 1.mantissa * 2^-1 = sign * (1 + mantissa/2^23) / 2
+    // mantissa == 0 means |value| = 0.5
+    // mantissa > 0 means |value| > 0.5
+
+    // Result for is_half_to_one case:
+    // Positive: always rounds to 1.0 (0.5 -> 1, 0.6 -> 1)
+    // Negative with mantissa == 0 (exactly -0.5): rounds to -0 (toward +infinity)
+    // Negative with mantissa > 0 (e.g., -0.6): rounds to -1.0
+    let half_to_one_result = if is_negative {
+        if mantissa == 0 {
+            FLOAT32_SIGN_MASK // -0.0
+        } else {
+            0xBF800000 // -1.0
+        }
+    } else {
+        0x3F800000 // 1.0
+    };
+
+    // Normal case: exp in [0, 22]
+    let is_normal_case = (exp >= 0) & (exp < FLOAT32_MANTISSA_BITS as i32);
+
+    // Compute for normal case
+    let frac_bits = if is_normal_case {
+        (FLOAT32_MANTISSA_BITS as i32 - exp) as u32
+    } else {
+        1
+    };
+    let frac_mask = (1u32 << frac_bits) - 1;
+    let int_mask = !frac_mask;
+    let frac = mantissa & frac_mask;
+    let half = 1u32 << (frac_bits - 1);
+
+    // For ties toward +infinity:
+    // Positive: round up if frac >= half
+    // Negative: round up (toward -infinity) only if frac > half (not >= half)
+    let round_up = if is_negative {
+        frac > half
+    } else {
+        frac >= half
+    };
+
+    let int_mantissa = mantissa & int_mask;
+
+    // Compute rounded result for normal case
+    let increment = 1u32 << frac_bits;
+    let new_mantissa = int_mantissa + increment;
+    let overflow = new_mantissa >= (1u32 << FLOAT32_MANTISSA_BITS);
+
+    let normal_result = if round_up {
+        if overflow {
+            sign | ((exp_bits + 1) << FLOAT32_MANTISSA_BITS)
+        } else {
+            sign | (exp_bits << FLOAT32_MANTISSA_BITS) | new_mantissa
+        }
+    } else {
+        sign | (exp_bits << FLOAT32_MANTISSA_BITS) | int_mantissa
+    };
+
+    // Select result based on case
+    let result_bits = if is_special | is_integer {
+        bits
+    } else if is_small {
+        sign // +0 or -0
+    } else if is_half_to_one {
+        half_to_one_result
+    } else {
+        normal_result
+    };
+
+    XsdFloat::from_bits(result_bits)
 }
 
 /// fn:round for xs:double
-/// Round to nearest integer, ties away from zero (XPath spec)
-/// Uses IEEE 754 rounding mode NEAREST_AWAY
+/// Round to nearest integer, ties toward positive infinity (XPath spec)
+/// XPath fn:round: 0.5 -> 1, -0.5 -> -0, 1.5 -> 2, -1.5 -> -1
 pub fn round_double(a: XsdDouble) -> XsdDouble {
-    let zero = float64_from_bits(FLOAT64_ZERO);
-    XsdDouble { value: add_float64_with_rounding(a.value, zero, ROUNDING_MODE_NEAREST_AWAY) }
+    let bits = a.to_bits();
+    let is_special =
+        float64_is_nan(a.value) | float64_is_infinity(a.value) | float64_is_zero(a.value);
+
+    let sign = bits & FLOAT64_SIGN_MASK;
+    let is_negative = sign != 0;
+    let exp_bits = (bits & FLOAT64_EXP_MASK) >> FLOAT64_MANTISSA_BITS;
+    let mantissa = bits & FLOAT64_MANTISSA_MASK;
+    let exp = exp_bits as i64 - FLOAT64_EXP_BIAS as i64;
+
+    // Case: already integer (exp >= 52)
+    let is_integer = exp >= FLOAT64_MANTISSA_BITS as i64;
+
+    // Case: |value| < 0.5 (exp < -1)
+    let is_small = exp < -1;
+
+    // Case: 0.5 <= |value| < 1 (exp == -1)
+    let is_half_to_one = exp == -1;
+
+    // Result for is_half_to_one case:
+    // Positive: always rounds to 1.0 (0.5 -> 1, 0.6 -> 1)
+    // Negative with mantissa == 0 (exactly -0.5): rounds to -0 (toward +infinity)
+    // Negative with mantissa > 0 (e.g., -0.6): rounds to -1.0
+    let half_to_one_result = if is_negative {
+        if mantissa == 0 {
+            FLOAT64_SIGN_MASK // -0.0
+        } else {
+            0xBFF0000000000000 // -1.0
+        }
+    } else {
+        0x3FF0000000000000 // 1.0
+    };
+
+    // Normal case: exp in [0, 51]
+    let is_normal_case = (exp >= 0) & (exp < FLOAT64_MANTISSA_BITS as i64);
+
+    // Compute for normal case
+    let frac_bits = if is_normal_case {
+        (FLOAT64_MANTISSA_BITS as i64 - exp) as u64
+    } else {
+        1
+    };
+    let frac_mask = (1u64 << frac_bits) - 1;
+    let int_mask = !frac_mask;
+    let frac = mantissa & frac_mask;
+    let half = 1u64 << (frac_bits - 1);
+
+    // For ties toward +infinity:
+    // Positive: round up if frac >= half
+    // Negative: round up (toward -infinity) only if frac > half (not >= half)
+    let round_up = if is_negative {
+        frac > half
+    } else {
+        frac >= half
+    };
+
+    let int_mantissa = mantissa & int_mask;
+
+    // Compute rounded result for normal case
+    let increment = 1u64 << frac_bits;
+    let new_mantissa = int_mantissa + increment;
+    let overflow = new_mantissa >= (1u64 << FLOAT64_MANTISSA_BITS);
+
+    let normal_result = if round_up {
+        if overflow {
+            sign | ((exp_bits + 1) << FLOAT64_MANTISSA_BITS)
+        } else {
+            sign | (exp_bits << FLOAT64_MANTISSA_BITS) | new_mantissa
+        }
+    } else {
+        sign | (exp_bits << FLOAT64_MANTISSA_BITS) | int_mantissa
+    };
+
+    // Select result based on case
+    let result_bits = if is_special | is_integer {
+        bits
+    } else if is_small {
+        sign // +0 or -0
+    } else if is_half_to_one {
+        half_to_one_result
+    } else {
+        normal_result
+    };
+
+    XsdDouble::from_bits(result_bits)
 }
 
 /// fn:ceiling for xs:float
 /// Round toward positive infinity
-/// Uses IEEE 754 rounding mode TOWARD_POSITIVE
 pub fn ceil_float(a: XsdFloat) -> XsdFloat {
-    let zero = float32_from_bits(FLOAT32_ZERO);
-    XsdFloat { value: add_float32_with_rounding(a.value, zero, ROUNDING_MODE_TOWARD_POSITIVE) }
+    let bits = a.to_bits();
+    let is_special =
+        float32_is_nan(a.value) | float32_is_infinity(a.value) | float32_is_zero(a.value);
+
+    let sign = bits & FLOAT32_SIGN_MASK;
+    let is_negative = sign != 0;
+    let exp_bits = (bits & FLOAT32_EXP_MASK) >> FLOAT32_MANTISSA_BITS;
+    let mantissa = bits & FLOAT32_MANTISSA_MASK;
+    let exp = exp_bits as i32 - FLOAT32_EXP_BIAS as i32;
+
+    // Case: already integer (exp >= 23)
+    let is_integer = exp >= FLOAT32_MANTISSA_BITS as i32;
+
+    // Case: |value| < 1 (exp < 0)
+    let is_less_than_one = exp < 0;
+
+    // Normal case: exp in [0, 22]
+    let is_normal_case = (exp >= 0) & (exp < FLOAT32_MANTISSA_BITS as i32);
+
+    // Compute for normal case
+    let frac_bits = if is_normal_case {
+        (FLOAT32_MANTISSA_BITS as i32 - exp) as u32
+    } else {
+        1
+    };
+    let frac_mask = (1u32 << frac_bits) - 1;
+    let int_mask = !frac_mask;
+    let frac = mantissa & frac_mask;
+    let int_mantissa = mantissa & int_mask;
+    let round_up = !is_negative & (frac != 0);
+
+    // Compute rounded result for normal case
+    let increment = 1u32 << frac_bits;
+    let new_mantissa = int_mantissa + increment;
+    let overflow = new_mantissa >= (1u32 << FLOAT32_MANTISSA_BITS);
+
+    let normal_result = if round_up {
+        if overflow {
+            sign | ((exp_bits + 1) << FLOAT32_MANTISSA_BITS)
+        } else {
+            sign | (exp_bits << FLOAT32_MANTISSA_BITS) | new_mantissa
+        }
+    } else {
+        sign | (exp_bits << FLOAT32_MANTISSA_BITS) | int_mantissa
+    };
+
+    // Result for |value| < 1 case
+    let less_than_one_result = if is_negative {
+        FLOAT32_SIGN_MASK // -0
+    } else {
+        0x3F800000 // 1.0
+    };
+
+    // Select result based on case
+    let result_bits = if is_special | is_integer {
+        bits
+    } else if is_less_than_one {
+        less_than_one_result
+    } else {
+        normal_result
+    };
+
+    XsdFloat::from_bits(result_bits)
 }
 
 /// fn:ceiling for xs:double
 /// Round toward positive infinity
-/// Uses IEEE 754 rounding mode TOWARD_POSITIVE
 pub fn ceil_double(a: XsdDouble) -> XsdDouble {
-    let zero = float64_from_bits(FLOAT64_ZERO);
-    XsdDouble { value: add_float64_with_rounding(a.value, zero, ROUNDING_MODE_TOWARD_POSITIVE) }
+    let bits = a.to_bits();
+    let is_special =
+        float64_is_nan(a.value) | float64_is_infinity(a.value) | float64_is_zero(a.value);
+
+    let sign = bits & FLOAT64_SIGN_MASK;
+    let is_negative = sign != 0;
+    let exp_bits = (bits & FLOAT64_EXP_MASK) >> FLOAT64_MANTISSA_BITS;
+    let mantissa = bits & FLOAT64_MANTISSA_MASK;
+    let exp = exp_bits as i64 - FLOAT64_EXP_BIAS as i64;
+
+    // Case: already integer (exp >= 52)
+    let is_integer = exp >= FLOAT64_MANTISSA_BITS as i64;
+
+    // Case: |value| < 1 (exp < 0)
+    let is_less_than_one = exp < 0;
+
+    // Normal case: exp in [0, 51]
+    let is_normal_case = (exp >= 0) & (exp < FLOAT64_MANTISSA_BITS as i64);
+
+    // Compute for normal case
+    let frac_bits = if is_normal_case {
+        (FLOAT64_MANTISSA_BITS as i64 - exp) as u64
+    } else {
+        1
+    };
+    let frac_mask = (1u64 << frac_bits) - 1;
+    let int_mask = !frac_mask;
+    let frac = mantissa & frac_mask;
+    let int_mantissa = mantissa & int_mask;
+    let round_up = !is_negative & (frac != 0);
+
+    // Compute rounded result for normal case
+    let increment = 1u64 << frac_bits;
+    let new_mantissa = int_mantissa + increment;
+    let overflow = new_mantissa >= (1u64 << FLOAT64_MANTISSA_BITS);
+
+    let normal_result = if round_up {
+        if overflow {
+            sign | ((exp_bits + 1) << FLOAT64_MANTISSA_BITS)
+        } else {
+            sign | (exp_bits << FLOAT64_MANTISSA_BITS) | new_mantissa
+        }
+    } else {
+        sign | (exp_bits << FLOAT64_MANTISSA_BITS) | int_mantissa
+    };
+
+    // Result for |value| < 1 case
+    let less_than_one_result = if is_negative {
+        FLOAT64_SIGN_MASK // -0
+    } else {
+        0x3FF0000000000000 // 1.0
+    };
+
+    // Select result based on case
+    let result_bits = if is_special | is_integer {
+        bits
+    } else if is_less_than_one {
+        less_than_one_result
+    } else {
+        normal_result
+    };
+
+    XsdDouble::from_bits(result_bits)
 }
 
 /// fn:floor for xs:float
 /// Round toward negative infinity
-/// Uses IEEE 754 rounding mode TOWARD_NEGATIVE
 pub fn floor_float(a: XsdFloat) -> XsdFloat {
-    let zero = float32_from_bits(FLOAT32_ZERO);
-    XsdFloat { value: add_float32_with_rounding(a.value, zero, ROUNDING_MODE_TOWARD_NEGATIVE) }
+    let bits = a.to_bits();
+    let is_special =
+        float32_is_nan(a.value) | float32_is_infinity(a.value) | float32_is_zero(a.value);
+
+    let sign = bits & FLOAT32_SIGN_MASK;
+    let is_negative = sign != 0;
+    let exp_bits = (bits & FLOAT32_EXP_MASK) >> FLOAT32_MANTISSA_BITS;
+    let mantissa = bits & FLOAT32_MANTISSA_MASK;
+    let exp = exp_bits as i32 - FLOAT32_EXP_BIAS as i32;
+
+    // Case: already integer (exp >= 23)
+    let is_integer = exp >= FLOAT32_MANTISSA_BITS as i32;
+
+    // Case: |value| < 1 (exp < 0)
+    let is_less_than_one = exp < 0;
+
+    // Normal case: exp in [0, 22]
+    let is_normal_case = (exp >= 0) & (exp < FLOAT32_MANTISSA_BITS as i32);
+
+    // Compute for normal case
+    let frac_bits = if is_normal_case {
+        (FLOAT32_MANTISSA_BITS as i32 - exp) as u32
+    } else {
+        1
+    };
+    let frac_mask = (1u32 << frac_bits) - 1;
+    let int_mask = !frac_mask;
+    let frac = mantissa & frac_mask;
+    let int_mantissa = mantissa & int_mask;
+    let round_down = is_negative & (frac != 0);
+
+    // Compute rounded result for normal case
+    let increment = 1u32 << frac_bits;
+    let new_mantissa = int_mantissa + increment;
+    let overflow = new_mantissa >= (1u32 << FLOAT32_MANTISSA_BITS);
+
+    let normal_result = if round_down {
+        if overflow {
+            sign | ((exp_bits + 1) << FLOAT32_MANTISSA_BITS)
+        } else {
+            sign | (exp_bits << FLOAT32_MANTISSA_BITS) | new_mantissa
+        }
+    } else {
+        sign | (exp_bits << FLOAT32_MANTISSA_BITS) | int_mantissa
+    };
+
+    // Result for |value| < 1 case
+    let less_than_one_result = if is_negative {
+        0xBF800000 // -1.0
+    } else {
+        0 // 0.0
+    };
+
+    // Select result based on case
+    let result_bits = if is_special | is_integer {
+        bits
+    } else if is_less_than_one {
+        less_than_one_result
+    } else {
+        normal_result
+    };
+
+    XsdFloat::from_bits(result_bits)
 }
 
 /// fn:floor for xs:double
 /// Round toward negative infinity
-/// Uses IEEE 754 rounding mode TOWARD_NEGATIVE
 pub fn floor_double(a: XsdDouble) -> XsdDouble {
-    let zero = float64_from_bits(FLOAT64_ZERO);
-    XsdDouble { value: add_float64_with_rounding(a.value, zero, ROUNDING_MODE_TOWARD_NEGATIVE) }
+    let bits = a.to_bits();
+    let is_special =
+        float64_is_nan(a.value) | float64_is_infinity(a.value) | float64_is_zero(a.value);
+
+    let sign = bits & FLOAT64_SIGN_MASK;
+    let is_negative = sign != 0;
+    let exp_bits = (bits & FLOAT64_EXP_MASK) >> FLOAT64_MANTISSA_BITS;
+    let mantissa = bits & FLOAT64_MANTISSA_MASK;
+    let exp = exp_bits as i64 - FLOAT64_EXP_BIAS as i64;
+
+    // Case: already integer (exp >= 52)
+    let is_integer = exp >= FLOAT64_MANTISSA_BITS as i64;
+
+    // Case: |value| < 1 (exp < 0)
+    let is_less_than_one = exp < 0;
+
+    // Normal case: exp in [0, 51]
+    let is_normal_case = (exp >= 0) & (exp < FLOAT64_MANTISSA_BITS as i64);
+
+    // Compute for normal case
+    let frac_bits = if is_normal_case {
+        (FLOAT64_MANTISSA_BITS as i64 - exp) as u64
+    } else {
+        1
+    };
+    let frac_mask = (1u64 << frac_bits) - 1;
+    let int_mask = !frac_mask;
+    let frac = mantissa & frac_mask;
+    let int_mantissa = mantissa & int_mask;
+    let round_down = is_negative & (frac != 0);
+
+    // Compute rounded result for normal case
+    let increment = 1u64 << frac_bits;
+    let new_mantissa = int_mantissa + increment;
+    let overflow = new_mantissa >= (1u64 << FLOAT64_MANTISSA_BITS);
+
+    let normal_result = if round_down {
+        if overflow {
+            sign | ((exp_bits + 1) << FLOAT64_MANTISSA_BITS)
+        } else {
+            sign | (exp_bits << FLOAT64_MANTISSA_BITS) | new_mantissa
+        }
+    } else {
+        sign | (exp_bits << FLOAT64_MANTISSA_BITS) | int_mantissa
+    };
+
+    // Result for |value| < 1 case
+    let less_than_one_result = if is_negative {
+        0xBFF0000000000000 // -1.0
+    } else {
+        0 // 0.0
+    };
+
+    // Select result based on case
+    let result_bits = if is_special | is_integer {
+        bits
+    } else if is_less_than_one {
+        less_than_one_result
+    } else {
+        normal_result
+    };
+
+    XsdDouble::from_bits(result_bits)
 }

@@ -5,7 +5,7 @@ use dep::xpath::{numeric_less_than_float, XsdFloat};
 
 #[test]
 fn op_numeric_less_thanflt2args_1() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdFloat::from_bits(4286578687);
     let b = XsdFloat::from_bits(4286578687);
     assert(numeric_less_than_float(a, b) == false);
@@ -13,7 +13,7 @@ fn op_numeric_less_thanflt2args_1() {
 
 #[test]
 fn op_numeric_less_thanflt2args_2() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdFloat::from_bits(0);
     let b = XsdFloat::from_bits(4286578687);
     assert(numeric_less_than_float(a, b) == false);
@@ -21,7 +21,7 @@ fn op_numeric_less_thanflt2args_2() {
 
 #[test]
 fn op_numeric_less_thanflt2args_3() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdFloat::from_bits(2139095039);
     let b = XsdFloat::from_bits(4286578687);
     assert(numeric_less_than_float(a, b) == false);
@@ -29,7 +29,7 @@ fn op_numeric_less_thanflt2args_3() {
 
 #[test]
 fn op_numeric_less_thanflt2args_4() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdFloat::from_bits(4286578687);
     let b = XsdFloat::from_bits(0);
     assert(numeric_less_than_float(a, b) == true);
@@ -37,7 +37,7 @@ fn op_numeric_less_thanflt2args_4() {
 
 #[test]
 fn op_numeric_less_thanflt2args_5() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdFloat::from_bits(4286578687);
     let b = XsdFloat::from_bits(2139095039);
     assert(numeric_less_than_float(a, b) == true);
@@ -45,7 +45,7 @@ fn op_numeric_less_thanflt2args_5() {
 
 #[test]
 fn k_numericlt_9() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test: K-NumericLT-9
     let a = XsdFloat::from_bits(0);
     let b = XsdFloat::from_bits(2139095040);
     assert(numeric_less_than_float(a, b) == true);
@@ -53,7 +53,7 @@ fn k_numericlt_9() {
 
 #[test]
 fn k_numericlt_10() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test: K-NumericLT-10
     let a = XsdFloat::from_bits(4286578688);
     let b = XsdFloat::from_bits(0);
     assert(numeric_less_than_float(a, b) == true);
@@ -61,7 +61,7 @@ fn k_numericlt_10() {
 
 #[test]
 fn k_numericlt_11() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test: K-NumericLT-11
     let a = XsdFloat::from_bits(3212836864);
     let b = XsdFloat::from_bits(1065353216);
     assert(numeric_less_than_float(a, b) == true);

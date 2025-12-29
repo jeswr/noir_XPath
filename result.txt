@@ -1,0 +1,1797 @@
+[xpath] Running 18 test functions
+[xpath] Testing sequence::test_boolean_aggregates ... [0m[32mok[0m
+[xpath] Testing duration::test_duration_comparison ... [0m[32mok[0m
+[xpath] Testing duration::test_datetime_difference ... [0m[32mok[0m
+[xpath] Testing sequence::test_avg_int ... [0m[32mok[0m
+[xpath] Testing duration::test_duration_negative ... [0m[32mok[0m
+[xpath] Testing duration::test_duration_from_components ... [0m[32mok[0m
+[xpath] Testing duration::test_datetime_duration_arithmetic ... [0m[32mok[0m
+[xpath] Testing duration::test_duration_arithmetic ... [0m[32mok[0m
+[xpath] Testing sequence::test_min_max_int_seq ... [0m[32mok[0m
+[xpath] Testing sequence::test_sequence_empty_exists ... [0m[32mok[0m
+[xpath] Testing comparison::test_value_greater_than ... [0m[32mok[0m
+[xpath] Testing comparison::test_value_ge ... [0m[32mok[0m
+[xpath] Testing sequence::test_partial_aggregates ... [0m[32mok[0m
+[xpath] Testing comparison::test_value_equal ... [0m[32mok[0m
+[xpath] Testing sequence::test_count ... [0m[32mok[0m
+[xpath] Testing sequence::test_sum_int ... [0m[32mok[0m
+[xpath] Testing comparison::test_value_le ... [0m[32mok[0m
+[xpath] Testing comparison::test_value_less_than ... [0m[32mok[0m
+[xpath] [0m[32m18 tests passed[0m
+[xpath_test_fnabs] Running 13 test functions
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_13 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_12 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_1 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_2 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_11 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_10 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_3 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_4 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_5 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_9 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_8 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_6 ... [0m[32mok[0m
+[xpath_test_fnabs] Testing chunk_0::k2_absfunc_7 ... [0m[32mok[0m
+[xpath_test_fnabs] [0m[32m13 tests passed[0m
+[xpath_test_fnceiling] Running 33 test functions
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingdec1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingdec1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingint1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingdec1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingint1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingintg1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingintg1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingint1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingintg1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilinglng1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilinglng1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingnint1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilinglng1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingnni1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingnint1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingnint1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingnni1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingnpi1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingnpi1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingnni1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingnpi1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingpint1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingpint1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingpint1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingsht1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingulng1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingsht1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingsht1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingulng1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingusht1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingulng1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingusht1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling] Testing chunk_0::fn_ceilingusht1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling] [0m[32m33 tests passed[0m
+[xpath_test_fnceiling_double] Running 3 test functions
+[xpath_test_fnceiling_double] Testing chunk_0::fn_ceilingdbl1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling_double] Testing chunk_0::fn_ceilingdbl1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling_double] Testing chunk_0::fn_ceilingdbl1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling_double] [0m[32m3 tests passed[0m
+[xpath_test_fnceiling_float] Running 3 test functions
+[xpath_test_fnceiling_float] Testing chunk_0::fn_ceilingflt1args_1 ... [0m[32mok[0m
+[xpath_test_fnceiling_float] Testing chunk_0::fn_ceilingflt1args_2 ... [0m[32mok[0m
+[xpath_test_fnceiling_float] Testing chunk_0::fn_ceilingflt1args_3 ... [0m[32mok[0m
+[xpath_test_fnceiling_float] [0m[32m3 tests passed[0m
+[xpath_test_fnday_from_datetime] Running 7 test functions
+[xpath_test_fnday_from_datetime] Testing chunk_0::fn_day_from_datetime1args_1 ... [0m[32mok[0m
+[xpath_test_fnday_from_datetime] Testing chunk_0::fn_day_from_datetime1args_2 ... [0m[32mok[0m
+[xpath_test_fnday_from_datetime] Testing chunk_0::fn_day_from_datetime_1 ... [0m[32mok[0m
+[xpath_test_fnday_from_datetime] Testing chunk_0::fn_day_from_datetime1args_3 ... [0m[32mok[0m
+[xpath_test_fnday_from_datetime] Testing chunk_0::fn_day_from_datetime_3 ... [0m[32mok[0m
+[xpath_test_fnday_from_datetime] Testing chunk_0::fn_day_from_datetime_6 ... [0m[32mok[0m
+[xpath_test_fnday_from_datetime] Testing chunk_0::fn_day_from_datetime_2 ... [0m[32mok[0m
+[xpath_test_fnday_from_datetime] [0m[32m7 tests passed[0m
+[xpath_test_fndays_from_duration] Running 6 test functions
+[xpath_test_fndays_from_duration] Testing chunk_0::fn_days_from_duration1args_1 ... [0m[32mok[0m
+[xpath_test_fndays_from_duration] Testing chunk_0::fn_days_from_duration1args_2 ... [0m[32mok[0m
+[xpath_test_fndays_from_duration] Testing chunk_0::fn_days_from_duration1args_3 ... [0m[32mok[0m
+[xpath_test_fndays_from_duration] Testing chunk_0::fn_days_from_duration_1 ... [0m[32mok[0m
+[xpath_test_fndays_from_duration] Testing chunk_0::fn_days_from_duration_6 ... [0m[32mok[0m
+[xpath_test_fndays_from_duration] Testing chunk_0::fn_days_from_duration_2 ... [0m[32mok[0m
+[xpath_test_fndays_from_duration] [0m[32m6 tests passed[0m
+[xpath_test_fnfloor] Running 33 test functions
+[xpath_test_fnfloor] Testing chunk_0::fn_floordec1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floordec1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floordec1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorint1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorint1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorint1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorintg1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorintg1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorintg1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorlng1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorlng1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floornint1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorlng1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floornint1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floornint1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floornni1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floornni1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floornpi1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floornpi1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floornni1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floornpi1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorpint1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorpint1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorpint1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorsht1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorsht1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorsht1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorulng1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorulng1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorulng1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorusht1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorusht1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor] Testing chunk_0::fn_floorusht1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor] [0m[32m33 tests passed[0m
+[xpath_test_fnfloor_double] Running 3 test functions
+[xpath_test_fnfloor_double] Testing chunk_0::fn_floordbl1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor_double] Testing chunk_0::fn_floordbl1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor_double] Testing chunk_0::fn_floordbl1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor_double] [0m[32m3 tests passed[0m
+[xpath_test_fnfloor_float] Running 3 test functions
+[xpath_test_fnfloor_float] Testing chunk_0::fn_floorflt1args_2 ... [0m[32mok[0m
+[xpath_test_fnfloor_float] Testing chunk_0::fn_floorflt1args_1 ... [0m[32mok[0m
+[xpath_test_fnfloor_float] Testing chunk_0::fn_floorflt1args_3 ... [0m[32mok[0m
+[xpath_test_fnfloor_float] [0m[32m3 tests passed[0m
+[xpath_test_fnhours_from_datetime] Running 9 test functions
+[xpath_test_fnhours_from_datetime] Testing chunk_0::fn_hours_from_datetime1args_1 ... [0m[32mok[0m
+[xpath_test_fnhours_from_datetime] Testing chunk_0::fn_hours_from_datetime1args_2 ... [0m[32mok[0m
+[xpath_test_fnhours_from_datetime] Testing chunk_0::fn_hours_from_datetime1args_3 ... [0m[32mok[0m
+[xpath_test_fnhours_from_datetime] Testing chunk_0::fn_hours_from_datetime_4 ... [0m[32mok[0m
+[xpath_test_fnhours_from_datetime] Testing chunk_0::fn_hours_from_datetime_6 ... [0m[32mok[0m
+[xpath_test_fnhours_from_datetime] Testing chunk_0::fn_hours_from_datetime_3 ... [0m[32mok[0m
+[xpath_test_fnhours_from_datetime] Testing chunk_0::fn_hours_from_datetime_1 ... [0m[32mok[0m
+[xpath_test_fnhours_from_datetime] Testing chunk_0::fn_hours_from_datetime_2 ... [0m[32mok[0m
+[xpath_test_fnhours_from_datetime] Testing chunk_0::fn_hours_from_datetime_7 ... [0m[32mok[0m
+[xpath_test_fnhours_from_datetime] [0m[32m9 tests passed[0m
+[xpath_test_fnhours_from_duration] Running 7 test functions
+[xpath_test_fnhours_from_duration] Testing chunk_0::fn_hours_from_duration1args_3 ... [0m[32mok[0m
+[xpath_test_fnhours_from_duration] Testing chunk_0::fn_hours_from_duration1args_1 ... [0m[32mok[0m
+[xpath_test_fnhours_from_duration] Testing chunk_0::fn_hours_from_duration1args_2 ... [0m[32mok[0m
+[xpath_test_fnhours_from_duration] Testing chunk_0::fn_hours_from_duration_2 ... [0m[32mok[0m
+[xpath_test_fnhours_from_duration] Testing chunk_0::fn_hours_from_duration_3 ... [0m[32mok[0m
+[xpath_test_fnhours_from_duration] Testing chunk_0::fn_hours_from_duration_6 ... [0m[32mok[0m
+[xpath_test_fnhours_from_duration] Testing chunk_0::fn_hours_from_duration_1 ... [0m[32mok[0m
+[xpath_test_fnhours_from_duration] [0m[32m7 tests passed[0m
+[xpath_test_fnminutes_from_datetime] Running 7 test functions
+[xpath_test_fnminutes_from_datetime] Testing chunk_0::fn_minutes_from_datetime1args_2 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_datetime] Testing chunk_0::fn_minutes_from_datetime1args_1 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_datetime] Testing chunk_0::fn_minutes_from_datetime_1 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_datetime] Testing chunk_0::fn_minutes_from_datetime_6 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_datetime] Testing chunk_0::fn_minutes_from_datetime1args_3 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_datetime] Testing chunk_0::fn_minutes_from_datetime_7 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_datetime] Testing chunk_0::fn_minutes_from_datetime_2 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_datetime] [0m[32m7 tests passed[0m
+[xpath_test_fnminutes_from_duration] Running 6 test functions
+[xpath_test_fnminutes_from_duration] Testing chunk_0::fn_minutes_from_duration1args_1 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_duration] Testing chunk_0::fn_minutes_from_duration_1 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_duration] Testing chunk_0::fn_minutes_from_duration1args_2 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_duration] Testing chunk_0::fn_minutes_from_duration1args_3 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_duration] Testing chunk_0::fn_minutes_from_duration_6 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_duration] Testing chunk_0::fn_minutes_from_duration_21 ... [0m[32mok[0m
+[xpath_test_fnminutes_from_duration] [0m[32m6 tests passed[0m
+[xpath_test_fnmonth_from_datetime] Running 6 test functions
+[xpath_test_fnmonth_from_datetime] Testing chunk_0::fn_month_from_datetime1args_1 ... [0m[32mok[0m
+[xpath_test_fnmonth_from_datetime] Testing chunk_0::fn_month_from_datetime1args_2 ... [0m[32mok[0m
+[xpath_test_fnmonth_from_datetime] Testing chunk_0::fn_month_from_datetime1args_3 ... [0m[32mok[0m
+[xpath_test_fnmonth_from_datetime] Testing chunk_0::fn_month_from_datetime_1 ... [0m[32mok[0m
+[xpath_test_fnmonth_from_datetime] Testing chunk_0::fn_month_from_datetime_3 ... [0m[32mok[0m
+[xpath_test_fnmonth_from_datetime] Testing chunk_0::fn_month_from_datetime_2 ... [0m[32mok[0m
+[xpath_test_fnmonth_from_datetime] [0m[32m6 tests passed[0m
+[xpath_test_fnnot] Running 5 test functions
+[xpath_test_fnnot] Testing chunk_0::k_notfunc_4 ... [0m[32mok[0m
+[xpath_test_fnnot] Testing chunk_0::cbcl_not_003 ... [0m[32mok[0m
+[xpath_test_fnnot] Testing chunk_0::k_notfunc_3 ... [0m[32mok[0m
+[xpath_test_fnnot] Testing chunk_0::k_notfunc_5 ... [0m[32mok[0m
+[xpath_test_fnnot] Testing chunk_0::k_notfunc_9 ... [0m[32mok[0m
+[xpath_test_fnnot] [0m[32m5 tests passed[0m
+[xpath_test_fnround] Running 31 test functions
+[xpath_test_fnround] Testing chunk_0::fn_roundint1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_rounddec1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundintg1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_rounddec1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundintg1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundint1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundintg1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundlng1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundnni1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundnint1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundnint1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundlng1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundnint1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundnni1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundlng1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundnni1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundpint1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundnpi1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundnpi1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundpint1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundnpi1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundpint1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundsht1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundsht1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundsht1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundulng1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundulng1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundusht1args_2 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundulng1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundusht1args_1 ... [0m[32mok[0m
+[xpath_test_fnround] Testing chunk_0::fn_roundusht1args_3 ... [0m[32mok[0m
+[xpath_test_fnround] [0m[32m31 tests passed[0m
+[xpath_test_fnround_double] Running 87 test functions
+[xpath_test_fnround_double] Testing chunk_0::fn_rounddbl1args_1 ... [0m[32mok[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_100 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::fn_rounddbl1args_3 ... [0m[32mok[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_102 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_106 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_108 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_104 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_110 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_112 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_16 ... [0m[32mok[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_116 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_15 ... [0m[32mok[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_28 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_114 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_26 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_24 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_30 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_40 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_32 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_42 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_34 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_36 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_38 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_44 ... [0m[32mok[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_46 ... [0m[32mok[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_52 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_48 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_50 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_56 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_60 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_58 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_62 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_64 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_66 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_72 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_78 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_70 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_68 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_76 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_74 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_80 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_84 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_82 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_88 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_92 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_86 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_90 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_96 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_94 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_118 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_124 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_0::k2_roundfunc_98 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_120 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_122 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_126 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_130 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_128 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_132 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_134 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_136 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_140 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_146 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_142 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_144 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_150 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_154 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_138 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_152 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_158 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_148 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_156 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_160 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_162 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_170 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_164 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_172 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_166 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_174 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_168 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_176 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_180 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_178 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_182 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_188 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_186 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_184 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_double] Testing chunk_1::k2_roundfunc_190 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+
+[xpath_test_fnround_double] Failures:
+     chunk_0::k2_roundfunc_100
+     chunk_0::k2_roundfunc_102
+     chunk_0::k2_roundfunc_106
+     chunk_0::k2_roundfunc_108
+     chunk_0::k2_roundfunc_104
+     chunk_0::k2_roundfunc_110
+     chunk_0::k2_roundfunc_112
+     chunk_0::k2_roundfunc_116
+     chunk_0::k2_roundfunc_28
+     chunk_0::k2_roundfunc_114
+     chunk_0::k2_roundfunc_26
+     chunk_0::k2_roundfunc_24
+     chunk_0::k2_roundfunc_30
+     chunk_0::k2_roundfunc_40
+     chunk_0::k2_roundfunc_32
+     chunk_0::k2_roundfunc_42
+     chunk_0::k2_roundfunc_34
+     chunk_0::k2_roundfunc_36
+     chunk_0::k2_roundfunc_38
+     chunk_0::k2_roundfunc_52
+     chunk_0::k2_roundfunc_48
+     chunk_0::k2_roundfunc_50
+     chunk_0::k2_roundfunc_56
+     chunk_0::k2_roundfunc_60
+     chunk_0::k2_roundfunc_58
+     chunk_0::k2_roundfunc_62
+     chunk_0::k2_roundfunc_64
+     chunk_0::k2_roundfunc_66
+     chunk_0::k2_roundfunc_72
+     chunk_0::k2_roundfunc_78
+     chunk_0::k2_roundfunc_70
+     chunk_0::k2_roundfunc_68
+     chunk_0::k2_roundfunc_76
+     chunk_0::k2_roundfunc_74
+     chunk_0::k2_roundfunc_80
+     chunk_0::k2_roundfunc_84
+     chunk_0::k2_roundfunc_82
+     chunk_0::k2_roundfunc_88
+     chunk_0::k2_roundfunc_92
+     chunk_0::k2_roundfunc_86
+     chunk_0::k2_roundfunc_90
+     chunk_0::k2_roundfunc_96
+     chunk_0::k2_roundfunc_94
+     chunk_1::k2_roundfunc_118
+     chunk_1::k2_roundfunc_124
+     chunk_0::k2_roundfunc_98
+     chunk_1::k2_roundfunc_120
+     chunk_1::k2_roundfunc_122
+     chunk_1::k2_roundfunc_126
+     chunk_1::k2_roundfunc_130
+     chunk_1::k2_roundfunc_128
+     chunk_1::k2_roundfunc_132
+     chunk_1::k2_roundfunc_134
+     chunk_1::k2_roundfunc_136
+     chunk_1::k2_roundfunc_140
+     chunk_1::k2_roundfunc_146
+     chunk_1::k2_roundfunc_142
+     chunk_1::k2_roundfunc_144
+     chunk_1::k2_roundfunc_150
+     chunk_1::k2_roundfunc_154
+     chunk_1::k2_roundfunc_138
+     chunk_1::k2_roundfunc_152
+     chunk_1::k2_roundfunc_158
+     chunk_1::k2_roundfunc_148
+     chunk_1::k2_roundfunc_156
+     chunk_1::k2_roundfunc_160
+     chunk_1::k2_roundfunc_162
+     chunk_1::k2_roundfunc_170
+     chunk_1::k2_roundfunc_164
+     chunk_1::k2_roundfunc_172
+     chunk_1::k2_roundfunc_166
+     chunk_1::k2_roundfunc_174
+     chunk_1::k2_roundfunc_168
+     chunk_1::k2_roundfunc_176
+     chunk_1::k2_roundfunc_180
+     chunk_1::k2_roundfunc_178
+     chunk_1::k2_roundfunc_182
+     chunk_1::k2_roundfunc_188
+     chunk_1::k2_roundfunc_186
+     chunk_1::k2_roundfunc_184
+     chunk_1::k2_roundfunc_190
+
+[xpath_test_fnround_double] [0m[32m6 tests passed, [0m[31m81 tests failed
+[0m[xpath_test_fnround_float] Running 88 test functions
+[xpath_test_fnround_float] Testing chunk_0::fn_roundflt1args_1 ... [0m[32mok[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_101 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::fn_roundflt1args_3 ... [0m[32mok[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_107 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_109 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_103 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_105 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_113 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_111 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_20 ... [0m[32mok[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_19 ... [0m[32mok[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_23 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_31 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_29 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_27 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_25 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_33 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_37 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_35 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_43 ... [0m[32mok[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_41 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_45 ... [0m[32mok[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_39 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_47 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_49 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_51 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_53 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_55 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_57 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_59 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_61 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_65 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_63 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_67 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_69 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_73 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_71 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_75 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_77 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_81 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_79 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_85 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_87 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_91 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_89 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_83 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_93 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_117 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_95 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_97 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_0::k2_roundfunc_99 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_121 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_115 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_119 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_123 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_127 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_125 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_129 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_131 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_133 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_135 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_137 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_139 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_141 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_143 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_145 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_153 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_147 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_149 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_151 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_155 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_157 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_161 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_159 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_165 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_169 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_163 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_167 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_171 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_173 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_175 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_177 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_183 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_179 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_181 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_185 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_187 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+[xpath_test_fnround_float] Testing chunk_1::k2_roundfunc_189 ... [0m[31mFAIL
+Failed to solve program: 'Cannot satisfy constraint'
+[0m
+
+[xpath_test_fnround_float] Failures:
+     chunk_0::k2_roundfunc_101
+     chunk_0::k2_roundfunc_107
+     chunk_0::k2_roundfunc_109
+     chunk_0::k2_roundfunc_103
+     chunk_0::k2_roundfunc_105
+     chunk_0::k2_roundfunc_113
+     chunk_0::k2_roundfunc_111
+     chunk_0::k2_roundfunc_23
+     chunk_0::k2_roundfunc_31
+     chunk_0::k2_roundfunc_29
+     chunk_0::k2_roundfunc_27
+     chunk_0::k2_roundfunc_25
+     chunk_0::k2_roundfunc_33
+     chunk_0::k2_roundfunc_37
+     chunk_0::k2_roundfunc_35
+     chunk_0::k2_roundfunc_41
+     chunk_0::k2_roundfunc_39
+     chunk_0::k2_roundfunc_47
+     chunk_0::k2_roundfunc_49
+     chunk_0::k2_roundfunc_51
+     chunk_0::k2_roundfunc_53
+     chunk_0::k2_roundfunc_55
+     chunk_0::k2_roundfunc_57
+     chunk_0::k2_roundfunc_59
+     chunk_0::k2_roundfunc_61
+     chunk_0::k2_roundfunc_65
+     chunk_0::k2_roundfunc_63
+     chunk_0::k2_roundfunc_67
+     chunk_0::k2_roundfunc_69
+     chunk_0::k2_roundfunc_73
+     chunk_0::k2_roundfunc_71
+     chunk_0::k2_roundfunc_75
+     chunk_0::k2_roundfunc_77
+     chunk_0::k2_roundfunc_81
+     chunk_0::k2_roundfunc_79
+     chunk_0::k2_roundfunc_85
+     chunk_0::k2_roundfunc_87
+     chunk_0::k2_roundfunc_91
+     chunk_0::k2_roundfunc_89
+     chunk_0::k2_roundfunc_83
+     chunk_0::k2_roundfunc_93
+     chunk_1::k2_roundfunc_117
+     chunk_0::k2_roundfunc_95
+     chunk_0::k2_roundfunc_97
+     chunk_0::k2_roundfunc_99
+     chunk_1::k2_roundfunc_121
+     chunk_1::k2_roundfunc_115
+     chunk_1::k2_roundfunc_119
+     chunk_1::k2_roundfunc_123
+     chunk_1::k2_roundfunc_127
+     chunk_1::k2_roundfunc_125
+     chunk_1::k2_roundfunc_129
+     chunk_1::k2_roundfunc_131
+     chunk_1::k2_roundfunc_133
+     chunk_1::k2_roundfunc_135
+     chunk_1::k2_roundfunc_137
+     chunk_1::k2_roundfunc_139
+     chunk_1::k2_roundfunc_141
+     chunk_1::k2_roundfunc_143
+     chunk_1::k2_roundfunc_145
+     chunk_1::k2_roundfunc_153
+     chunk_1::k2_roundfunc_147
+     chunk_1::k2_roundfunc_149
+     chunk_1::k2_roundfunc_151
+     chunk_1::k2_roundfunc_155
+     chunk_1::k2_roundfunc_157
+     chunk_1::k2_roundfunc_161
+     chunk_1::k2_roundfunc_159
+     chunk_1::k2_roundfunc_165
+     chunk_1::k2_roundfunc_169
+     chunk_1::k2_roundfunc_163
+     chunk_1::k2_roundfunc_167
+     chunk_1::k2_roundfunc_171
+     chunk_1::k2_roundfunc_173
+     chunk_1::k2_roundfunc_175
+     chunk_1::k2_roundfunc_177
+     chunk_1::k2_roundfunc_183
+     chunk_1::k2_roundfunc_179
+     chunk_1::k2_roundfunc_181
+     chunk_1::k2_roundfunc_185
+     chunk_1::k2_roundfunc_187
+     chunk_1::k2_roundfunc_189
+
+[xpath_test_fnround_float] [0m[32m6 tests passed, [0m[31m82 tests failed
+[0m[xpath_test_fnseconds_from_datetime] Running 6 test functions
+[xpath_test_fnseconds_from_datetime] Testing chunk_0::fn_seconds_from_datetime1args_1 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_datetime] Testing chunk_0::fn_seconds_from_datetime1args_2 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_datetime] Testing chunk_0::fn_seconds_from_datetime1args_3 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_datetime] Testing chunk_0::fn_seconds_from_datetime_6 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_datetime] Testing chunk_0::fn_seconds_from_datetime_7 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_datetime] Testing chunk_0::fn_seconds_from_datetime_1 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_datetime] [0m[32m6 tests passed[0m
+[xpath_test_fnseconds_from_duration] Running 5 test functions
+[xpath_test_fnseconds_from_duration] Testing chunk_0::fn_seconds_from_duration1args_1 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_duration] Testing chunk_0::fn_seconds_from_duration1args_2 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_duration] Testing chunk_0::fn_seconds_from_duration_21 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_duration] Testing chunk_0::fn_seconds_from_duration1args_3 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_duration] Testing chunk_0::fn_seconds_from_duration_6 ... [0m[32mok[0m
+[xpath_test_fnseconds_from_duration] [0m[32m5 tests passed[0m
+[xpath_test_fnyear_from_datetime] Running 6 test functions
+[xpath_test_fnyear_from_datetime] Testing chunk_0::fn_year_from_datetime1args_2 ... [0m[32mok[0m
+[xpath_test_fnyear_from_datetime] Testing chunk_0::fn_year_from_datetime1args_1 ... [0m[32mok[0m
+[xpath_test_fnyear_from_datetime] Testing chunk_0::fn_year_from_datetime_1 ... [0m[32mok[0m
+[xpath_test_fnyear_from_datetime] Testing chunk_0::fn_year_from_datetime1args_3 ... [0m[32mok[0m
+[xpath_test_fnyear_from_datetime] Testing chunk_0::fn_year_from_datetime_2 ... [0m[32mok[0m
+[xpath_test_fnyear_from_datetime] Testing chunk_0::fn_year_from_datetime_3 ... [0m[32mok[0m
+[xpath_test_fnyear_from_datetime] [0m[32m6 tests passed[0m
+[xpath_test_opboolean_equal] Running 41 test functions
+[xpath_test_opboolean_equal] Testing chunk_0::k_booleanequal_1 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::k_booleanequal_2 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::k_booleanequal_5 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal2args_2 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal2args_1 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal2args_3 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal2args_4 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal2args_5 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_10 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_1 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_11 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_19 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_16 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_15 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_2 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_3 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_4 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_5 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_7 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_8 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_6 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_9 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_001 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_003 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_002 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_004 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_005 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_008 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_007 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_006 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_010 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_009 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_012 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_011 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_013 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_014 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_015 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_016 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_017 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_018 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] Testing chunk_0::op_boolean_equal_more_args_019 ... [0m[32mok[0m
+[xpath_test_opboolean_equal] [0m[32m41 tests passed[0m
+[xpath_test_opboolean_greater_than] Running 19 test functions
+[xpath_test_opboolean_greater_than] Testing chunk_0::k_booleangt_1 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than2args_1 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than2args_2 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than2args_3 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_1 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than2args_4 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than2args_5 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_3 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_11 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_5 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_9 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_7 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_more_args_001 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_more_args_002 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_more_args_003 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_more_args_004 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_more_args_006 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_more_args_005 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] Testing chunk_0::op_boolean_greater_than_more_args_007 ... [0m[32mok[0m
+[xpath_test_opboolean_greater_than] [0m[32m19 tests passed[0m
+[xpath_test_opboolean_less_than] Running 19 test functions
+[xpath_test_opboolean_less_than] Testing chunk_0::k_booleanlt_1 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than2args_1 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than2args_3 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than2args_2 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than2args_5 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than2args_4 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_1 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_3 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_5 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_11 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_9 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_7 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_more_args_001 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_more_args_002 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_more_args_003 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_more_args_004 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_more_args_005 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_more_args_006 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] Testing chunk_0::op_boolean_less_than_more_args_007 ... [0m[32mok[0m
+[xpath_test_opboolean_less_than] [0m[32m19 tests passed[0m
+[xpath_test_opdatetime_equal] Running 10 test functions
+[xpath_test_opdatetime_equal] Testing chunk_0::cbcl_datetime_equal_004 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] Testing chunk_0::cbcl_datetime_equal_003 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] Testing chunk_0::cbcl_datetime_equal_002 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] Testing chunk_0::cbcl_datetime_equal_017 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] Testing chunk_0::cbcl_datetime_equal_005 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] Testing chunk_0::op_datetime_equal2args_2 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] Testing chunk_0::op_datetime_equal2args_1 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] Testing chunk_0::op_datetime_equal2args_3 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] Testing chunk_0::op_datetime_equal2args_4 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] Testing chunk_0::op_datetime_equal2args_5 ... [0m[32mok[0m
+[xpath_test_opdatetime_equal] [0m[32m10 tests passed[0m
+[xpath_test_opdatetime_greater_than] Running 9 test functions
+[xpath_test_opdatetime_greater_than] Testing chunk_0::cbcl_datetime_greater_than_002 ... [0m[32mok[0m
+[xpath_test_opdatetime_greater_than] Testing chunk_0::cbcl_datetime_greater_than_005 ... [0m[32mok[0m
+[xpath_test_opdatetime_greater_than] Testing chunk_0::cbcl_datetime_greater_than_003 ... [0m[32mok[0m
+[xpath_test_opdatetime_greater_than] Testing chunk_0::cbcl_datetime_greater_than_004 ... [0m[32mok[0m
+[xpath_test_opdatetime_greater_than] Testing chunk_0::op_datetime_greater_than2args_1 ... [0m[32mok[0m
+[xpath_test_opdatetime_greater_than] Testing chunk_0::op_datetime_greater_than2args_2 ... [0m[32mok[0m
+[xpath_test_opdatetime_greater_than] Testing chunk_0::op_datetime_greater_than2args_4 ... [0m[32mok[0m
+[xpath_test_opdatetime_greater_than] Testing chunk_0::op_datetime_greater_than2args_3 ... [0m[32mok[0m
+[xpath_test_opdatetime_greater_than] Testing chunk_0::op_datetime_greater_than2args_5 ... [0m[32mok[0m
+[xpath_test_opdatetime_greater_than] [0m[32m9 tests passed[0m
+[xpath_test_opdatetime_less_than] Running 9 test functions
+[xpath_test_opdatetime_less_than] Testing chunk_0::cbcl_datetime_less_than_002 ... [0m[32mok[0m
+[xpath_test_opdatetime_less_than] Testing chunk_0::cbcl_datetime_less_than_003 ... [0m[32mok[0m
+[xpath_test_opdatetime_less_than] Testing chunk_0::cbcl_datetime_less_than_004 ... [0m[32mok[0m
+[xpath_test_opdatetime_less_than] Testing chunk_0::cbcl_datetime_less_than_005 ... [0m[32mok[0m
+[xpath_test_opdatetime_less_than] Testing chunk_0::op_datetime_less_than2args_1 ... [0m[32mok[0m
+[xpath_test_opdatetime_less_than] Testing chunk_0::op_datetime_less_than2args_2 ... [0m[32mok[0m
+[xpath_test_opdatetime_less_than] Testing chunk_0::op_datetime_less_than2args_4 ... [0m[32mok[0m
+[xpath_test_opdatetime_less_than] Testing chunk_0::op_datetime_less_than2args_3 ... [0m[32mok[0m
+[xpath_test_opdatetime_less_than] Testing chunk_0::op_datetime_less_than2args_5 ... [0m[32mok[0m
+[xpath_test_opdatetime_less_than] [0m[32m9 tests passed[0m
+[xpath_test_opdaytimeduration_equal] Running 7 test functions
+[xpath_test_opdaytimeduration_equal] Testing chunk_0::k_daytimedurationeq_2 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_equal] Testing chunk_0::k_daytimedurationeq_6 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_equal] Testing chunk_0::op_daytimeduration_equal2args_1 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_equal] Testing chunk_0::op_daytimeduration_equal2args_5 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_equal] Testing chunk_0::op_daytimeduration_equal2args_2 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_equal] Testing chunk_0::op_daytimeduration_equal2args_3 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_equal] Testing chunk_0::op_daytimeduration_equal2args_4 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_equal] [0m[32m7 tests passed[0m
+[xpath_test_opdaytimeduration_greater_than] Running 5 test functions
+[xpath_test_opdaytimeduration_greater_than] Testing chunk_0::op_daytimeduration_greater_than2args_2 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_greater_than] Testing chunk_0::op_daytimeduration_greater_than2args_1 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_greater_than] Testing chunk_0::op_daytimeduration_greater_than2args_3 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_greater_than] Testing chunk_0::op_daytimeduration_greater_than2args_5 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_greater_than] Testing chunk_0::op_daytimeduration_greater_than2args_4 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_greater_than] [0m[32m5 tests passed[0m
+[xpath_test_opdaytimeduration_less_than] Running 5 test functions
+[xpath_test_opdaytimeduration_less_than] Testing chunk_0::op_daytimeduration_less_than2args_2 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_less_than] Testing chunk_0::op_daytimeduration_less_than2args_3 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_less_than] Testing chunk_0::op_daytimeduration_less_than2args_1 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_less_than] Testing chunk_0::op_daytimeduration_less_than2args_4 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_less_than] Testing chunk_0::op_daytimeduration_less_than2args_5 ... [0m[32mok[0m
+[xpath_test_opdaytimeduration_less_than] [0m[32m5 tests passed[0m
+[xpath_test_opnumeric_add] Running 54 test functions
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_add_derived_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_adddec2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_adddec2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_adddec2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_adddec2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addintg2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addintg2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addlng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addlng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addintg2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addintg2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addlng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addmix2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addlng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnni2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnni2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnni2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnni2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnpi2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnni2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnpi2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnpi2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addnpi2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addpint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addpint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addpint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addpint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addsht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addsht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addsht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addpint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addulng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addsht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addulng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addulng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addulng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addusht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addusht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addulng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addusht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addusht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_0::op_numeric_addusht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_1::op_numeric_add_derived_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_1::op_numeric_add_derived_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_1::op_numeric_add_derived_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] Testing chunk_1::op_numeric_add_derived_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add] [0m[32m54 tests passed[0m
+[xpath_test_opnumeric_add_double] Running 4 test functions
+[xpath_test_opnumeric_add_double] Testing chunk_0::op_numeric_adddbl2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add_double] Testing chunk_0::op_numeric_adddbl2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add_double] Testing chunk_0::op_numeric_adddbl2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add_double] Testing chunk_0::op_numeric_adddbl2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add_double] [0m[32m4 tests passed[0m
+[xpath_test_opnumeric_add_float] Running 4 test functions
+[xpath_test_opnumeric_add_float] Testing chunk_0::op_numeric_addflt2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_add_float] Testing chunk_0::op_numeric_addflt2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_add_float] Testing chunk_0::op_numeric_addflt2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_add_float] Testing chunk_0::op_numeric_addflt2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_add_float] [0m[32m4 tests passed[0m
+[xpath_test_opnumeric_divide] Running 25 test functions
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividedec2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividedec2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividedec2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_divideint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_divideintg2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_divideintg2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_divideintg2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividelng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividelng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividelng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividemix2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividenint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividenint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividenni2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividenni2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividenpi2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividenpi2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividepint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividepint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividepint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_dividesht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_divideulng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_divideulng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_divideusht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] Testing chunk_0::op_numeric_divideusht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide] [0m[32m25 tests passed[0m
+[xpath_test_opnumeric_divide_double] Running 4 test functions
+[xpath_test_opnumeric_divide_double] Testing chunk_0::op_numeric_dividedbl2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide_double] Testing chunk_0::op_numeric_dividedbl2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide_double] Testing chunk_0::op_numeric_dividedbl2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide_double] Testing chunk_0::op_numeric_dividedbl2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide_double] [0m[32m4 tests passed[0m
+[xpath_test_opnumeric_divide_float] Running 4 test functions
+[xpath_test_opnumeric_divide_float] Testing chunk_0::op_numeric_divideflt2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide_float] Testing chunk_0::op_numeric_divideflt2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide_float] Testing chunk_0::op_numeric_divideflt2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide_float] Testing chunk_0::op_numeric_divideflt2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_divide_float] [0m[32m4 tests passed[0m
+[xpath_test_opnumeric_equal] Running 63 test functions
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equaldec2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equaldec2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equaldec2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equaldec2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equaldec2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalintg2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equallng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalintg2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalintg2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalintg2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalintg2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equallng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equallng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equallng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equallng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnni2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnni2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnni2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnni2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnpi2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnni2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnpi2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnpi2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnpi2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalpint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalpint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalpint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalpint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalnpi2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalulng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalpint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalulng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalulng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalulng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalusht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalulng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalusht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalusht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalusht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_0::op_numeric_equalusht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::k_numericequal_45 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::k_numericequal_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::k_numericequal_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::k_numericequal_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::k_numericequal_41 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::k_numericequal_6 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::k_numericequal_8 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::k_numericequal_9 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::op_numeric_equalsht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::op_numeric_equalsht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::op_numeric_equalsht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::op_numeric_equalsht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] Testing chunk_1::op_numeric_equalsht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal] [0m[32m63 tests passed[0m
+[xpath_test_opnumeric_equal_double] Running 9 test functions
+[xpath_test_opnumeric_equal_double] Testing chunk_0::k_numericequal_13 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_double] Testing chunk_0::k_numericequal_12 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_double] Testing chunk_0::k_numericequal_19 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_double] Testing chunk_0::k_numericequal_20 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_double] Testing chunk_0::op_numeric_equaldbl2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_double] Testing chunk_0::op_numeric_equaldbl2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_double] Testing chunk_0::op_numeric_equaldbl2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_double] Testing chunk_0::op_numeric_equaldbl2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_double] Testing chunk_0::op_numeric_equaldbl2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_double] [0m[32m9 tests passed[0m
+[xpath_test_opnumeric_equal_float] Running 9 test functions
+[xpath_test_opnumeric_equal_float] Testing chunk_0::k_numericequal_27 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_float] Testing chunk_0::k_numericequal_28 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_float] Testing chunk_0::k_numericequal_33 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_float] Testing chunk_0::k_numericequal_34 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_float] Testing chunk_0::op_numeric_equalflt2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_float] Testing chunk_0::op_numeric_equalflt2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_float] Testing chunk_0::op_numeric_equalflt2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_float] Testing chunk_0::op_numeric_equalflt2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_float] Testing chunk_0::op_numeric_equalflt2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_equal_float] [0m[32m9 tests passed[0m
+[xpath_test_opnumeric_greater_than] Running 58 test functions
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thandec2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thandec2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thandec2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thandec2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thandec2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanintg2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanintg2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanintg2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanintg2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanintg2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanlng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanlng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanlng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanlng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanlng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannni2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannni2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannni2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannni2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannni2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannpi2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannpi2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannpi2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannpi2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thannpi2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanpint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanpint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanpint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanulng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanpint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanpint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanulng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanulng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanulng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanulng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanusht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanusht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanusht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanusht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_0::op_numeric_greater_thanusht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_1::k_numericgt_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_1::k_numericgt_23 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_1::k_numericgt_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_1::op_numeric_greater_thansht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_1::op_numeric_greater_thansht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_1::op_numeric_greater_thansht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_1::op_numeric_greater_thansht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] Testing chunk_1::op_numeric_greater_thansht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than] [0m[32m58 tests passed[0m
+[xpath_test_opnumeric_greater_than_double] Running 9 test functions
+[xpath_test_opnumeric_greater_than_double] Testing chunk_0::k2_numericgt_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_double] Testing chunk_0::k_numericgt_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_double] Testing chunk_0::k_numericgt_6 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_double] Testing chunk_0::k_numericgt_7 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_double] Testing chunk_0::op_numeric_greater_thandbl2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_double] Testing chunk_0::op_numeric_greater_thandbl2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_double] Testing chunk_0::op_numeric_greater_thandbl2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_double] Testing chunk_0::op_numeric_greater_thandbl2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_double] Testing chunk_0::op_numeric_greater_thandbl2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_double] [0m[32m9 tests passed[0m
+[xpath_test_opnumeric_greater_than_float] Running 8 test functions
+[xpath_test_opnumeric_greater_than_float] Testing chunk_0::k_numericgt_11 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_float] Testing chunk_0::k_numericgt_10 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_float] Testing chunk_0::k_numericgt_9 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_float] Testing chunk_0::op_numeric_greater_thanflt2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_float] Testing chunk_0::op_numeric_greater_thanflt2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_float] Testing chunk_0::op_numeric_greater_thanflt2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_float] Testing chunk_0::op_numeric_greater_thanflt2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_float] Testing chunk_0::op_numeric_greater_thanflt2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_greater_than_float] [0m[32m8 tests passed[0m
+[xpath_test_opnumeric_integer_divide] Running 47 test functions
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividedec2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::cbcl_numeric_idivide_005 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividedec2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividedec2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividedec2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividedec2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideintg2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideintg2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideintg2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideintg2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideintg2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividelng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividelng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividelng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividelng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividelng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividemix2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenni2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenni2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenpi2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenpi2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenpi2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividenpi2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividepint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividepint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividepint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividepint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividepint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividesht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividesht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividesht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividesht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_dividesht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideulng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideulng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideusht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] Testing chunk_0::op_numeric_integer_divideusht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_integer_divide] [0m[32m47 tests passed[0m
+[xpath_test_opnumeric_less_than] Running 58 test functions
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thandec2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thandec2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thandec2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thandec2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thandec2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanintg2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanintg2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanintg2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanintg2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanintg2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanlng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanlng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanlng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanlng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanlng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannni2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannni2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannni2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannni2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannni2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannpi2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannpi2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannpi2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannpi2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanpint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanpint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thannpi2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanpint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanpint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanulng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanpint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanulng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanulng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanulng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanulng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanusht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanusht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanusht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanusht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_0::op_numeric_less_thanusht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_1::k_numericlt_22 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_1::k_numericlt_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_1::op_numeric_less_thansht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_1::k_numericlt_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_1::op_numeric_less_thansht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_1::op_numeric_less_thansht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_1::op_numeric_less_thansht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] Testing chunk_1::op_numeric_less_thansht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than] [0m[32m58 tests passed[0m
+[xpath_test_opnumeric_less_than_double] Running 8 test functions
+[xpath_test_opnumeric_less_than_double] Testing chunk_0::k_numericlt_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_double] Testing chunk_0::op_numeric_less_thandbl2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_double] Testing chunk_0::k_numericlt_7 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_double] Testing chunk_0::k_numericlt_6 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_double] Testing chunk_0::op_numeric_less_thandbl2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_double] Testing chunk_0::op_numeric_less_thandbl2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_double] Testing chunk_0::op_numeric_less_thandbl2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_double] Testing chunk_0::op_numeric_less_thandbl2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_double] [0m[32m8 tests passed[0m
+[xpath_test_opnumeric_less_than_float] Running 8 test functions
+[xpath_test_opnumeric_less_than_float] Testing chunk_0::k_numericlt_9 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_float] Testing chunk_0::k_numericlt_10 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_float] Testing chunk_0::k_numericlt_11 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_float] Testing chunk_0::op_numeric_less_thanflt2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_float] Testing chunk_0::op_numeric_less_thanflt2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_float] Testing chunk_0::op_numeric_less_thanflt2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_float] Testing chunk_0::op_numeric_less_thanflt2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_float] Testing chunk_0::op_numeric_less_thanflt2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_less_than_float] [0m[32m8 tests passed[0m
+[xpath_test_opnumeric_mod] Running 20 test functions
+[xpath_test_opnumeric_mod] Testing chunk_0::k2_numericmod_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_moddec2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_moddec2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modintg2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modlng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modintg2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modnni2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modmix2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modpint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modnni2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modpint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modpint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modpint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modpint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modulng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modsht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modusht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modusht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] Testing chunk_0::op_numeric_modulng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_mod] [0m[32m20 tests passed[0m
+[xpath_test_opnumeric_multiply] Running 28 test functions
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplydec2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplydec2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplydec2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplydec2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplydec2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplymix2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplynni2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplynni2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplynni2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplynni2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplynni2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplynpi2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplynpi2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplypint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplypint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplypint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplypint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplypint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyulng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyulng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyulng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyulng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyulng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyusht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyusht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyusht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyusht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] Testing chunk_0::op_numeric_multiplyusht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply] [0m[32m28 tests passed[0m
+[xpath_test_opnumeric_multiply_double] Running 5 test functions
+[xpath_test_opnumeric_multiply_double] Testing chunk_0::op_numeric_multiplydbl2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_double] Testing chunk_0::op_numeric_multiplydbl2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_double] Testing chunk_0::op_numeric_multiplydbl2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_double] Testing chunk_0::op_numeric_multiplydbl2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_double] Testing chunk_0::op_numeric_multiplydbl2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_double] [0m[32m5 tests passed[0m
+[xpath_test_opnumeric_multiply_float] Running 5 test functions
+[xpath_test_opnumeric_multiply_float] Testing chunk_0::op_numeric_multiplyflt2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_float] Testing chunk_0::op_numeric_multiplyflt2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_float] Testing chunk_0::op_numeric_multiplyflt2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_float] Testing chunk_0::op_numeric_multiplyflt2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_float] Testing chunk_0::op_numeric_multiplyflt2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_multiply_float] [0m[32m5 tests passed[0m
+[xpath_test_opnumeric_subtract] Running 51 test functions
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractdec2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractdec2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractdec2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractdec2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractdec2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractint2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractintg2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractintg2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractint2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractintg2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractintg2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractintg2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractlng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractlng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractlng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractlng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractlng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnni2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnni2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnpi2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnpi2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnni2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnni2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnni2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnpi2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnpi2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractnpi2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractpint2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractpint2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractpint2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractsht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractsht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractsht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractsht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractsht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractulng2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractulng2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractulng2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractulng2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractulng2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractusht2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractusht2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractusht2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractusht2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_0::op_numeric_subtractusht2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] Testing chunk_1::op_numeric_subtractmix2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract] [0m[32m51 tests passed[0m
+[xpath_test_opnumeric_subtract_double] Running 6 test functions
+[xpath_test_opnumeric_subtract_double] Testing chunk_0::op_numeric_subtractdbl2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_double] Testing chunk_0::k2_numericsubtract_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_double] Testing chunk_0::op_numeric_subtractdbl2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_double] Testing chunk_0::op_numeric_subtractdbl2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_double] Testing chunk_0::op_numeric_subtractdbl2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_double] Testing chunk_0::op_numeric_subtractdbl2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_double] [0m[32m6 tests passed[0m
+[xpath_test_opnumeric_subtract_float] Running 6 test functions
+[xpath_test_opnumeric_subtract_float] Testing chunk_0::op_numeric_subtractflt2args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_float] Testing chunk_0::op_numeric_subtractflt2args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_float] Testing chunk_0::op_numeric_subtractflt2args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_float] Testing chunk_0::op_numeric_subtractflt2args_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_float] Testing chunk_0::k2_numericsubtract_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_float] Testing chunk_0::op_numeric_subtractflt2args_5 ... [0m[32mok[0m
+[xpath_test_opnumeric_subtract_float] [0m[32m6 tests passed[0m
+[xpath_test_opnumeric_unary_minus] Running 35 test functions
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::k2_numericunaryminus_4 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::k2_numericunaryminus_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusdec1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusdec1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusdec1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusint1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusintg1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusintg1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusint1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusintg1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusint1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minuslng1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minuslng1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusnint1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minuslng1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusnint1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusnint1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusnni1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusnni1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minuspint1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusnni1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusnpi1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusnpi1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusnpi1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minussht1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minuspint1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minuspint1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minussht1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minussht1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusulng1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusulng1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minusulng1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minususht1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minususht1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] Testing chunk_0::op_numeric_unary_minususht1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_minus] [0m[32m35 tests passed[0m
+[xpath_test_opnumeric_unary_plus] Running 33 test functions
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusdec1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusdec1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusdec1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusint1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusint1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusint1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusintg1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_pluslng1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_pluslng1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusintg1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusintg1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusnint1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_pluslng1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusnint1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusnni1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusnint1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusnni1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusnni1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusnpi1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusnpi1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusnpi1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_pluspint1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plussht1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_pluspint1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plussht1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_pluspint1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plussht1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusulng1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusulng1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plusulng1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plususht1args_2 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plususht1args_1 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] Testing chunk_0::op_numeric_unary_plususht1args_3 ... [0m[32mok[0m
+[xpath_test_opnumeric_unary_plus] [0m[32m33 tests passed[0m
+[xpath_unit_tests] Running 122 test functions
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_float_infinity ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_abs_edge_cases ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_abs_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_float_nan ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_float_neg_infinity ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_float_one ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_float_zero ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_integer_infinity ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_integer_negative ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_integer_zero ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_integer_one ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_integer_truncates ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_float_to_integer_nan ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_double_to_integer_nan ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_float_to_integer_infinity ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_float_to_integer_one ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_float_to_integer_negative ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_float_to_integer_zero ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_float_to_integer_truncates ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_integer_to_double_hundred ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_integer_to_double_one ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_integer_to_double_negative ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_integer_to_float_negative ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_integer_to_double_zero ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_integer_to_float_ten ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_integer_to_float_one ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_double_float_ge ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_cast_integer_to_float_zero ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_double_float_le ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_double_int_ge ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_float_int_ge ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_float_double_ge ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_double_int_le ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_int_double_ge ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_float_int_le ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_float_double_le ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_int_float_ge ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_int_double_le ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_compare_int_float_le ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_double_arithmetic ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_double_zero ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_float_arithmetic ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_float_to_double_promotion ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_double_nan ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_float_nan ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_float_infinity ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_float_zero ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_get_common_type ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_integer_comparison_edge_cases ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_integer_edge_cases ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_min_max_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_add_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_divide_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_greater_than_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_le_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_equal_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_ge_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_less_than_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_multiply_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_type_constructors ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_unary_minus_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_rounding_functions_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_subtract_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_mod_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_numeric_unary_plus_int ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_small_int_to_double ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_comparison ... [0m[32mok[0m
+[xpath_unit_tests] Testing numeric_tests::test_small_int_to_float ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_different_years ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_creation ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_components ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_equality ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_from_components_roundtrip ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_from_epoch ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_ge ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_le ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_ge_same_instant ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_microsecond_precision ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_le_same_instant ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_unix_epoch ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_le_ge_with_microseconds ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_datetime_year_boundaries ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_duration_creation ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_duration_ge_negative ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_duration_ge ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_duration_le_negative ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_duration_le ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_timezone_from_datetime ... [0m[32mok[0m
+[xpath_unit_tests] Testing datetime_tests::test_duration_zero ... [0m[32mok[0m
+[xpath_unit_tests] Testing date_tests::test_date_equality ... [0m[32mok[0m
+[xpath_unit_tests] Testing date_tests::test_date_from_components_epoch ... [0m[32mok[0m
+[xpath_unit_tests] Testing date_tests::test_date_greater_than ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_chained_operations ... [0m[32mok[0m
+[xpath_unit_tests] Testing date_tests::test_date_less_than ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_comparison_all_combinations ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_equal ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_ge ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_ge_all_combinations ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_greater_than ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_le ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_greater_than_all_combinations ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_le_all_combinations ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_logical_and ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_fn_not ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_logical_or ... [0m[32mok[0m
+[xpath_unit_tests] Testing boolean_tests::test_boolean_less_than ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_contains_beginning ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_contains_end ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_contains_middle ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_contains_not_found ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_ends_with_false ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_ends_with_partial ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_ends_with_true ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_starts_with_false ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_starts_with_true ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_starts_with_partial ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_string_length_empty ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_string_length_phrase ... [0m[32mok[0m
+[xpath_unit_tests] Testing string_tests::test_string_length_word ... [0m[32mok[0m
