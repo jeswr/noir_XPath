@@ -26,8 +26,10 @@ noir_XPath/
 │       ├── boolean.nr                  # Boolean functions & operators
 │       ├── datetime.nr                 # DateTime functions
 │       ├── comparison.nr               # Comparison operators
+│       ├── string.nr                   # String functions
+│       ├── regex.nr                    # Regex functions (placeholder)
 │       └── types.nr                    # Type definitions & conversions
-│       # 🔮 Future: string.nr, hash.nr
+│       # 🔮 Future: hash.nr
 │
 ├── xpath_unit_tests/                   # Manual unit tests
 │   ├── Nargo.toml
@@ -209,7 +211,61 @@ fn datetime_greater_than(a: XsdDateTime, b: XsdDateTime) -> bool {
 
 > **Note**: The XPath `fn:seconds-from-dateTime` returns a decimal including fractional seconds. Since decimals are deferred, we provide integer seconds + separate microseconds accessor.
 
-### 5. Hash Module (`hash.nr`) — 🔮 Future
+### 5. Regex Module (`regex.nr`) — 🚧 Placeholder
+
+> **Status**: Placeholder structure added. Full implementation awaits [zk-regex](https://github.com/zkemail/zk-regex) Noir support.
+
+The regex module provides placeholder implementations for XPath regex functions:
+
+```noir
+// fn:matches - Returns true if string matches regex pattern
+pub fn fn_matches<let N: u32, let M: u32>(input: str<N>, pattern: str<M>) -> bool
+
+// fn:matches with flags - Case-insensitive, multiline, etc.
+pub fn fn_matches_with_flags<let N: u32, let M: u32, let F: u32>(
+    input: str<N>, 
+    pattern: str<M>, 
+    flags: str<F>
+) -> bool
+
+// fn:replace - Replace pattern matches with replacement string
+pub fn fn_replace<let N: u32, let M: u32, let R: u32, let O: u32>(
+    input: str<N>,
+    pattern: str<M>,
+    replacement: str<R>
+) -> str<O>
+
+// fn:replace with flags
+pub fn fn_replace_with_flags<let N: u32, let M: u32, let R: u32, let O: u32, let F: u32>(
+    input: str<N>,
+    pattern: str<M>,
+    replacement: str<R>,
+    flags: str<F>
+) -> str<O>
+```
+
+#### Implementation Plan
+
+1. **Current State**: Placeholder implementations that return `false` for matches and zeroed strings for replacements
+2. **Dependency**: Requires [zk-regex](https://github.com/zkemail/zk-regex) library, which is currently Circom-only (Noir support "coming soon" per their README)
+3. **Integration Steps** (when zk-regex adds Noir support):
+   - Uncomment the zk-regex dependency in `xpath/Nargo.toml`
+   - Import regex matching/replacement functionality from zk-regex
+   - Update functions to use the zk-regex API
+   - Add test cases from qt3tests to `generate_tests.py`
+
+#### Constraints
+
+- **Compile-time patterns**: Regex patterns must be known at compile time for DFA generation
+- **Circuit complexity**: Regex matching in ZK is expensive; pattern complexity impacts proof size
+- **String creation limitation**: `fn:replace` faces Noir's limitation that byte arrays cannot be converted back to strings at runtime
+
+#### Related Functions
+
+- SPARQL `REGEX(?text, pattern)` → `fn:matches`
+- SPARQL `REPLACE(?text, pattern, replacement)` → `fn:replace`
+
+### 6. Hash Module (`hash.nr`) — 🔮 Future
 
 > **Status**: Deferred. Hash functions depend on string handling for input/output. Will be implemented after string support.
 

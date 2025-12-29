@@ -14,6 +14,7 @@ mod date;
 mod sequence;
 mod comparison;
 mod string;
+mod regex;
 
 // Re-export types
 pub use types::{XsdDate, XsdDateTime, XsdDayTimeDuration};
@@ -101,3 +102,8 @@ pub use comparison::{value_equal, value_ge, value_greater_than, value_le, value_
 // Note: Functions that return strings (substring, upper_case, lower_case, concat, etc.)
 // are not exported as they cannot work correctly due to Noir's byte-to-string limitation
 pub use string::{contains, ends_with, starts_with, string_length};
+
+// Re-export regex functions (placeholder implementations)
+// Note: These are placeholder implementations until zk-regex library supports Noir
+// See regex.nr for details on integration plans
+pub use regex::{fn_matches, fn_matches_with_flags, fn_replace, fn_replace_with_flags};

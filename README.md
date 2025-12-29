@@ -72,9 +72,13 @@ xpath = { git = "https://github.com/jeswr/noir_XPath", tag = "v0.1.0", directory
 
 - Float operations via [noir_IEEE754](https://github.com/jeswr/noir_IEEE754)
 - Advanced string functions (ENCODE_FOR_URI, langMatches)
-- Regex functions (REGEX, REPLACE)
+- **Regex functions (REGEX, REPLACE)** - Placeholder structure added, awaiting [zk-regex](https://github.com/zkemail/zk-regex) Noir support
 - Hash functions (MD5, SHA256, etc.)
 - Decimal type support
+
+### 🚧 Placeholder Implementations
+
+- **Regex operations**: `fn:matches` and `fn:replace` functions have placeholder implementations in the codebase to establish the API structure. These will be fully implemented once the [zk-regex](https://github.com/zkemail/zk-regex) library adds Noir support (currently supports Circom only).
 
 ## SPARQL 1.1 Coverage
 
@@ -100,6 +104,7 @@ For complete function mapping, see **[SPARQL_COVERAGE.md](./SPARQL_COVERAGE.md)*
 ### ⚠️ Partial Support
 - **Numeric operations**: Integer-only (float/double requires noir_IEEE754 dependency)
 - **Timezone**: TIMEZONE() function implemented; TZ() requires string formatting (deferred)
+- **Regex operations**: Placeholder implementations added; awaiting zk-regex Noir support
 
 ### ❌ Not Implemented (Deferred)
 The following SPARQL 1.1 functions are deferred due to complexity in zero-knowledge circuits:
@@ -107,7 +112,9 @@ The following SPARQL 1.1 functions are deferred due to complexity in zero-knowle
 - **Advanced string functions**: ENCODE_FOR_URI, langMatches
   - Reason: Require complex encoding/matching logic
 - **Regex functions**: REGEX, REPLACE
-  - Reason: Regular expression engines are complex in ZK circuits
+  - Status: Placeholder structure added in `regex.nr` module
+  - Reason: Requires [zk-regex](https://github.com/zkemail/zk-regex) library, which currently only supports Circom (Noir support "coming soon")
+  - Migration path: Once zk-regex adds Noir support, update `xpath/Nargo.toml` to uncomment the dependency and implement the functions using the library's API
 - **Hash functions**: MD5, SHA1, SHA256, SHA384, SHA512
   - Reason: Require string output formatting
 - **RDF term functions**: isIRI, isBlank, isLiteral, str, lang, datatype, IRI, BNODE, etc.

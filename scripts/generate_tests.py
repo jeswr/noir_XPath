@@ -111,6 +111,9 @@ FUNCTION_TEST_FILES = {
     "fn:starts-with": "fn/starts-with.xml",
     "fn:ends-with": "fn/ends-with.xml",
     "fn:contains": "fn/contains.xml",
+    # Regex functions (placeholder until zk-regex supports Noir)
+    "fn:matches": "fn/matches.xml",
+    "fn:replace": "fn/replace.xml",
 }
 
 # Map XPath functions to Noir function names
@@ -189,6 +192,9 @@ FUNCTION_MAP = {
     "fn:starts-with": "starts_with",
     "fn:ends-with": "ends_with",
     "fn:contains": "contains",
+    # Regex functions (placeholder until zk-regex supports Noir)
+    "fn:matches": "fn_matches",
+    "fn:replace": "fn_replace",
 }
 
 # Float type filter - which function variants accept which types

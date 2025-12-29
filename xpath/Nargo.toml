@@ -5,3 +5,8 @@ authors = ["jeswr"]
 
 [dependencies]
 ieee754 = { tag = "v0.1.0", git = "https://github.com/jeswr/noir_IEEE754", directory = "ieee754" }
+
+# Future dependency: Uncomment when zk-regex adds Noir support
+# zk-regex = { git = "https://github.com/zkemail/zk-regex" }
+# Note: As of December 2024, zk-regex only supports Circom. Noir support is "coming soon"
+# according to their README. Once available, update regex.nr to use the library.

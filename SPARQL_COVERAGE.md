@@ -60,8 +60,8 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 | ENCODE_FOR_URI | fn:encode-for-uri | 🔮 | Deferred - requires URI encoding logic |
 | CONCAT | fn:concat | ❌ | Not possible in Noir - requires byte-to-string conversion |
 | langMatches | fn:lang-matches | 🔮 | Deferred - language matching complex |
-| REGEX | fn:matches | 🔮 | Deferred - regex complex in ZK |
-| REPLACE | fn:replace | 🔮 | Deferred - regex complex in ZK |
+| REGEX | fn:matches | 🚧 | Placeholder added - awaiting zk-regex Noir support |
+| REPLACE | fn:replace | 🚧 | Placeholder added - awaiting zk-regex Noir support |
 
 ## 17.4.4 Functions on Numerics
 
@@ -182,9 +182,14 @@ This document details the implementation status of SPARQL 1.1 functions in noir_
 
 ### Deferred/Future (🔮)
 - All string functions (complex in ZK)
-- All regex functions (complex in ZK)
 - Hash functions (require string output)
 - TZ() function (requires string formatting)
+
+### Placeholder Implementations (🚧)
+- **Regex functions** (`fn:matches`, `fn:replace`): API structure added in `regex.nr` module
+  - Awaiting [zk-regex](https://github.com/zkemail/zk-regex) Noir support (currently Circom-only)
+  - Functions defined but return placeholder values
+  - Ready for integration when library becomes available
 
 ### Not Feasible (❌)
 - RAND() - not meaningful in deterministic ZK proofs
