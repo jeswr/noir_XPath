@@ -21,6 +21,12 @@ pub fn date_from_components(year: i32, month: u8, day: u8) -> XsdDate {
 }
 
 /// Create a date from year, month, day components with timezone
+///
+/// Note: This function stores the date as the local calendar date (not adjusted for timezone).
+/// The epoch_days represents the date in the local timezone, not normalized to UTC.
+/// This design choice means dates with different timezones but the same local calendar date
+/// will have the same epoch_days value. For XPath date semantics, this is intentional as
+/// dates represent calendar dates, not instants in time.
 pub fn date_from_components_with_tz(
     year: i32,
     month: u8,
@@ -74,7 +80,10 @@ pub fn timezone_from_date(date: XsdDate) -> XsdDayTimeDuration {
 // ============================================================================
 
 /// Compare two dates for equality
-/// Dates are equal if they represent the same calendar date in their respective timezones
+///
+/// This compares the epoch_days directly, which means dates are equal if they have
+/// the same calendar date representation (same year/month/day), regardless of timezone.
+/// This follows XPath date semantics where dates represent calendar dates, not instants.
 pub fn date_equal(a: XsdDate, b: XsdDate) -> bool {
     a.epoch_days == b.epoch_days
 }
@@ -179,7 +188,9 @@ fn epoch_days_to_ymd(epoch_days: i32) -> (i32, u8, u8) {
         }
     }
 
-    // Now remaining_days is 0 to 365 (or 366 for leap year)
+    // After the loop, remaining_days should be 0 to 365 (or 366 for leap year)
+    // if the bounded loop found the correct year. If the loop exhausted all iterations
+    // without converging, remaining_days may be outside this range.
     // Find month and day
     let is_leap = is_leap_year(year);
     let days_in_months = if is_leap {
@@ -223,15 +234,20 @@ fn is_leap_year(year: i32) -> bool {
 fn count_leap_years(start_year: i32, end_year: i32) -> i32 {
     let mut count: i32 = 0;
 
-    // Use bounded loop - max 10000 years
-    let range = end_year - start_year + 1;
-    let max_iterations = if range > 10000 { 10000 } else { range };
+    // Handle invalid range where start > end by using conditional logic
+    let valid_range = start_year <= end_year;
 
-    for i in 0..max_iterations {
-        let y = start_year + i;
-        if y <= end_year {
-            if is_leap_year(y) {
-                count = count + 1;
+    if valid_range {
+        // Use bounded loop - max 10000 years
+        let range = end_year - start_year + 1;
+        let max_iterations = if range > 10000 { 10000 } else { range };
+
+        for i in 0..max_iterations {
+            let y = start_year + i;
+            if y <= end_year {
+                if is_leap_year(y) {
+                    count = count + 1;
+                }
             }
         }
     }
