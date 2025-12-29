@@ -40,6 +40,14 @@ FUNCTION_TEST_FILES = {
     "fn:ceiling": "fn/ceiling.xml",
     "fn:floor": "fn/floor.xml",
     "fn:round": "fn/round.xml",
+    # Numeric functions (float)
+    "fn:round-float": "fn/round.xml",
+    "fn:ceiling-float": "fn/ceiling.xml",
+    "fn:floor-float": "fn/floor.xml",
+    # Numeric functions (double)
+    "fn:round-double": "fn/round.xml",
+    "fn:ceiling-double": "fn/ceiling.xml",
+    "fn:floor-double": "fn/floor.xml",
     # Numeric operators (integer)
     "op:numeric-add": "op/numeric-add.xml",
     "op:numeric-subtract": "op/numeric-subtract.xml",
@@ -120,6 +128,14 @@ FUNCTION_MAP = {
     "fn:ceiling": "ceil_int",
     "fn:floor": "floor_int",
     "fn:round": "round_int",
+    # Numeric (float)
+    "fn:round-float": "round_float",
+    "fn:ceiling-float": "ceil_float",
+    "fn:floor-float": "floor_float",
+    # Numeric (double)
+    "fn:round-double": "round_double",
+    "fn:ceiling-double": "ceil_double",
+    "fn:floor-double": "floor_double",
     "op:numeric-add": "numeric_add_int",
     "op:numeric-subtract": "numeric_subtract_int",
     "op:numeric-multiply": "numeric_multiply_int",
@@ -200,6 +216,9 @@ FLOAT_FUNCTION_TYPES = {
     "op:numeric-equal-float": "float",
     "op:numeric-less-than-float": "float",
     "op:numeric-greater-than-float": "float",
+    "fn:round-float": "float",
+    "fn:ceiling-float": "float",
+    "fn:floor-float": "float",
     "op:numeric-add-double": "double",
     "op:numeric-subtract-double": "double",
     "op:numeric-multiply-double": "double",
@@ -207,6 +226,9 @@ FLOAT_FUNCTION_TYPES = {
     "op:numeric-equal-double": "double",
     "op:numeric-less-than-double": "double",
     "op:numeric-greater-than-double": "double",
+    "fn:round-double": "double",
+    "fn:ceiling-double": "double",
+    "fn:floor-double": "double",
 }
 
 # Cast expression patterns - which casts from what types
@@ -1050,6 +1072,72 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                 pass
         return None
     
+    # Handle fn:round (float/double)
+    if symbol == "round" and noir_func in ("round_float", "round_double"):
+        args = _get_function_args(token)
+        if len(args) >= 1:
+            try:
+                arg_val = args[0].evaluate()
+                if isinstance(arg_val, (int, float, Decimal)):
+                    val_float = float(arg_val)
+                    
+                    is_float32 = noir_func == "round_float"
+                    
+                    if is_float32:
+                        val_bits = float_to_bits(val_float)
+                        setup = f"let val = XsdFloat::from_bits({val_bits});"
+                        return (setup, f"{noir_func}(val)", None)
+                    else:
+                        val_bits = double_to_bits(val_float)
+                        setup = f"let val = XsdDouble::from_bits({val_bits});"
+                        return (setup, f"{noir_func}(val)", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle fn:ceiling (float/double)
+    if symbol == "ceiling" and noir_func in ("ceil_float", "ceil_double"):
+        args = _get_function_args(token)
+        if len(args) >= 1:
+            try:
+                arg_val = args[0].evaluate()
+                if isinstance(arg_val, (int, float, Decimal)):
+                    val_float = float(arg_val)
+                    
+                    is_float32 = noir_func == "ceil_float"
+                    
+                    if is_float32:
+                        val_bits = float_to_bits(val_float)
+                        setup = f"let val = XsdFloat::from_bits({val_bits});"
+                        return (setup, f"{noir_func}(val)", None)
+                    else:
+                        val_bits = double_to_bits(val_float)
+                        setup = f"let val = XsdDouble::from_bits({val_bits});"
+                        return (setup, f"{noir_func}(val)", None)
+            except Exception:
+                pass
+        return None
+    
+    # Handle fn:floor (float/double)
+    if symbol == "floor" and noir_func in ("floor_float", "floor_double"):
+        args = _get_function_args(token)
+        if len(args) >= 1:
+            try:
+                arg_val = args[0].evaluate()
+                if isinstance(arg_val, (int, float, Decimal)):
+                    val_float = float(arg_val)
+                    
+                    is_float32 = noir_func == "floor_float"
+                    
+                    if is_float32:
+                        val_bits = float_to_bits(val_float)
+                        setup = f"let val = XsdFloat::from_bits({val_bits});"
+                        return (setup, f"{noir_func}(val)", None)
+                    else:
+                        val_bits = double_to_bits(val_float)
+                        setup = f"let val = XsdDouble::from_bits({val_bits});"
+                        return (setup, f"{noir_func}(val)", None)
+            except Exception:
     # Handle numeric unary operators (Stream E)
     if symbol == "+" and noir_func == "numeric_unary_plus_int":
         # Unary plus: +$value
@@ -1301,12 +1389,14 @@ def generate_noir_test(test: TestCase, function_name: str) -> Optional[str]:
     float_returning_functions = [
         "numeric_add_float", "numeric_subtract_float", 
         "numeric_multiply_float", "numeric_divide_float",
+        "round_float", "ceil_float", "floor_float",
         "cast_integer_to_float",  # xs:float(integer)
         "cast_double_to_float",   # xs:float(double)
     ]
     double_returning_functions = [
         "numeric_add_double", "numeric_subtract_double",
         "numeric_multiply_double", "numeric_divide_double",
+        "round_double", "ceil_double", "floor_double",
         "cast_integer_to_double", # xs:double(integer)
     ]
     
