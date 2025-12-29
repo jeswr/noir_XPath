@@ -57,4 +57,9 @@ members = [
     "test_packages/xpath_test_opnumeric_subtract_float",
     "test_packages/xpath_test_opnumeric_unary_minus",
     "test_packages/xpath_test_opnumeric_unary_plus",
+    "test_packages/xpath_test_xsdouble_from_int",
+    "test_packages/xpath_test_xsfloat_from_double",
+    "test_packages/xpath_test_xsfloat_from_int",
+    "test_packages/xpath_test_xsinteger_from_double",
+    "test_packages/xpath_test_xsinteger_from_float",
 ]

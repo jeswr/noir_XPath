@@ -618,17 +618,22 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
     if not noir_func:
         return None
     
+    # Check if this is a cast function - skip type filtering for casts
+    is_cast_function = function_name in CAST_FUNCTION_PATTERNS
+    
     # Check if this is a float/double variant
     expected_type = FLOAT_FUNCTION_TYPES.get(function_name)
     detected_type = detect_operand_type(expr)
     
-    # For float/double variants, filter to only matching type tests
-    if expected_type is not None:
-        if expected_type != detected_type:
+    # Skip type filtering for cast functions (they handle their own type checking)
+    if not is_cast_function:
+        # For float/double variants, filter to only matching type tests
+        if expected_type is not None:
+            if expected_type != detected_type:
+                return None
+        # For integer variants, skip float/double tests
+        elif detected_type in ('float', 'double'):
             return None
-    # For integer variants, skip float/double tests
-    elif detected_type in ('float', 'double'):
-        return None
     
     parser = XPath2Parser()
     
@@ -1253,22 +1258,84 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                 pass
         return None
     
-    # Handle type casting expressions
-    # xs:float(integer_expr), xs:double(integer_expr), xs:integer(float_expr), etc.
+    # Handle type casting expressions using "cast as" syntax
+    # e.g., xs:integer("-100") cast as xs:float, xs:double("1.5") cast as xs:integer
     cast_pattern = CAST_FUNCTION_PATTERNS.get(function_name)
     if cast_pattern is not None:
         source_type, target_type = cast_pattern
         
-        # Check if the expression is a cast expression
-        # The symbol should be 'float', 'double', or 'integer' (depending on target type)
-        target_symbols = {
+        # Map target types to expected xs: type names
+        target_type_names = {
             'float': 'float',
             'double': 'double',
             'int': 'integer',
         }
-        expected_symbol = target_symbols.get(target_type)
+        expected_target = target_type_names.get(target_type)
         
-        if symbol == expected_symbol:
+        # Map source types to expected xs: type names  
+        source_type_names = {
+            'int': 'integer',
+            'float': 'float',
+            'double': 'double',
+        }
+        expected_source = source_type_names.get(source_type)
+        
+        # Handle "cast as" syntax: expr cast as xs:type
+        if symbol == 'cast' and len(token) >= 2:
+            source_token = token[0]  # The value being cast
+            target_token = token[1]  # The target type (xs:float, xs:double, xs:integer)
+            
+            # Get target type name from the second part of xs:type
+            if target_token.symbol == ':' and len(target_token) >= 2:
+                actual_target = target_token[1].value if hasattr(target_token[1], 'value') else target_token[1].symbol
+                
+                # Check if target matches what we're looking for
+                if actual_target != expected_target:
+                    return None
+                
+                # Get the source value's type
+                source_symbol = _get_function_name(source_token)
+                
+                try:
+                    # Evaluate the source value
+                    source_val = source_token.evaluate()
+                    
+                    # For xs:float-from-int or xs:double-from-int: expect integer source
+                    if source_type == 'int':
+                        # Source should be xs:integer(...) or plain int, NOT xs:decimal
+                        # xs:decimal should be skipped as we don't support decimal-to-float conversion yet
+                        if source_symbol == 'decimal':
+                            return None  # Skip xs:decimal sources
+                        if source_symbol == 'integer' or isinstance(source_val, int):
+                            val_int = int(source_val)
+                            # Only accept i8 range (-128 to 127) for casts to float/double
+                            if val_int < -128 or val_int > 127:
+                                return None
+                            return ("", f"{noir_func}({val_int})", None)
+                    
+                    # For xs:integer-from-float: expect xs:float source
+                    elif source_type == 'float':
+                        if source_symbol == 'float':
+                            float_val = float(source_val)
+                            bits = float_to_bits(float_val)
+                            setup = f"let f = XsdFloat::from_bits({bits});"
+                            return (setup, f"{noir_func}(f)", None)
+                    
+                    # For xs:integer-from-double or xs:float-from-double: expect xs:double source
+                    elif source_type == 'double':
+                        if source_symbol == 'double':
+                            double_val = float(source_val)
+                            bits = double_to_bits(double_val)
+                            setup = f"let d = XsdDouble::from_bits({bits});"
+                            return (setup, f"{noir_func}(d)", None)
+                            
+                except Exception:
+                    pass
+            return None
+        
+        # Also handle constructor syntax: xs:float(integer_expr), xs:double(integer_expr), etc.
+        # The symbol should be 'float', 'double', or 'integer' (depending on target type)
+        if symbol == expected_target:
             args = _get_function_args(token)
             if len(args) >= 1:
                 try:
