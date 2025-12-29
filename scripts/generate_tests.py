@@ -1138,6 +1138,9 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         setup = f"let val = XsdDouble::from_bits({val_bits});"
                         return (setup, f"{noir_func}(val)", None)
             except Exception:
+                pass
+        return None
+    
     # Handle numeric unary operators (Stream E)
     if symbol == "+" and noir_func == "numeric_unary_plus_int":
         # Unary plus: +$value
@@ -1624,7 +1627,6 @@ xpath = {{ path = "../../xpath" }}
     lib_lines = [
         f"//! Auto-generated tests for {function_name}",
         f"//! Source: https://github.com/w3c/qt3tests",
-        f"//! Generated: {datetime.now().isoformat()}",
         "",
     ]
     for i in range(len(chunks)):

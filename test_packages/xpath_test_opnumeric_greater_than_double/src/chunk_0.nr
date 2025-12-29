@@ -5,7 +5,7 @@ use dep::xpath::{numeric_greater_than_double, XsdDouble};
 
 #[test]
 fn op_numeric_greater_thandbl2args_1() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdDouble::from_bits(18442240474082181119);
     let b = XsdDouble::from_bits(18442240474082181119);
     assert(numeric_greater_than_double(a, b) == false);
@@ -13,7 +13,7 @@ fn op_numeric_greater_thandbl2args_1() {
 
 #[test]
 fn op_numeric_greater_thandbl2args_2() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdDouble::from_bits(0);
     let b = XsdDouble::from_bits(18442240474082181119);
     assert(numeric_greater_than_double(a, b) == true);
@@ -21,7 +21,7 @@ fn op_numeric_greater_thandbl2args_2() {
 
 #[test]
 fn op_numeric_greater_thandbl2args_3() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdDouble::from_bits(9218868437227405311);
     let b = XsdDouble::from_bits(18442240474082181119);
     assert(numeric_greater_than_double(a, b) == true);
@@ -29,7 +29,7 @@ fn op_numeric_greater_thandbl2args_3() {
 
 #[test]
 fn op_numeric_greater_thandbl2args_4() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdDouble::from_bits(18442240474082181119);
     let b = XsdDouble::from_bits(0);
     assert(numeric_greater_than_double(a, b) == false);
@@ -37,7 +37,7 @@ fn op_numeric_greater_thandbl2args_4() {
 
 #[test]
 fn op_numeric_greater_thandbl2args_5() {
-    //  ******************************************************* Tes
+    //  ******************************************************* Test:
     let a = XsdDouble::from_bits(18442240474082181119);
     let b = XsdDouble::from_bits(9218868437227405311);
     assert(numeric_greater_than_double(a, b) == false);
@@ -45,7 +45,7 @@ fn op_numeric_greater_thandbl2args_5() {
 
 #[test]
 fn k_numericgt_5() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test: K-NumericGT-5
     let a = XsdDouble::from_bits(0);
     let b = XsdDouble::from_bits(18442240474082181120);
     assert(numeric_greater_than_double(a, b) == true);
@@ -53,7 +53,7 @@ fn k_numericgt_5() {
 
 #[test]
 fn k_numericgt_6() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test: K-NumericGT-6
     let a = XsdDouble::from_bits(9218868437227405312);
     let b = XsdDouble::from_bits(0);
     assert(numeric_greater_than_double(a, b) == true);
@@ -61,7 +61,7 @@ fn k_numericgt_6() {
 
 #[test]
 fn k_numericgt_7() {
-    //  *******************************************************  Te
+    //  *******************************************************  Test: K-NumericGT-7
     let a = XsdDouble::from_bits(4607182418800017408);
     let b = XsdDouble::from_bits(13830554455654793216);
     assert(numeric_greater_than_double(a, b) == true);

@@ -5,7 +5,7 @@ use dep::xpath::fn_not;
 
 #[test]
 fn k_notfunc_3() {
-    // K-NotFunc-3  A test whose essence is: `not(false() and false
+    // K-NotFunc-3  A test whose essence is: `not(false() and false())`.
     assert(fn_not(false) == true);
 }
 
@@ -23,7 +23,7 @@ fn k_notfunc_5() {
 
 #[test]
 fn k_notfunc_9() {
-    // K-NotFunc-9  A test whose essence is: `not(not(xs:anyURI('ex
+    // K-NotFunc-9  A test whose essence is: `not(not(xs:anyURI('example.com/')))`.
     assert(fn_not(false) == true);
 }
 
