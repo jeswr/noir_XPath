@@ -844,6 +844,7 @@ pub fn cast_double_to_integer(d: XsdDouble) -> Option<i64> {
 ///
 /// Converts double to float with potential precision loss and overflow/underflow.
 /// Uses XsdDouble::from_float in reverse via bit manipulation.
+/// Implements proper IEEE 754 rounding (round to nearest, ties to even).
 pub fn cast_double_to_float(d: XsdDouble) -> XsdFloat {
     let bits64 = d.to_bits();
     let sign: u32 = ((bits64 >> 63) & 1) as u32;
@@ -870,14 +871,37 @@ pub fn cast_double_to_float(d: XsdDouble) -> XsdFloat {
     // Check for underflow (becomes zero in float)
     let is_underflow = new_exp <= 0;
 
-    // Truncate mantissa from 52 bits to 23 bits
-    let mant32: u32 = ((mant64 >> 29) & 0x7FFFFF) as u32;
+    // Truncate mantissa from 52 bits to 23 bits with proper rounding
+    // IEEE 754 round-to-nearest-even: check bit 28 (round bit) and bits 0-27 (sticky bits)
+    let mant32_truncated: u32 = ((mant64 >> 29) & 0x7FFFFF) as u32;
+    let round_bit: u64 = (mant64 >> 28) & 1;
+    let sticky_bits: u64 = mant64 & 0xFFFFFFF; // Lower 28 bits
+
+    // Round up if: round_bit=1 AND (sticky_bits != 0 OR lsb of result is 1)
+    // This implements round-to-nearest-even
+    let lsb: u32 = mant32_truncated & 1;
+    let round_up: bool = (round_bit == 1) & ((sticky_bits != 0) | (lsb == 1));
+
+    // Apply rounding
+    let mant32: u32 = if round_up {
+        mant32_truncated + 1
+    } else {
+        mant32_truncated
+    };
+
+    // Handle mantissa overflow from rounding (rare case: 0x7FFFFF + 1 = 0x800000)
+    let mant_overflow: bool = mant32 > 0x7FFFFF;
+    let final_mant32: u32 = if mant_overflow { 0 } else { mant32 };
+    let final_exp: i32 = if mant_overflow { new_exp + 1 } else { new_exp };
+
+    // Re-check overflow after potential exp increment
+    let final_overflow: bool = is_overflow | (final_exp >= 255);
 
     // Build result bits
     let zero_bits: u32 = sign << 31;
     let inf_bits: u32 = (sign << 31) | 0x7F800000;
     let nan_bits: u32 = 0x7FC00000; // Quiet NaN
-    let normal_bits: u32 = (sign << 31) | ((new_exp as u32) << 23) | mant32;
+    let normal_bits: u32 = (sign << 31) | ((final_exp as u32) << 23) | final_mant32;
 
     let result_bits = if is_zero {
         zero_bits
@@ -887,7 +911,7 @@ pub fn cast_double_to_float(d: XsdDouble) -> XsdFloat {
         inf_bits
     } else if is_denorm {
         zero_bits // Denormal doubles become zero in float
-    } else if is_overflow {
+    } else if final_overflow {
         inf_bits
     } else if is_underflow {
         zero_bits
