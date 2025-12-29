@@ -54,6 +54,12 @@ The script currently supports generating tests for:
 **Boolean Functions:**
 - `fn:not`, `op:boolean-equal`
 
+**String Functions:**
+- `fn:string-length`, `fn:starts-with`, `fn:ends-with`, `fn:contains`
+
+**Regex Functions (Placeholder):**
+- `fn:matches`, `fn:replace` - Placeholder mappings added; full test generation awaits zk-regex Noir support
+
 **Type Casting Functions:**
 - `xs:float-from-int`, `xs:double-from-int`
 - `xs:integer-from-float`, `xs:integer-from-double`
