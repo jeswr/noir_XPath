@@ -17,7 +17,8 @@
 //! For operations with mixed types, both operands are promoted to the same type.
 
 use ieee754::float::{
-    abs_float32, abs_float64, add_float32, add_float64, div_float32, div_float64, float32_eq,
+    abs_float32, abs_float64, add_float32, add_float64,
+    div_float32, div_float64, float32_eq,
     float32_from_bits, float32_ge, float32_gt, float32_is_nan, float32_le, float32_lt,
     float32_to_bits, float64_eq, float64_from_bits, float64_ge, float64_gt, float64_is_nan,
     float64_le, float64_lt, float64_to_bits, IEEE754Float32, IEEE754Float64, mul_float32,
@@ -891,4 +892,417 @@ pub fn cast_double_to_float(d: XsdDouble) -> XsdFloat {
     };
 
     XsdFloat::from_bits(result_bits)
+}
+
+// ============================================================================
+// Rounding Functions
+// ============================================================================
+
+/// fn:round for xs:float
+/// Round to nearest integer, ties away from zero (XPath spec)
+/// 
+/// XPath round() uses "round half to even" for positive and "round half away from zero" for negative
+/// Actually XPath uses "round half up" - ties go away from zero for both positive and negative
+pub fn round_float(a: XsdFloat) -> XsdFloat {
+    let bits = a.to_bits();
+    let sign = (bits >> 31) & 1;
+    let exp = (bits >> 23) & 0xFF;
+    let mant = bits & 0x7FFFFF;
+    
+    // Handle special cases
+    let is_special = exp == 255; // NaN or Infinity
+    let is_zero_or_denorm = exp == 0;
+    
+    let unbiased_exp: i32 = (exp as i32) - 127;
+    
+    // If exponent >= 23, the number is already an integer
+    let is_already_integer = unbiased_exp >= 23;
+    
+    // If exponent < 0, |value| < 1
+    let is_less_than_one = unbiased_exp < 0;
+    let is_half = unbiased_exp == -1; // |value| in [0.5, 1)
+    
+    // For |value| < 0.5, round to 0; for |value| >= 0.5, round to +/-1
+    let small_result = if is_half {
+        if sign == 1 { 0xBF800000 } else { 0x3F800000 } // +/-1
+    } else {
+        if sign == 1 { 0x80000000 } else { 0 } // +/-0
+    };
+    
+    // For normal rounding (0 <= unbiased_exp < 23)
+    let frac_bits = (23 - unbiased_exp) as u32;
+    let mask: u32 = ((1 as u32) << (frac_bits as u8)) - 1;
+    let frac_part = mant & mask;
+    let half: u32 = (1 as u32) << ((frac_bits - 1) as u8);
+    
+    let round_up = frac_part > half;
+    let round_tie = frac_part == half;
+    let should_round_up = round_up | round_tie;
+    
+    let rounded_mant = mant & (!mask);
+    
+    let incremented = rounded_mant + ((1 as u32) << (frac_bits as u8));
+    let has_overflow = incremented >= 0x800000;
+    let new_exp_after_overflow = exp + 1;
+    let overflows_to_inf = new_exp_after_overflow >= 255;
+    
+    let result_after_overflow = if overflows_to_inf {
+        if sign == 1 { 0xFF800000 } else { 0x7F800000 } // +/-inf
+    } else {
+        (sign << 31) | (new_exp_after_overflow << 23) // mantissa becomes 0
+    };
+    
+    let new_mant = if should_round_up {
+        if has_overflow {
+            // Return value is computed above in result_after_overflow
+            0 // placeholder, will be overridden
+        } else {
+            incremented
+        }
+    } else {
+        rounded_mant
+    };
+    
+    let normal_result = if should_round_up & has_overflow {
+        result_after_overflow
+    } else {
+        (sign << 31) | (exp << 23) | new_mant
+    };
+    
+    // Decide which result to return
+    let result = if is_special {
+        bits // NaN or Infinity - return as-is
+    } else if is_zero_or_denorm {
+        if sign == 1 { 0x80000000 } else { 0 } // round to +/-0
+    } else if is_already_integer {
+        bits // already an integer
+    } else if is_less_than_one {
+        small_result
+    } else {
+        normal_result
+    };
+    
+    XsdFloat::from_bits(result)
+}
+
+/// fn:round for xs:double
+/// Round to nearest integer, ties away from zero (XPath spec)
+pub fn round_double(a: XsdDouble) -> XsdDouble {
+    let bits = a.to_bits();
+    let sign = (bits >> 63) & 1;
+    let exp = ((bits >> 52) & 0x7FF) as u32;
+    let mant = bits & 0xFFFFFFFFFFFFF;
+    
+    // Handle special cases
+    if exp == 2047 {
+        // NaN or Infinity
+        return a;
+    }
+    
+    if exp == 0 {
+        // Zero or denormal
+        return if sign == 1 { XsdDouble::from_bits(0x8000000000000000) } else { XsdDouble::from_bits(0) };
+    }
+    
+    let unbiased_exp: i32 = (exp as i32) - 1023;
+    
+    // If exponent >= 52, already an integer
+    if unbiased_exp >= 52 {
+        return a;
+    }
+    
+    // If exponent < 0, |value| < 1
+    if unbiased_exp < 0 {
+        if unbiased_exp == -1 {
+            // Round to ±1
+            let one_bits = if sign == 1 { 0xBFF0000000000000 } else { 0x3FF0000000000000 };
+            return XsdDouble::from_bits(one_bits);
+        } else {
+            // Round to 0
+            return if sign == 1 { XsdDouble::from_bits(0x8000000000000000) } else { XsdDouble::from_bits(0) };
+        }
+    }
+    
+    let frac_bits = (52 - unbiased_exp) as u32;
+    let mask: u64 = ((1 as u64) << (frac_bits as u8)) - 1;
+    let frac_part = mant & mask;
+    let half: u64 = (1 as u64) << ((frac_bits - 1) as u8);
+    
+    let round_up = frac_part > half;
+    let round_tie = frac_part == half;
+    let should_round_up = round_up | round_tie;
+    
+    let rounded_mant = mant & (!mask);
+    
+    let new_mant = if should_round_up {
+        let incremented = rounded_mant + ((1 as u64) << (frac_bits as u8));
+        if incremented >= 0x10000000000000 {
+            let new_exp = exp + 1;
+            if new_exp >= 2047 {
+                return if sign == 1 { XsdDouble::from_bits(0xFFF0000000000000) } else { XsdDouble::from_bits(0x7FF0000000000000) };
+            }
+            return XsdDouble::from_bits((sign << 63) | ((new_exp as u64) << 52));
+        }
+        incremented
+    } else {
+        rounded_mant
+    };
+    
+    XsdDouble::from_bits((sign << 63) | ((exp as u64) << 52) | new_mant)
+}
+
+/// fn:ceiling for xs:float
+/// Round toward positive infinity
+pub fn ceil_float(a: XsdFloat) -> XsdFloat {
+    let bits = a.to_bits();
+    let sign = (bits >> 31) & 1;
+    let exp = (bits >> 23) & 0xFF;
+    let mant = bits & 0x7FFFFF;
+    
+    // Handle special cases
+    if exp == 255 {
+        return a; // NaN or Infinity
+    }
+    
+    if exp == 0 {
+        // Zero or denormal: ceil(0) = 0, ceil(-denormal) = -0, ceil(+denormal) = +1
+        if mant == 0 {
+            return a; // ±0
+        }
+        return if sign == 1 {
+            XsdFloat::from_bits(0x80000000) // -0
+        } else {
+            XsdFloat::from_bits(0x3F800000) // +1
+        };
+    }
+    
+    let unbiased_exp: i32 = (exp as i32) - 127;
+    
+    // Already an integer
+    if unbiased_exp >= 23 {
+        return a;
+    }
+    
+    // For negative values less than -1, or positive values less than 1
+    if unbiased_exp < 0 {
+        return if sign == 1 {
+            XsdFloat::from_bits(0x80000000) // -0 for negative
+        } else {
+            XsdFloat::from_bits(0x3F800000) // +1 for positive
+        };
+    }
+    
+    let frac_bits = (23 - unbiased_exp) as u32;
+    let mask: u32 = ((1 as u32) << (frac_bits as u8)) - 1;
+    let frac_part = mant & mask;
+    
+    // If negative and has fractional part, just truncate (toward zero = toward +inf for negative)
+    // If positive and has fractional part, round up
+    let should_round_up = (sign == 0) & (frac_part != 0);
+    
+    let rounded_mant = mant & (!mask);
+    
+    let new_mant = if should_round_up {
+        let incremented = rounded_mant + ((1 as u32) << (frac_bits as u8));
+        if incremented >= 0x800000 {
+            let new_exp = exp + 1;
+            if new_exp >= 255 {
+                return XsdFloat::from_bits(0x7F800000); // +inf
+            }
+            return XsdFloat::from_bits((sign << 31) | (new_exp << 23));
+        }
+        incremented
+    } else {
+        rounded_mant
+    };
+    
+    XsdFloat::from_bits((sign << 31) | (exp << 23) | new_mant)
+}
+
+/// fn:ceiling for xs:double
+/// Round toward positive infinity
+pub fn ceil_double(a: XsdDouble) -> XsdDouble {
+    let bits = a.to_bits();
+    let sign = (bits >> 63) & 1;
+    let exp = ((bits >> 52) & 0x7FF) as u32;
+    let mant = bits & 0xFFFFFFFFFFFFF;
+    
+    if exp == 2047 {
+        return a; // NaN or Infinity
+    }
+    
+    if exp == 0 {
+        if mant == 0 {
+            return a; // ±0
+        }
+        return if sign == 1 {
+            XsdDouble::from_bits(0x8000000000000000) // -0
+        } else {
+            XsdDouble::from_bits(0x3FF0000000000000) // +1
+        };
+    }
+    
+    let unbiased_exp: i32 = (exp as i32) - 1023;
+    
+    if unbiased_exp >= 52 {
+        return a;
+    }
+    
+    if unbiased_exp < 0 {
+        return if sign == 1 {
+            XsdDouble::from_bits(0x8000000000000000) // -0
+        } else {
+            XsdDouble::from_bits(0x3FF0000000000000) // +1
+        };
+    }
+    
+    let frac_bits = (52 - unbiased_exp) as u32;
+    let mask: u64 = ((1 as u64) << (frac_bits as u8)) - 1;
+    let frac_part = mant & mask;
+    
+    let should_round_up = (sign == 0) & (frac_part != 0);
+    
+    let rounded_mant = mant & (!mask);
+    
+    let new_mant = if should_round_up {
+        let incremented = rounded_mant + ((1 as u64) << (frac_bits as u8));
+        if incremented >= 0x10000000000000 {
+            let new_exp = exp + 1;
+            if new_exp >= 2047 {
+                return XsdDouble::from_bits(0x7FF0000000000000); // +inf
+            }
+            return XsdDouble::from_bits((sign << 63) | ((new_exp as u64) << 52));
+        }
+        incremented
+    } else {
+        rounded_mant
+    };
+    
+    XsdDouble::from_bits((sign << 63) | ((exp as u64) << 52) | new_mant)
+}
+
+/// fn:floor for xs:float
+/// Round toward negative infinity
+pub fn floor_float(a: XsdFloat) -> XsdFloat {
+    let bits = a.to_bits();
+    let sign = (bits >> 31) & 1;
+    let exp = (bits >> 23) & 0xFF;
+    let mant = bits & 0x7FFFFF;
+    
+    if exp == 255 {
+        return a; // NaN or Infinity
+    }
+    
+    if exp == 0 {
+        if mant == 0 {
+            return a; // ±0
+        }
+        return if sign == 1 {
+            XsdFloat::from_bits(0xBF800000) // -1
+        } else {
+            XsdFloat::from_bits(0) // +0
+        };
+    }
+    
+    let unbiased_exp: i32 = (exp as i32) - 127;
+    
+    if unbiased_exp >= 23 {
+        return a;
+    }
+    
+    if unbiased_exp < 0 {
+        return if sign == 1 {
+            XsdFloat::from_bits(0xBF800000) // -1
+        } else {
+            XsdFloat::from_bits(0) // +0
+        };
+    }
+    
+    let frac_bits = (23 - unbiased_exp) as u32;
+    let mask: u32 = ((1 as u32) << (frac_bits as u8)) - 1;
+    let frac_part = mant & mask;
+    
+    // If positive and has fractional part, just truncate
+    // If negative and has fractional part, round down (more negative)
+    let should_round_down = (sign == 1) & (frac_part != 0);
+    
+    let rounded_mant = mant & (!mask);
+    
+    let new_mant = if should_round_down {
+        let incremented = rounded_mant + ((1 as u32) << (frac_bits as u8));
+        if incremented >= 0x800000 {
+            let new_exp = exp + 1;
+            if new_exp >= 255 {
+                return XsdFloat::from_bits(0xFF800000); // -inf
+            }
+            return XsdFloat::from_bits((sign << 31) | (new_exp << 23));
+        }
+        incremented
+    } else {
+        rounded_mant
+    };
+    
+    XsdFloat::from_bits((sign << 31) | (exp << 23) | new_mant)
+}
+
+/// fn:floor for xs:double
+/// Round toward negative infinity
+pub fn floor_double(a: XsdDouble) -> XsdDouble {
+    let bits = a.to_bits();
+    let sign = (bits >> 63) & 1;
+    let exp = ((bits >> 52) & 0x7FF) as u32;
+    let mant = bits & 0xFFFFFFFFFFFFF;
+    
+    if exp == 2047 {
+        return a; // NaN or Infinity
+    }
+    
+    if exp == 0 {
+        if mant == 0 {
+            return a; // ±0
+        }
+        return if sign == 1 {
+            XsdDouble::from_bits(0xBFF0000000000000) // -1
+        } else {
+            XsdDouble::from_bits(0) // +0
+        };
+    }
+    
+    let unbiased_exp: i32 = (exp as i32) - 1023;
+    
+    if unbiased_exp >= 52 {
+        return a;
+    }
+    
+    if unbiased_exp < 0 {
+        return if sign == 1 {
+            XsdDouble::from_bits(0xBFF0000000000000) // -1
+        } else {
+            XsdDouble::from_bits(0) // +0
+        };
+    }
+    
+    let frac_bits = (52 - unbiased_exp) as u32;
+    let mask: u64 = ((1 as u64) << (frac_bits as u8)) - 1;
+    let frac_part = mant & mask;
+    
+    let should_round_down = (sign == 1) & (frac_part != 0);
+    
+    let rounded_mant = mant & (!mask);
+    
+    let new_mant = if should_round_down {
+        let incremented = rounded_mant + ((1 as u64) << (frac_bits as u8));
+        if incremented >= 0x10000000000000 {
+            let new_exp = exp + 1;
+            if new_exp >= 2047 {
+                return XsdDouble::from_bits(0xFFF0000000000000); // -inf
+            }
+            return XsdDouble::from_bits((sign << 63) | ((new_exp as u64) << 52));
+        }
+        incremented
+    } else {
+        rounded_mant
+    };
+    
+    XsdDouble::from_bits((sign << 63) | ((exp as u64) << 52) | new_mant)
 }
