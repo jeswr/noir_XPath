@@ -694,6 +694,8 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                                 setup = f"let dur = duration_from_microseconds({micros});"
                                 return (setup, f"{noir_func}(dur)", None)
             except Exception:
+                # If parsing the duration constructor fails, we cannot generate
+                # the specialized setup; fall back to returning None to skip this test
                 pass
         return None
     
@@ -730,6 +732,8 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                                     setup = f"let dur1 = duration_from_microseconds({micros1});\n    let dur2 = duration_from_microseconds({micros2});"
                                     return (setup, f"{noir_func}(dur1, dur2)", None)
             except Exception:
+                # This is a best-effort optimization for duration comparisons; if parsing
+                # fails for any reason, fall back to the generic handling below
                 pass
     
     # Handle duration arithmetic operators (Stream B)
@@ -832,6 +836,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                                     setup = f"let dt1 = datetime_from_epoch_microseconds_with_tz({utc_micros1}, {tz_offset1});\n    let dt2 = datetime_from_epoch_microseconds_with_tz({utc_micros2}, {tz_offset2});"
                                     return (setup, f"{noir_func}(dt1, dt2)", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
     
     # Handle datetime comparison operators (eq, lt, gt)
@@ -1057,6 +1062,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         return None
                     return ("", f"numeric_unary_plus_int({val_int})", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     
@@ -1072,6 +1078,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                         return None
                     return ("", f"numeric_unary_minus_int({val_int})", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     
@@ -1130,6 +1137,7 @@ def convert_xpath_expr(expr: str, function_name: str) -> Optional[Tuple[str, str
                 if isinstance(a, bool) and isinstance(b, bool):
                     return ("", f"{noir_func}({str(a).lower()}, {str(b).lower()})", None)
             except Exception:
+                # Skip tests that cannot be evaluated (e.g., complex expressions)
                 pass
         return None
     

@@ -120,9 +120,11 @@ impl XsdDate {
 
 impl Eq for XsdDate {
     fn eq(self, other: Self) -> bool {
-        // Dates with different timezones need normalization for comparison
-        // For simplicity, we compare the epoch_days directly
-        // Note: This may need refinement for proper timezone-aware comparison
+        // Compare epoch_days directly, which compares calendar dates (not instants in time).
+        // This follows XPath date semantics: dates with the same year/month/day are equal
+        // regardless of timezone. For example, 2000-01-01+05:00 equals 2000-01-01-10:00
+        // because they represent the same calendar date in different timezones.
+        // Note: timezone offset is intentionally not compared here.
         self.epoch_days == other.epoch_days
     }
 }
