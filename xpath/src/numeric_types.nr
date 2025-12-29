@@ -17,11 +17,15 @@
 //! For operations with mixed types, both operands are promoted to the same type.
 
 use ieee754::float::{
-    abs_float32, abs_float64, add_float32, add_float64, div_float32, div_float64, float32_eq,
-    float32_from_bits, float32_ge, float32_gt, float32_is_nan, float32_le, float32_lt,
-    float32_to_bits, float64_eq, float64_from_bits, float64_ge, float64_gt, float64_is_nan,
-    float64_le, float64_lt, float64_to_bits, IEEE754Float32, IEEE754Float64, mul_float32,
-    mul_float64, sub_float32, sub_float64,
+    abs_float32, abs_float64, add_float32, add_float32_with_rounding, add_float64,
+    add_float64_with_rounding, div_float32, div_float64, float32_eq, float32_from_bits, float32_ge,
+    float32_gt, float32_is_nan, float32_le, float32_lt, float32_to_bits, FLOAT32_ZERO, float64_eq,
+    float64_from_bits, float64_ge, float64_gt, float64_is_nan, float64_le, float64_lt,
+    float64_to_bits, FLOAT64_ZERO, IEEE754Float32, IEEE754Float64, mul_float32, mul_float64,
+    sub_float32, sub_float64,
+};
+use ieee754::types::{
+    ROUNDING_MODE_NEAREST_AWAY, ROUNDING_MODE_TOWARD_NEGATIVE, ROUNDING_MODE_TOWARD_POSITIVE,
 };
 
 // ============================================================================
@@ -891,4 +895,56 @@ pub fn cast_double_to_float(d: XsdDouble) -> XsdFloat {
     };
 
     XsdFloat::from_bits(result_bits)
+}
+
+// ============================================================================
+// Rounding Functions
+// ============================================================================
+
+/// fn:round for xs:float
+/// Round to nearest integer, ties away from zero (XPath spec)
+/// Uses IEEE 754 rounding mode NEAREST_AWAY
+pub fn round_float(a: XsdFloat) -> XsdFloat {
+    let zero = float32_from_bits(FLOAT32_ZERO);
+    XsdFloat { value: add_float32_with_rounding(a.value, zero, ROUNDING_MODE_NEAREST_AWAY) }
+}
+
+/// fn:round for xs:double
+/// Round to nearest integer, ties away from zero (XPath spec)
+/// Uses IEEE 754 rounding mode NEAREST_AWAY
+pub fn round_double(a: XsdDouble) -> XsdDouble {
+    let zero = float64_from_bits(FLOAT64_ZERO);
+    XsdDouble { value: add_float64_with_rounding(a.value, zero, ROUNDING_MODE_NEAREST_AWAY) }
+}
+
+/// fn:ceiling for xs:float
+/// Round toward positive infinity
+/// Uses IEEE 754 rounding mode TOWARD_POSITIVE
+pub fn ceil_float(a: XsdFloat) -> XsdFloat {
+    let zero = float32_from_bits(FLOAT32_ZERO);
+    XsdFloat { value: add_float32_with_rounding(a.value, zero, ROUNDING_MODE_TOWARD_POSITIVE) }
+}
+
+/// fn:ceiling for xs:double
+/// Round toward positive infinity
+/// Uses IEEE 754 rounding mode TOWARD_POSITIVE
+pub fn ceil_double(a: XsdDouble) -> XsdDouble {
+    let zero = float64_from_bits(FLOAT64_ZERO);
+    XsdDouble { value: add_float64_with_rounding(a.value, zero, ROUNDING_MODE_TOWARD_POSITIVE) }
+}
+
+/// fn:floor for xs:float
+/// Round toward negative infinity
+/// Uses IEEE 754 rounding mode TOWARD_NEGATIVE
+pub fn floor_float(a: XsdFloat) -> XsdFloat {
+    let zero = float32_from_bits(FLOAT32_ZERO);
+    XsdFloat { value: add_float32_with_rounding(a.value, zero, ROUNDING_MODE_TOWARD_NEGATIVE) }
+}
+
+/// fn:floor for xs:double
+/// Round toward negative infinity
+/// Uses IEEE 754 rounding mode TOWARD_NEGATIVE
+pub fn floor_double(a: XsdDouble) -> XsdDouble {
+    let zero = float64_from_bits(FLOAT64_ZERO);
+    XsdDouble { value: add_float64_with_rounding(a.value, zero, ROUNDING_MODE_TOWARD_NEGATIVE) }
 }
